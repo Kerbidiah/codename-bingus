@@ -21,4 +21,3 @@ target
 #.idea/
 .DS_Store
 /bingus/.vscode
-*.lock
