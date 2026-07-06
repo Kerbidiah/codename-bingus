@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Generate Bingo Board</title>
+        <!-- Styles taken from https://people.cs.gmu.edu/~rpettit/vienna_bingo_2026.html -->
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                padding: 12px;
+                background: #f0f4f0;
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .card {
+                max-width: 720px;
+                margin: 0 auto;
+                border-collapse: collapse;
+                border: 3px solid #1a4a2e;
+                width: 100%;
+            }
+            /* Header */
+            .card-header {
+                background-color: #1a4a2e;
+                padding: 24px 20px 18px;
+                text-align: center;
+            }
+            .card-header .subtitle {
+                font-size: 10px;
+                color: #e8c97a;
+                margin: 0 0 4px 0;
+            }
+            .card-header h1 {
+                font-family: Georgia, "Times New Roman", serif;
+                font-size: clamp(32px, 8vw, 48px);
+                color: #ffffff;
+                line-height: 1;
+                margin: 0;
+            }
+            .card-header h1 span {
+                color: #c9a84c;
+            }
+            .card-header .tagline {
+                font-size: 10px;
+                color: #e8c97a;
+                margin: 6px 0 0 0;
+            }
+            .card-header .rule {
+                margin: 8px auto 0;
+                width: 50px;
+                height: 2px;
+                background-color: #c9a84c;
+            }
+            /* BINGO column headers */
+            .bingo-header {
+                background-color: #2d6e47;
+            }
+            .bingo-header table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .bingo-header td {
+                width: 20%;
+                padding: 10px 4px;
+                text-align: center;
+                font-family: Georgia, "Times New Roman", serif;
+                font-size: clamp(18px, 5vw, 26px);
+                color: #c9a84c;
+            }
+            .bingo-header td:not(:last-child) {
+                border-right: 1px solid rgba(255, 255, 255, 0.15);
+            }
+            /* Grid */
+            .grid-wrapper {
+                padding: 0;
+            }
+            .grid {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            .grid td {
+                width: 20%;
+                border-right: 1px solid #c8d8c8;
+                border-bottom: 1px solid #c8d8c8;
+                padding: 8px 5px;
+                text-align: center;
+                vertical-align: middle;
+                height: 90px;
+            }
+            .grid td:last-child {
+                border-right: none;
+            }
+            .grid tr:nth-child(odd) td {
+                background-color: #ffffff;
+            }
+            .grid tr:nth-child(even) td {
+                background-color: #f7fbf8;
+            }
+            .grid td a {
+                text-decoration: none;
+                display: block;
+            }
+            .grid td a .icon {
+                font-size: 18px;
+                display: block;
+                margin-bottom: 4px;
+            }
+            .grid td a .label {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: clamp(9px, 1.8vw, 10.5px);
+                color: #1a4a2e;
+                line-height: 1.3;
+                display: block;
+            }
+            .grid td a .alt {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: clamp(8px, 1.6vw, 9px);
+                color: #6a6a6a;
+                font-style: italic;
+                margin-top: 3px;
+                display: block;
+            }
+            /* Footer */
+            .card-footer {
+                background-color: #1a4a2e;
+                padding: 14px 20px;
+                text-align: center;
+            }
+            .card-footer .badge {
+                display: inline-block;
+                background-color: #c9a84c;
+                color: #1a4a2e;
+                font-family: Georgia, "Times New Roman", serif;
+                font-size: 13px;
+                padding: 5px 16px;
+            }
+            .card-footer .note {
+                font-size: 11px;
+                color: #e8c97a;
+                margin: 6px 0 0 0;
+            }
+            /* Instructions box */
+            .instructions {
+                max-width: 720px;
+                margin: 24px auto 0;
+                border-collapse: collapse;
+                border: 1px solid #d4e4d4;
+                width: 100%;
+            }
+            .instructions td.accent {
+                width: 4px;
+                background-color: #2d6e47;
+                padding: 0;
+            }
+            .instructions td.body {
+                padding: 18px 20px;
+                background-color: #ffffff;
+            }
+            .instructions h2 {
+                font-family: Georgia, "Times New Roman", serif;
+                font-size: 17px;
+                color: #1a4a2e;
+                margin: 0 0 10px 0;
+                font-weight: normal;
+            }
+            .instructions p {
+                font-size: 13px;
+                color: #2c2c2c;
+                line-height: 1.7;
+                margin: 0 0 8px 0;
+            }
+            .instructions p:last-child {
+                margin-bottom: 0;
+            }
+            .instructions .tip {
+                font-size: 11px;
+                color: #666;
+                font-style: italic;
+                margin: 10px 0 0 0;
+                padding-top: 10px;
+                border-top: 1px solid #e8e8e8;
+            }
+            /* Mobile tweaks */
+            @media (max-width: 480px) {
+                body {
+                    padding: 8px;
+                }
+                .grid td {
+                    height: 70px;
+                    padding: 5px 3px;
+                }
+                .card-header {
+                    padding: 16px 12px 12px;
+                }
+                .instructions td.body {
+                    padding: 14px;
+                }
+            }
+        </style>
+    </head>
+    <body></body>
+</html>
