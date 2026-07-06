@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package backend.bingo_item;
+
+
+message BingoItem {
+	string name = 1;
+	string short_description = 2;
+	string long_description = 3;
+	string link = 4;
+	string icon = 5;
+	optional Difficulty difficulty = 6;
+}
+
+enum Difficulty {
+	EASY = 0;
+	MEDIUM = 1;
+	HARD = 2;
+	VERY_HARD = 3;
+	ULTRA_HARD = 4;
+}
