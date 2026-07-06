@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package backend.bingo_board;
 import "bingo_item.proto";
+import "google/protobuf/timestamp.proto";
 
 message BingoBoard {
 	string city = 1;
@@ -11,4 +12,6 @@ message BingoBoard {
 message BingoItemCompletion {
 	backend.bingo_item.BingoItem item = 1;
 	bool complete = 2;
+	string writing = 3;
+	google.protobuf.Timestamp time = 4;
 }
