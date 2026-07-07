@@ -1,8 +1,8 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 use super::completion::BingoCompletion as BingoCompletionInfo;
 
-use fake::{faker, Fake};
+use fake::{Fake, faker};
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct BingoItem {
@@ -11,7 +11,7 @@ pub struct BingoItem {
 	pub short_description: Option<String>,
 	pub long_description: Option<String>,
 	pub url: Option<String>,
-	pub completion_info: Option<BingoCompletionInfo>
+	pub completion_info: Option<BingoCompletionInfo>,
 }
 
 impl BingoItem {

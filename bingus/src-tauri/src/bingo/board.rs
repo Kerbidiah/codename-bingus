@@ -1,9 +1,8 @@
 use std::time::Instant;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 use crate::bingo::item::BingoItem;
-
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct BingoBoard {

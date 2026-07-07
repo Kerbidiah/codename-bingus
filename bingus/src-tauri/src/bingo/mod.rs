@@ -1,3 +1,3 @@
 pub mod board;
-pub mod item;
 pub mod completion;
+pub mod item;
