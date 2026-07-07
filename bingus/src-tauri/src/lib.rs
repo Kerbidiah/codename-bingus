@@ -7,12 +7,6 @@ fn greet(name: &str) -> String {
 }
 
 #[tauri::command]
-fn get_city_name() -> String {
-	// FIXME: Include the ability to change the city's value depending on the bingo board.
-	return "Switzerland".to_string();
-}
-
-#[tauri::command]
 fn generate_board() -> Vec<Vec<String>> {
 	// FIXME:
 	return vec![
@@ -58,11 +52,7 @@ fn generate_board() -> Vec<Vec<String>> {
 pub fn run() {
 	tauri::Builder::default()
 		.plugin(tauri_plugin_opener::init())
-		.invoke_handler(tauri::generate_handler![
-			greet,
-			get_city_name,
-			generate_board
-		])
+		.invoke_handler(tauri::generate_handler![greet, generate_board])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");
 }
