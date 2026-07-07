@@ -14,7 +14,7 @@ pub struct BingoBoard {
 }
 
 impl BingoBoard {
-	pub fn fake() -> Self {
+	pub fn dummy() -> Self {
 		let mut rng = rand::rng();
 		let items: Vec<BingoItem> = BingoItem::vienna_samples()
 			.sample(&mut rng, 25)
@@ -25,5 +25,14 @@ impl BingoBoard {
 			city: faker::address::en::CityName().fake(),
 			items: items,
 		}
+	}
+}
+
+pub mod commands {
+	use super::*;
+	
+	#[tauri::command]
+	pub fn generate_dummy_bingo_board() -> BingoBoard {
+		BingoBoard::dummy()
 	}
 }
