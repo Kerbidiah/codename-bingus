@@ -201,6 +201,14 @@
             }
         </style>
     </head>
+    <script type="module">
+      import { invoke } from '@tauri-apps/api/tauri';
+
+      // Changes the title based on the city name
+      const element = document.getElementById("city");
+      const city_name = await invoke('get_city_name'); // get_city_name() should be a function exposed in the backend to get this city's name
+      element.textContent = city_name;
+    </script>
 
     <body>
         <!-- Bingo Card -->
