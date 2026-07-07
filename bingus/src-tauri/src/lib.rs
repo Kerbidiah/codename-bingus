@@ -8,7 +8,6 @@ fn greet(name: &str) -> String {
 
 #[tauri::command]
 fn generate_board() -> Vec<Vec<String>> {
-	// FIXME:
 	return vec![
 		vec![
 			"Cell 1".into(),

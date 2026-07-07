@@ -230,6 +230,7 @@ name = "bingus"
 version = "0.1.0"
 dependencies = [
  "fake",
+ "rand",
  "ron",
  "serde",
  "serde_json",
