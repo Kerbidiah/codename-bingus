@@ -629,28 +629,28 @@
               // Creates the individual cells in each row of the board
               for (const elem of row) {
                 const td = document.createElement('td');
-                const a = document.createElement('a');
-                const icon = document.createElement('span');
-                const label = document.createElement('span');
-                const alt = document.createElement('span');
+                const url = document.createElement('a');
+                const emoji = document.createElement('span');
+                const title = document.createElement('span');
+                const short_description = document.createElement('span');
     
-                icon.className = "icon";
-                label.className = "label";
-                alt.className = "alt";
-    
-                a.href = elem.href;
-                a.target = "_blank"
-                a.rel = "noopener"
+                emoji.className = "icon";
+                title.className = "label";
+                short_description.className = "alt";
 
-                icon.textContent = elem.icon;
-                label.textContent = elem.label;
-                alt.textContent = elem.alt;
+                url.href = elem.href;
+                url.target = "_blank"
+                url.rel = "noopener"
+
+                emoji.textContent = elem.emoji;
+                title.textContent = elem.title;
+                short_description.textContent = elem.short_description;
     
-                a.appendChild(icon);
-                a.appendChild(label);
-                a.appendChild(alt);
+                url.appendChild(emoji);
+                url.appendChild(title);
+                url.appendChild(short_description);
     
-                td.appendChild(a);
+                td.appendChild(url);
               }
             }
           }
