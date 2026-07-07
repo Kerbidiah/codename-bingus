@@ -1,0 +1,10 @@
+use serde::{Serialize, Deserialize};
+
+use std::time::SystemTime;
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct BingoCompletion {
+	pub notes: String,
+	pub asset_ids: Vec<u16>,
+	pub time: Option<SystemTime>,
+}
