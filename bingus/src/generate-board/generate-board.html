@@ -611,50 +611,54 @@
         </table>
         <script type="module">
           const { invoke } = window.__TAURI__.core;
-    
+
           // Changes the title based on the city name
-          const element = document.getElementById("city");
-          const city_name = await invoke('get_city_name'); // get_city_name() should be a function exposed in the backend to get this city's name
-          element.textContent = city_name;
-    
+          const city = document.getElementById("city");
+
           // Gets the generated bingo board from the backend
           async function generate_board() {
-            const randomized_bingo_squares = await invoke('generate_board');
+          	const dummy_bingo_board_object = await invoke('generate_dummy_bingo_board');
+           	const board = dummy_bingo_board_object.items;
             const rows = document.getElementById('rows');
+            city.textContent = dummy_bingo_board_object.city;	
             rows.innerHTML = ' ';
-    
+
+            let tr = null;
             // Creates the rows of the Bingo Board
-            for (const row of randomized_bingo_squares) {
-              const tr = document.createElement('tr');
-              // Creates the individual cells in each row of the board
-              for (const elem of row) {
-                const td = document.createElement('td');
-                const url = document.createElement('a');
+            for (let i = 0; i < board.length; i++) {
+            	if (i % Math.sqrt(board.length) === 0) {
+            		tr = document.createElement('tr')
+             	} 
+             	
+              	const td = document.createElement('td');
+               	const url = document.createElement('a');
                 const emoji = document.createElement('span');
                 const title = document.createElement('span');
                 const short_description = document.createElement('span');
-    
+
                 emoji.className = "icon";
                 title.className = "label";
                 short_description.className = "alt";
 
-                url.href = elem.href;
+                let elem = board[i];
+                url.href = elem.url;
                 url.target = "_blank"
                 url.rel = "noopener"
 
                 emoji.textContent = elem.emoji;
                 title.textContent = elem.title;
                 short_description.textContent = elem.short_description;
-    
+
                 url.appendChild(emoji);
                 url.appendChild(title);
                 url.appendChild(short_description);
-    
+
                 td.appendChild(url);
-              }
+                tr.appendChild(td);
+                rows.appendChild(tr);
             }
           }
-    
+
           const generate_button = document.getElementById('generate');
           generate_button.addEventListener("click", () => {
             generate_board();
