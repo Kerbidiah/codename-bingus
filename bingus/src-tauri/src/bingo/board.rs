@@ -22,7 +22,7 @@ impl BingoBoard {
 			.collect();
 
 		Self {
-			city: faker::address::en::CityName().fake(),
+			city: faker::address::de_de::CityName().fake(),
 			items: items,
 		}
 	}
