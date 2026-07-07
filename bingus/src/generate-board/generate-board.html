@@ -208,6 +208,49 @@
       const element = document.getElementById("city");
       const city_name = await invoke('get_city_name'); // get_city_name() should be a function exposed in the backend to get this city's name
       element.textContent = city_name;
+
+      // Gets the generated bingo board from the backend
+      async function generate_board() {
+        const randomized_bingo_squares = await invoke('generate_board');
+        const rows = document.getElementById('rows');
+        rows.innerHTML = ' ';
+
+        // Creates the rows of the Bingo Board
+        for (const row of randomized_bingo_squares) {
+          const tr = document.createElement('tr');
+          // Creates the individual cells in each row of the board
+          for (const elem of row) {
+            const td = document.createElement('td');
+            const a = document.createElement('a');
+            const icon = document.createElement('span');
+            const label = document.createElement('span');
+            const alt = document.createElement('span');
+
+            icon.className = "icon";
+            label.className = "label";
+            alt.className = "alt";
+
+            a.href = elem.href;
+            a.target = "_blank"
+            a.rel = "noopener"
+            
+            icon.textContent = elem.icon;
+            label.textContent = elem.label;
+            alt.textContent = elem.alt;
+
+            a.appendChild(icon);
+            a.appendChild(label);
+            a.appendChild(alt);
+            
+            td.appendChild(a);
+          }
+        } 
+      }
+
+      const generate_button = document.getElementById('generate');
+      generate_button.addEventListener("click", () => {
+        generate_board();
+      }); 
     </script>
 
     <body>
@@ -226,7 +269,11 @@
                         <p class="tagline">
                             <!-- Explore · Discover · Experience -->
                         </p>
-                        <div class="rule"></div>
+                        <div class="rule">
+                            <button id="generate">
+                                Generate Board
+                            </button>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -247,7 +294,7 @@
                 <tr>
                     <td class="grid-wrapper">
                         <table class="grid" cellspacing="0" cellpadding="0">
-                            <tbody>
+                            <tbody id="rows">
                                 <tr>
                                     <td>
                                         <a
