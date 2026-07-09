@@ -6,3 +6,6 @@ release:
 
 fmt:
 	cargo fmt --manifest-path bingus/src-tauri/Cargo.toml
+
+doc:
+	cargo doc --manifest-path bingus/src-tauri/Cargo.toml
