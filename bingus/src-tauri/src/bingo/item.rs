@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use ron;
 use anyhow;
 
-use super::completion::BingoCompletion as BingoCompletionInfo;
+use super::completion::BingoCompletionInfo;
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct BingoItem {

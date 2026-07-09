@@ -13,6 +13,7 @@ pub struct BingoBoard {
 }
 
 impl BingoBoard {
+	/// generate a dummy bingo board with 25 randomly selected and ordered items
 	pub fn dummy() -> Self {
 		let mut rng = rand::rng();
 		let items: Vec<BingoItem> = BingoItem::vienna_samples()
