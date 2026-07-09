@@ -22,3 +22,5 @@ target
 .DS_Store
 /bingus/.vscode
 *.lock
+.lock
+bingus/src-tauri/Cargo.lock
