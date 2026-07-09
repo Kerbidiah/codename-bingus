@@ -5,7 +5,6 @@ use crate::bingo::item::BingoItem;
 use fake::{Fake, faker};
 
 use rand::prelude::*;
-use rand::seq::SliceRandom;
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct BingoBoard {
@@ -30,7 +29,7 @@ impl BingoBoard {
 
 pub mod commands {
 	use super::*;
-	
+
 	#[tauri::command]
 	pub fn generate_dummy_bingo_board() -> BingoBoard {
 		BingoBoard::dummy()
