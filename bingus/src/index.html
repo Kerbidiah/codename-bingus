@@ -1,39 +1,43 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8"/>
-    <link rel="stylesheet" href="./styles.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bingus</title>
-    <script type="module" src="/main.js" defer></script>
-  </head>
+	<head>
+    	<meta charset="UTF-8"/>
+     	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      	<title>Bingus</title>
+	    <style>
+	    	
+	    </style>
+		<script>
+			const { invoke } = window.__TAURI__.core;
 
-  <body>
-    <main class="container">
-      <h1>Welcome to Bingus</h1>
+			function create_board_dialog() {
+				return;
+			}
+			
+			const boards = await invoke('get_boards');
+			if (boards.length === 0) {
+				const container = document.getElementByClassName('container');
 
-      <div class="row">
-        <a href="https://tauri.app" target="_blank">
-          <img src="/assets/tauri.svg" class="logo tauri" alt="Tauri logo" />
-        </a>
-        <a
-          href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"
-          target="_blank"
-        >
-          <img
-            src="/assets/javascript.svg"
-            class="logo vanilla"
-            alt="JavaScript logo"
-          />
-        </a>
-      </div>
-      <p>Click on the Tauri logo to learn more about the framework</p>
+				const create_board_button = document.createElement('button');
+				create_board_button.id = "create-board";
+				create_board_button.addEventListener("click", () => {
+					create_board_dialog();
+				});
+			}
+		</script>
+  	</head>
 
-      <form class="row" id="greet-form">
-        <input id="greet-input" placeholder="Enter a name..." />
-        <button type="submit">Greet</button>
-      </form>
-      <p id="greet-msg"></p>
-    </main>
-  </body>
+   	<body>
+    	<nav class="navigation">
+     		<a href="#home">Home</a>
+			<a href="#about">About</a>
+			<a href="dark-mode">
+				<img src="/assets/tauri.svg" alt="Dark Mode Selector">
+			</a>
+     	</nav>
+      	<main class="container">
+       		<h1 class="title">Bingus</h1>
+      
+       </main>
+    </body>
 </html>
