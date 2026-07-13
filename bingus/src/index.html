@@ -5,7 +5,115 @@
      	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
       	<title>Bingus</title>
 	    <style>
-	    	
+			/* Page baseline */
+			body{
+			  margin: 0;
+			  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+			  background: #0b1220;
+			  color: #e8eefc;
+			}
+			
+			/* Top navigation container */
+			.navigation{
+			  position: sticky;
+			  top: 0;
+			  z-index: 10;
+			  background: rgba(11, 18, 32, 0.85);
+			  backdrop-filter: blur(10px);
+			  border-bottom: 1px solid rgba(255,255,255,0.08);
+			}
+			
+			/* The nav itself */
+			nav.navigation{
+			  max-width: 1100px;
+			  margin: 0 auto;
+			  padding: 14px 18px;
+			  display: flex;
+			  align-items: center;
+			  gap: 18px;
+			}
+			
+			/* Nav links */
+			nav.navigation a{
+			  color: #e8eefc;
+			  text-decoration: none;
+			  font-weight: 600;
+			  letter-spacing: 0.2px;
+			  padding: 10px 12px;
+			  border-radius: 10px;
+			  transition: background-color 160ms ease, transform 160ms ease;
+			}
+			
+			nav.navigation a:hover{
+			  background: rgba(255,255,255,0.08);
+			  transform: translateY(-1px);
+			}
+			
+			/* Dark mode icon button link */
+			nav.navigation a#dark-mode{
+		  	  margin-left: auto;
+			  display: inline-flex;
+			  align-items: center;
+			  justify-content: center;
+			  padding: 8px;
+			}
+			
+			nav.navigation a#dark-mode img{
+			  width: 22px;
+			  height: 22px;
+			  display: block;
+			  align-self: right;
+			}
+			
+			/* Main content layout */
+			.body{
+			  min-height: calc(100vh - 60px);
+			  display: flex;
+			  flex-direction: column;
+			  justify-content: center;
+			  align-items: center;
+			  padding: 48px 18px;
+			  text-align: center;
+			}
+			
+			.title{
+			  font-size: clamp(2rem, 5vw, 3.25rem);
+			  margin: 0 0 18px;
+			  line-height: 1.05;
+			}
+			
+			/* Cards area */
+			#cards{
+			  display: flex;
+			  justify-content: center;
+			  align-items: center;
+			  padding: 10px;
+			}
+			
+			/* Primary button */
+			#cards #create-board{
+			  appearance: none;
+			  border: 0;
+			  cursor: pointer;
+			  padding: 14px 22px;
+			  border-radius: 14px;
+			  font-size: 1rem;
+			  font-weight: 700;
+			  color: #0b1220;
+			  background: linear-gradient(135deg, #4de3ff, #7c5cff);
+			  box-shadow: 0 12px 30px rgba(124, 92, 255, 0.22);
+			  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+			}
+			
+			#cards #create-board:hover{
+			  transform: translateY(-2px);
+			  box-shadow: 0 16px 36px rgba(124, 92, 255, 0.30);
+			  filter: brightness(1.05);
+			}
+			
+			#cards button:active{
+			  transform: translateY(0);
+			}
 	    </style>
 		<script>
 			const { invoke } = window.__TAURI__.core;
@@ -21,7 +129,7 @@
 			
 			const boards = await invoke('get_boards');
 			if (boards.length === 0) {
-				const body = document.getElementByClassName('body');
+				const cards = document.getElementById('cards');
 
 				const create_board_button = document.createElement('button');
 				create_board_button.id = "create-board";
@@ -38,17 +146,22 @@
   	</head>
 
    	<body>
-    <div class="navigation">
-    	<nav class="navigation">
-     		<a href="#home" id="home">Home</a>
-			<a href="#about" id="about">About</a>
-			<a href="#dark-mode" id="dark-mode">
-				<img src="/assets/tauri.svg" alt="Dark Mode Selector">
-			</a>
-     	</nav>
-    </div>
-    <div class="body">
-       		<h1 class="title">Bingus</h1>
-    </div>
+	    <div class="navigation">
+	    	<nav class="navigation">
+	     		<a href="#home" id="home">Home</a>
+				<a href="#about" id="about">About</a>
+				<a href="#dark-mode" id="dark-mode">
+					<img src="/assets/tauri.svg" alt="Dark Mode Selector">
+				</a>
+	     	</nav>
+	    </div>
+	    <div class="body">
+	       		<h1 class="title">Bingus</h1>
+	         	<div id="cards">
+	            	<button>
+	             		Get Started
+	             	</button>
+		         </div>
+	    </div>
     </body>
 </html>
