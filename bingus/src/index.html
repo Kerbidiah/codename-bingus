@@ -83,7 +83,7 @@
 			}
 			
 			/* Cards area */
-			#cards{
+			#bingo-cards{
 			  display: flex;
 			  justify-content: center;
 			  align-items: center;
@@ -91,7 +91,7 @@
 			}
 			
 			/* Primary button */
-			#cards #create-board{
+			#bingo-cards #create-board{
 			  appearance: none;
 			  border: 0;
 			  cursor: pointer;
@@ -105,13 +105,13 @@
 			  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
 			}
 			
-			#cards #create-board:hover{
+			#bingo-cards #create-board:hover{
 			  transform: translateY(-2px);
 			  box-shadow: 0 16px 36px rgba(124, 92, 255, 0.30);
 			  filter: brightness(1.05);
 			}
 			
-			#cards button:active{
+			#bingo-cards button:active{
 			  transform: translateY(0);
 			}
 	    </style>
@@ -123,8 +123,22 @@
 			}
 
 			// Creates the card in the DOM
-			function draw_card(name, description, editable) {
+			function draw_card(name, owner) {
+				const card_wrapper = document.createElement('div');
+				card.className = "card-wrapper";
+
+				const name_wrapper = document.createElement('div');
+				name_wrapper.className = "name-wrapper";
+				const card_name = document.createElement('a');
+				card_name.textContent = name;
+				name_wrapper.appendChild(card_name);
 				
+				const button_wrapper = document.createElement('div');
+				button_wrapper.className = "button-wrapper";
+				
+				
+				card_wrapper.appendChild(name_wrapper);
+				card_wrapper.appendChild(button_wrapper);
 			}
 			
 			const boards = await invoke('get_boards');
@@ -136,10 +150,12 @@
 				create_board_button.addEventListener("click", () => {
 					create_board_dialog();
 				});
+				cards.appendChild(create_board_button);
 			} 
 			else {
 				for (const elem in boards) {
 					// TODO: Render the cards of the boards.
+					draw_card(elem.city, elem.owner);
 				}
 			}
 		</script>
@@ -157,8 +173,8 @@
 	    </div>
 	    <div class="body">
 	       		<h1 class="title">Bingus</h1>
-	         	<div id="cards">
-						
+	         	<div id="bingo-cards">
+						<!-- This section draws out preview for each Bingo Board -->
 		        </div>
 	    </div>
     </body>
