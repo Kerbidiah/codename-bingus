@@ -16,28 +16,34 @@
 			
 			const boards = await invoke('get_boards');
 			if (boards.length === 0) {
-				const container = document.getElementByClassName('container');
+				const body = document.getElementByClassName('body');
 
 				const create_board_button = document.createElement('button');
 				create_board_button.id = "create-board";
 				create_board_button.addEventListener("click", () => {
 					create_board_dialog();
 				});
+			} 
+			else {
+				for (const elem in boards) {
+					// TODO: Render the cards of the boards.
+				}
 			}
 		</script>
   	</head>
 
    	<body>
+    <div class="navigation">
     	<nav class="navigation">
-     		<a href="#home">Home</a>
-			<a href="#about">About</a>
-			<a href="dark-mode">
+     		<a href="#home" id="home">Home</a>
+			<a href="#about" id="about">About</a>
+			<a href="#dark-mode" id="dark-mode">
 				<img src="/assets/tauri.svg" alt="Dark Mode Selector">
 			</a>
      	</nav>
-      	<main class="container">
+    </div>
+    <div class="body">
        		<h1 class="title">Bingus</h1>
-      
-       </main>
+    </div>
     </body>
 </html>
