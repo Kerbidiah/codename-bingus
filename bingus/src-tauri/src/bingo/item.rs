@@ -1,14 +1,14 @@
 use serde::{Deserialize, Serialize};
 
-use ron;
 use anyhow;
+use ron;
 
 use super::completion::BingoCompletionInfo;
 
 use std::fs;
-use std::io::Read;
-use std::io;
 use std::fs::File;
+use std::io;
+use std::io::Read;
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct BingoItem {
@@ -23,7 +23,8 @@ impl BingoItem {
 	pub fn vienna_samples() -> anyhow::Result<Vec<Self>> {
 		// TODO: rewrite to pure iterator based code for SPEED
 
-		let example_paths: Vec<Result<fs::DirEntry, io::Error>> = fs::read_dir("../../examples/items/")?.collect(); // get list of files in examples/items directory
+		let example_paths: Vec<Result<fs::DirEntry, io::Error>> =
+			fs::read_dir("../../examples/items/")?.collect(); // get list of files in examples/items directory
 		let mut ans = Vec::with_capacity(example_paths.len()); // create vector preallocated with enough space
 
 		for p in example_paths {
