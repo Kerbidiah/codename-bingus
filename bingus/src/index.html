@@ -147,6 +147,7 @@
 			document.addEventListener('DOMContentLoaded', () => {
 				const toggle = document.getElementById('dark-mode');
 				const theme_img = document.getElementById('theme-img');
+				const editable_img = Array.from(document.getElementsByClassName('editable'));
 				
 				const ICON_LIGHT = '/assets/enable-light-mode.svg';
 				const ICON_DARK  = '/assets/enable-dark-mode.svg';
@@ -154,6 +155,11 @@
 				function setTheme(theme){
 				    document.body.classList.toggle('light', theme === 'light');
 					theme_img.src = theme === 'light' ? ICON_DARK : ICON_LIGHT;
+					editable_img.forEach(img => {
+						const dark_icon = '/assets/editable-board-dark.svg';
+						const light_icon = '/assets/editable-board-light.svg';
+						img.src = (theme === 'light') ? light_icon : dark_icon;
+					});
 					localStorage.setItem('theme', theme);
 				}
 				
@@ -189,30 +195,34 @@
 				const button_wrapper = document.createElement('div');
 				button_wrapper.className = "button-wrapper";
 				if (owner === true) {
-					const edit_button = document.createElement('button');
+					const edit_anchor = document.createElement('a');
+					const edit_img = document.createElemnt('img');
+					const IMAGE = '/assets/editable-board-dark.svg'
+					
+					button_wrapper.appendChild(edit_anchor);
 				}
 				
 				card_wrapper.appendChild(name_wrapper);
 				card_wrapper.appendChild(button_wrapper);
 			}
 			
-			// const boards = await invoke('get_boards');
-			// if (boards.length === 0) {
-			// 	const cards = document.getElementById('cards');
+			const boards = await invoke('get_boards');
+			if (boards.length === 0) {
+				const cards = document.getElementById('cards');
 
-			// 	const create_board_button = document.createElement('button');
-			// 	create_board_button.id = "create-board";
-			// 	create_board_button.addEventListener("click", () => {
-			// 		create_board_dialog();
-			// 	});
-			// 	cards.appendChild(create_board_button);
-			// } 
-			// else {
-			// 	for (const elem in boards) {
-			// 		// TODO: Render the cards of the boards.
-			// 		draw_card(elem.city, elem.owner);
-			// 	}
-			// }
+				const create_board_button = document.createElement('button');
+				create_board_button.id = "create-board";
+				create_board_button.addEventListener("click", () => {
+					create_board_dialog();
+				});
+				cards.appendChild(create_board_button);
+			} 
+			else {
+				for (const elem in boards) {
+					// TODO: Render the cards of the boards.
+					draw_card(elem.city, elem.owner);
+				}
+			}
 		</script>
   	</head>
 
