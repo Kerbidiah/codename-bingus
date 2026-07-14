@@ -53,3 +53,12 @@ impl BingoItem {
 		Ok(ron::from_str(input)?)
 	}
 }
+
+pub mod commands {
+	use super::*;
+
+	#[tauri::command]
+	pub fn example_bingo_items() -> Vec<BingoItem> {
+		BingoItem::vienna_samples().unwrap()
+	}
+}
