@@ -72,7 +72,7 @@
 			  transform: translateY(-1px);
 			}
 			
-			#cards button{
+			#bingo-cards button{
 			  appearance: none;
 			  border: 0;
 			  cursor: pointer;
@@ -87,13 +87,13 @@
 			  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
 			}
 			
-			#cards button:hover{
+			#bingo-cards button:hover{
 			  transform: translateY(-2px);
 			  box-shadow: 0 16px 36px var(--btn-shadow-2);
 			  filter: brightness(1.04);
 			}
 			
-			#cards button:active{
+			#bingo-cards button:active{
 			  transform: translateY(0);
 			}
 			
@@ -142,7 +142,7 @@
 			  padding: 10px;
 			}
 	    </style>
-		<script>
+		<script type="module">
 			const { invoke } = window.__TAURI__.core;
 			document.addEventListener('DOMContentLoaded', () => {
 				const toggle = document.getElementById('dark-mode');
@@ -155,11 +155,13 @@
 				function setTheme(theme){
 				    document.body.classList.toggle('light', theme === 'light');
 					theme_img.src = theme === 'light' ? ICON_DARK : ICON_LIGHT;
-					editable_img.forEach(img => {
-						const dark_icon = '/assets/editable-board-dark.svg';
-						const light_icon = '/assets/editable-board-light.svg';
-						img.src = (theme === 'light') ? light_icon : dark_icon;
-					});
+					if (editable_img != null) {
+						editable_img.forEach(img => {
+							const dark_icon = '/assets/editable-board-dark.svg';
+							const light_icon = '/assets/editable-board-light.svg';
+							img.src = (theme === 'light') ? light_icon : dark_icon;
+						});
+					}
 					localStorage.setItem('theme', theme);
 				}
 				
@@ -205,13 +207,18 @@
 				card_wrapper.appendChild(name_wrapper);
 				card_wrapper.appendChild(button_wrapper);
 			}
-			
-			const boards = await invoke('get_boards');
+			let boards;
+			try {
+				boards = await invoke('get_boards');
+			} catch (error) {
+				boards = [];
+			}
 			if (boards.length === 0) {
-				const cards = document.getElementById('cards');
+				const cards = document.getElementById('bingo-cards');
 
 				const create_board_button = document.createElement('button');
 				create_board_button.id = "create-board";
+				create_board_button.textContent = "Get Started";
 				create_board_button.addEventListener("click", () => {
 					create_board_dialog();
 				});
