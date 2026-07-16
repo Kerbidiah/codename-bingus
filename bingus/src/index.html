@@ -1,151 +1,151 @@
 <!doctype html>
 <html lang="en">
 	<head>
-    	<meta charset="UTF-8"/>
-     	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      	<title>Bingus</title>
-	    <style>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Bingus</title>
+		<style>
 			/* QoL for users to know what elements are clickable */
 			a {
 				cursor: pointer;
 			}
 			/* DARK THEME (default) */
 			body{
-			  --bg: #0b1220;
-			  --text: #e8eefc;
+				--bg: #0b1220;
+				--text: #e8eefc;
+
+				--nav-bg: rgba(11, 18, 32, 0.85);
+				--nav-border: rgba(255, 255, 255, 0.08);
 			
-			  --nav-bg: rgba(11, 18, 32, 0.85);
-			  --nav-border: rgba(255, 255, 255, 0.08);
+				--link: #e8eefc;
+				--link-hover-bg: rgba(255, 255, 255, 0.08);
 			
-			  --link: #e8eefc;
-			  --link-hover-bg: rgba(255, 255, 255, 0.08);
-			
-			  --btn-text: #0b1220;
-			  --btn-g1: #4de3ff;
-			  --btn-g2: #7c5cff;
-			  --btn-shadow: rgba(124, 92, 255, 0.22);
-			  --btn-shadow-2: rgba(124, 92, 255, 0.30);
+				--btn-text: #0b1220;
+				--btn-g1: #4de3ff;
+				--btn-g2: #7c5cff;
+				--btn-shadow: rgba(124, 92, 255, 0.22);
+				--btn-shadow-2: rgba(124, 92, 255, 0.30);
 			}
 			
 			/* LIGHT THEME */
 			body.light{
-			  --bg: #f6f7fb;
-			  --text: #0f172a;
+				--bg: #f6f7fb;
+				--text: #0f172a;
+
+				--nav-bg: rgba(246, 247, 251, 0.9);
+				--nav-border: rgba(15, 23, 42, 0.08);
 			
-			  --nav-bg: rgba(246, 247, 251, 0.9);
-			  --nav-border: rgba(15, 23, 42, 0.08);
+				--link: #0f172a;
+				--link-hover-bg: rgba(15, 23, 42, 0.06);
 			
-			  --link: #0f172a;
-			  --link-hover-bg: rgba(15, 23, 42, 0.06);
-			
-			  --btn-text: #0b1220;
-			  --btn-g1: #36d6ff;
-			  --btn-g2: #6f5bff;
-			  --btn-shadow: rgba(111, 91, 255, 0.18);
-			  --btn-shadow-2: rgba(111, 91, 255, 0.26);
+				--btn-text: #0b1220;
+				--btn-g1: #36d6ff;
+				--btn-g2: #6f5bff;
+				--btn-shadow: rgba(111, 91, 255, 0.18);
+				--btn-shadow-2: rgba(111, 91, 255, 0.26);
 			}
 			/* Base styles (shared) */
 			body{
-			  margin: 0;
-			  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-			  background: var(--bg);
-			  color: var(--text);
+				margin: 0;
+				font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+				background: var(--bg);
+				color: var(--text);
 			}
 			
 			.navigation{
-			  position: sticky;
-			  top: 0;
-			  z-index: 10;
-			  background: var(--nav-bg);
-			  backdrop-filter: blur(10px);
-			  border-bottom: 1px solid var(--nav-border);
+				position: sticky;
+				top: 0;
+				z-index: 10;
+				background: var(--nav-bg);
+				backdrop-filter: blur(10px);
+				border-bottom: 1px solid var(--nav-border);
 			}
 			
 			nav.navigation a{
-			  color: var(--link);
-			  text-decoration: none;
-			  font-weight: 600;
-			  letter-spacing: 0.2px;
-			  padding: 10px 12px;
-			  border-radius: 10px;
-			  transition: background-color 160ms ease, transform 160ms ease;
+				color: var(--link);
+				text-decoration: none;
+				font-weight: 600;
+				letter-spacing: 0.2px;
+				padding: 10px 12px;
+				border-radius: 10px;
+				transition: background-color 160ms ease, transform 160ms ease;
 			}
 			
 			nav.navigation a:hover{
-			  background: var(--link-hover-bg);
-			  transform: translateY(-1px);
+				background: var(--link-hover-bg);
+				transform: translateY(-1px);
 			}
 			
 			#bingo-cards button{
-			  appearance: none;
-			  border: 0;
-			  cursor: pointer;
-			  padding: 14px 22px;
-			  border-radius: 14px;
-			  font-size: 1rem;
-			  font-weight: 700;
-			
-			  color: var(--btn-text);
-			  background: linear-gradient(135deg, var(--btn-g1), var(--btn-g2));
-			  box-shadow: 0 12px 30px var(--btn-shadow);
-			  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+				appearance: none;
+				border: 0;
+				cursor: pointer;
+				padding: 14px 22px;
+				border-radius: 14px;
+				font-size: 1rem;
+				font-weight: 700;
+
+				color: var(--btn-text);
+				background: linear-gradient(135deg, var(--btn-g1), var(--btn-g2));
+				box-shadow: 0 12px 30px var(--btn-shadow);
+				transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
 			}
 			
 			#bingo-cards button:hover{
-			  transform: translateY(-2px);
-			  box-shadow: 0 16px 36px var(--btn-shadow-2);
-			  filter: brightness(1.04);
+				transform: translateY(-2px);
+				box-shadow: 0 16px 36px var(--btn-shadow-2);
+				filter: brightness(1.04);
 			}
 			
 			#bingo-cards button:active{
-			  transform: translateY(0);
+				transform: translateY(0);
 			}
 			
 			/* Layout unchanged */
 			nav.navigation{
-			  max-width: 1100px;
-			  margin: 0 auto;
-			  padding: 14px 18px;
-			  display: flex;
-			  align-items: center;
-			  gap: 18px;
-			  justify-content: center;
+				max-width: 1100px;
+				margin: 0 auto;
+				padding: 14px 18px;
+				display: flex;
+				align-items: center;
+				gap: 18px;
+				justify-content: center;
 			}
 			
 			nav.navigation a#dark-mode{
-			  margin-left: auto;
-			  padding: 8px;
-			  display: inline-flex;
-			  align-items: center;
-			  justify-content: center;
+				margin-left: auto;
+				padding: 8px;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
 			}
 			
 			nav.navigation a#dark-mode img{
-			  width: 22px;
-			  height: 22px;
-			  display: block;
+				width: 22px;
+				height: 22px;
+				display: block;
 			}
 			.body{
-			  min-height: calc(100vh - 60px);
-			  display: flex;
-			  flex-direction: column;
-			  justify-content: center;
-			  align-items: center;
-			  padding: 48px 18px;
-			  text-align: center;
+				min-height: calc(100vh - 60px);
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				padding: 48px 18px;
+				text-align: center;
 			}
 			.title{
-			  font-size: clamp(2rem, 5vw, 3.25rem);
-			  margin: 0 0 18px;
-			  line-height: 1.05;
+				font-size: clamp(2rem, 5vw, 3.25rem);
+				margin: 0 0 18px;
+				line-height: 1.05;
 			}
 			#cards{
-			  display: flex;
-			  justify-content: center;
-			  align-items: center;
-			  padding: 10px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 10px;
 			}
-	    </style>
+		</style>
 		<script type="module">
 			const { invoke } = window.__TAURI__.core;
 			document.addEventListener('DOMContentLoaded', () => {
@@ -158,7 +158,7 @@
 
 				// Changes the theme depending on the theme the user has
 				function setTheme(theme){
-				    document.body.classList.toggle('light', theme === 'light');
+					document.body.classList.toggle('light', theme === 'light');
 					theme_img.src = theme === 'light' ? ICON_DARK : ICON_LIGHT;
 					if (editable_img != null) {
 						editable_img.forEach(img => {
@@ -172,16 +172,16 @@
 				// Caches the user's theme preference
 				const saved = localStorage.getItem('theme');
 				if (saved === 'light' || saved === 'dark') {
-				    setTheme(saved);
+					setTheme(saved);
 				} else {
-				    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-				    setTheme(prefersLight ? 'light' : 'dark');
+					const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+					setTheme(prefersLight ? 'light' : 'dark');
 				}
 				
 				toggle.addEventListener('click', (e) => {
-				    e.preventDefault(); // prevents jumping due to href
-				    const next = document.body.classList.contains('light') ? 'dark' : 'light';
-				    setTheme(next);
+					e.preventDefault(); // prevents jumping due to href
+					const next = document.body.classList.contains('light') ? 'dark' : 'light';
+					setTheme(next);
 				});
 			});
 
@@ -234,23 +234,23 @@
 				}
 			}
 		</script>
-  	</head>
+	</head>
 
-   	<body>
-	    <div class="navigation">
-	    	<nav class="navigation">
-	     		<a href="about:blank" id="home">Home</a>
+	<body>
+		<div class="navigation">
+			<nav class="navigation">
+				<a href="index.html" id="home">Home</a>
 				<a href="about:blank" id="about">About</a>
 				<a id="dark-mode">
 					<img src="/assets/enable-light-mode.svg" alt="Light Mode Selector" id="theme-img">
 				</a>
-	     	</nav>
-	    </div>
-	    <div class="body">
-	       		<h1 class="title">Bingus</h1>
-	         	<div id="bingo-cards">
+			</nav>
+		</div>
+		<div class="body">
+				<h1 class="title">Bingus</h1>
+				<div id="bingo-cards">
 						<!-- This section draws out preview for each Bingo Board -->
-		        </div>
-	    </div>
-    </body>
+				</div>
+		</div>
+	</body>
 </html>
