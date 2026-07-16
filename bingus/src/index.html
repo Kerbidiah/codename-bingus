@@ -21,10 +21,10 @@
 				--link-hover-bg: rgba(255, 255, 255, 0.08);
 			
 				--btn-text: #0b1220;
-				--btn-g1: #4de3ff;
-				--btn-g2: #7c5cff;
-				--btn-shadow: rgba(124, 92, 255, 0.22);
-				--btn-shadow-2: rgba(124, 92, 255, 0.30);
+				--btn-g1: #1dd3ff;
+				--btn-g2: #7cff5c;
+				--btn-shadow: rgba(92, 124, 255, 0.22);
+				--btn-shadow-2: rgba(92, 124, 255, 0.30);
 			}
 			
 			/* LIGHT THEME */
@@ -39,10 +39,10 @@
 				--link-hover-bg: rgba(15, 23, 42, 0.06);
 			
 				--btn-text: #0b1220;
-				--btn-g1: #36d6ff;
-				--btn-g2: #6f5bff;
-				--btn-shadow: rgba(111, 91, 255, 0.18);
-				--btn-shadow-2: rgba(111, 91, 255, 0.26);
+				--btn-g1: #56f6ff;
+				--btn-g2: #6fff5b;
+				--btn-shadow: rgba(91, 111, 255, 0.18);
+				--btn-shadow-2: rgba(91, 111, 255, 0.26);
 			}
 			/* Base styles (shared) */
 			body{
@@ -135,6 +135,8 @@
 				text-align: center;
 			}
 			.title{
+				font-family: Inter;
+				font-style: italic;
 				font-size: clamp(2rem, 5vw, 3.25rem);
 				margin: 0 0 18px;
 				line-height: 1.05;
@@ -247,7 +249,10 @@
 			</nav>
 		</div>
 		<div class="body">
-				<h1 class="title">Bingus</h1>
+				<h1 class="title">
+					<img src="/assets/bingus.svg" alt="logo" id="home-logo">
+					bingus
+				</h1>
 				<div id="bingo-cards">
 						<!-- This section draws out preview for each Bingo Board -->
 				</div>
