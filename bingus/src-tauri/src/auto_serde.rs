@@ -16,14 +16,14 @@ pub trait AutoSerde: Serialize + DeserializeOwned + Sized {
 	}
 
 	/// Serialize to RON file
-	fn to_ron_file(&self, file: &mut File) -> anyhow::Result<()> {
+	fn to_file(&self, file: &mut File) -> anyhow::Result<()> {
 		let s = self.to_ron()?;
 		file.write_all(s.as_bytes())?;
 		Ok(())
 	}
 
 	/// Deserialize from RON file
-	fn from_ron_file(file: &mut File) -> anyhow::Result<Self> {
+	fn from_file(file: &mut File) -> anyhow::Result<Self> {
 		let mut s = String::new();
 		file.read_to_string(&mut s)?;
 		Self::from_ron(&s)

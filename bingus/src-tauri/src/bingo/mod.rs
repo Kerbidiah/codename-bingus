@@ -4,7 +4,6 @@ pub mod item;
 pub mod play;
 pub mod project;
 
-use anyhow;
 use serde::{Deserialize, Serialize};
 
 use crate::auto_serde::AutoSerde;
@@ -33,13 +32,13 @@ pub fn get_bingos() -> Vec<BingoType> {
 	let edit_files: Vec<BingoProject> = fs::read_dir(path_edit).unwrap()
 		.filter_map(|res| res.ok().map(|dir| File::open(dir.path())))
 		.filter_map(|f| f.ok().map(|x| x)) // filter out Errors and extract the value out of Oks
-		.map(|mut f| BingoProject::from_ron_file(&mut f))
+		.map(|mut f| BingoProject::from_file(&mut f))
 		.filter_map(|f| f.ok().map(|x| x)) // filter out Errors and extract the value out of Oks
 		.collect();
 	let play_files: Vec<PlayableBingo> = fs::read_dir(path_play).unwrap()
 		.filter_map(|res| res.ok().map(|dir| File::open(dir.path())))
 		.filter_map(|f| f.ok().map(|x| x)) // filter out Errors and extract the value out of Oks
-		.map(|mut f| PlayableBingo::from_ron_file(&mut f))
+		.map(|mut f| PlayableBingo::from_file(&mut f))
 		.filter_map(|f| f.ok().map(|x| x)) // filter out Errors and extract the value out of Oks
 		.collect();
 

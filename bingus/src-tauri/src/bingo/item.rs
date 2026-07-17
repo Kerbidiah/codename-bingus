@@ -29,7 +29,7 @@ impl BingoItem {
 
 		for p in example_paths {
 			let mut f = File::open(p?.path())?;
-			ans.push(Self::from_ron_file(&mut f)?);
+			ans.push(Self::from_file(&mut f)?);
 		}
 
 		Ok(ans)
