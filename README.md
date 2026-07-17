@@ -1,11 +1,28 @@
 # Bingus
-![Bingus](/src/assets/bingus.svg)
+
+![Bingus](/src-tauri/icons/128x128@2x.png)
 Create, play, and share bingo boards designed about the places you travel!
 
+## Prerequisites
+
+**IMPORTANT:** Install `just` from its [repository](https://www.github.com/casey/just).
+
 ## How To Use
+
 Compile the program using:
+
 ```bash
 just run
 ```
 
-Create a board by clicking the "Get Started" button and enter the spots you want.
+Create a bingo board by clicking the "Get Started" button and enter the tiles you want into your bingo board.
+**NOTE**: Bingo board projects must have _at least_ 25 tiles to be able to make a board.
+
+## Contributors:
+
+The original contributors to the repository are:
+
+- [Alex Janninck](https://www.github.com/Kerbidiah/)
+- [Zayaan Saleem](https://www.github.com/zsaleem8/)
+- [Nathaniel Farrell](https://www.github.com/nfarrell2/)
+- [Devin Bell](https://www.github.com/devinpbell/)
