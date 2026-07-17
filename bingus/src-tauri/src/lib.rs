@@ -1,3 +1,4 @@
+pub mod auto_serde;
 pub mod bingo;
 
 use crate::bingo::board::commands::generate_dummy_bingo_board;

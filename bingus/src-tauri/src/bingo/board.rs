@@ -6,7 +6,7 @@ use fake::{Fake, faker};
 
 use rand::prelude::*;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct BingoBoard {
 	pub city: String,
 	pub items: Vec<BingoItem>,
@@ -28,22 +28,6 @@ impl BingoBoard {
 			city: faker::address::de_de::CityName().fake(),
 			items: items,
 		}
-	}
-
-	/// Serialize to RON format
-	pub fn to_ron(&self) -> anyhow::Result<String> {
-		// I could probably make this into a trait.... too much work
-
-		// this looks a little weird, but it to convert from ron::result to anyhow::result
-		// anyhow result is awesome and lets us mix all the errors into 1 type
-		Ok(ron::to_string(self)?)
-	}
-
-	/// Deserialize from RON format
-	pub fn from_ron(input: &str) -> anyhow::Result<Self> {
-		// this looks a little weird, but it to convert from ron::result to anyhow::result
-		// anyhow result is awesome and lets us mix all the errors into 1 type
-		Ok(ron::from_str(input)?)
 	}
 }
 
