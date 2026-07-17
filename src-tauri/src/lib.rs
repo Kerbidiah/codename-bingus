@@ -27,7 +27,7 @@ pub fn run() {
 		last_board: None
 	});
 
-	let mut f = File::create("../../examples/projects/TEST.BingoProject").unwrap();
+	let mut f = File::create("../examples/projects/TEST.BingoProject").unwrap();
 	bingo_proj.to_file(&mut f).unwrap();
 	
 	tauri::Builder::default()
