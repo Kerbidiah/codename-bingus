@@ -21,7 +21,7 @@ pub struct BingoItem {
 
 impl BingoItem {
 	pub fn vienna_samples() -> anyhow::Result<Vec<Self>> {
-		// TODO: rewrite to pure iterator based code for SPEED
+		// TODO: rewrite to pure iterator for SPEED
 
 		let example_paths: Vec<Result<DirEntry, io::Error>> =
 			fs::read_dir("../../examples/items/")?.collect(); // get list of files in examples/items directory
