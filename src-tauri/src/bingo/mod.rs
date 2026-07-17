@@ -6,13 +6,15 @@ pub mod project;
 
 use serde::{Deserialize, Serialize};
 
+use dirs;
+
 use crate::auto_serde::AutoSerde;
 use crate::bingo::play::PlayableBingo;
 use crate::bingo::project::BingoProject;
 
 use std::fs;
 use std::fs::File;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 #[non_exhaustive]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -21,13 +23,19 @@ pub enum BingoType {
 	Playable(PlayableBingo),
 }
 
-const BINGO_EDIT_STORE_PATH: &str = "~/bingus/edit/";
-const BINGO_PLAY_STORE_PATH: &str = "~/bingus/play/";
+const BINGO_EDIT_STORE_RELATIVE: &str = "bingus/edit/";
+const BINGO_PLAY_STORE_RELATIVE: &str = "bingus/play/";
+
+fn resolve_store_path(relative: &str) -> PathBuf {
+	let mut path = dirs::home_dir().expect("could not determine home directory");
+	path.push(relative);
+	path
+}
 
 #[tauri::command]
 pub fn get_bingos() -> Vec<BingoType> {
-	let path_edit = Path::new(BINGO_EDIT_STORE_PATH);
-	let path_play = Path::new(BINGO_PLAY_STORE_PATH);
+	let path_edit = resolve_store_path(BINGO_EDIT_STORE_RELATIVE);
+	let path_play = resolve_store_path(BINGO_PLAY_STORE_RELATIVE);
 
 	let edit_files: Vec<BingoProject> = fs::read_dir(path_edit)
 		.unwrap()
