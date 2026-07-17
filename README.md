@@ -1,6 +1,7 @@
 # Bingus
 
 ![Bingus](/src-tauri/icons/128x128@2x.png)
+
 Create, play, and share bingo boards designed about the places you travel!
 
 ## Prerequisites
@@ -16,6 +17,7 @@ just run
 ```
 
 Create a bingo board by clicking the "Get Started" button and enter the tiles you want into your bingo board.
+
 **NOTE**: Bingo board projects must have _at least_ 25 tiles to be able to make a board.
 
 ## Contributors:
