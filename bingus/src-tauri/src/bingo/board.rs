@@ -6,7 +6,7 @@ use fake::{Fake, faker};
 
 use rand::prelude::*;
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct BingoBoard {
 	pub city: String,
 	pub items: Vec<BingoItem>,
@@ -16,9 +16,10 @@ impl BingoBoard {
 	/// generate a dummy bingo board with 25 randomly selected and ordered items
 	pub fn dummy() -> Self {
 		// TODO: error handling!!!!
-		
+
 		let mut rng = rand::rng();
-		let items: Vec<BingoItem> = BingoItem::vienna_samples().unwrap()
+		let items: Vec<BingoItem> = BingoItem::vienna_samples()
+			.unwrap()
 			.sample(&mut rng, 25)
 			.cloned()
 			.collect();
