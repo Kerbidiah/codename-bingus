@@ -23,10 +23,10 @@ pub enum BingoType {
 	Playable(PlayableBingo),
 }
 
-const BINGO_EDIT_STORE_RELATIVE: &str = "bingus/edit/";
-const BINGO_PLAY_STORE_RELATIVE: &str = "bingus/play/";
+const BINGO_EDIT_PATH: &str = "bingus/edit/";
+const BINGO_PLAY_PATH: &str = "bingus/play/";
 
-fn resolve_store_path(relative: &str) -> PathBuf {
+fn resolve_path(relative: &str) -> PathBuf {
 	let mut path = dirs::home_dir().expect("could not determine home directory");
 	path.push(relative);
 	path
@@ -34,8 +34,8 @@ fn resolve_store_path(relative: &str) -> PathBuf {
 
 #[tauri::command]
 pub fn get_bingos() -> Vec<BingoType> {
-	let path_edit = resolve_store_path(BINGO_EDIT_STORE_RELATIVE);
-	let path_play = resolve_store_path(BINGO_PLAY_STORE_RELATIVE);
+	let path_edit = resolve_path(BINGO_EDIT_PATH);
+	let path_play = resolve_path(BINGO_PLAY_PATH);
 
 	let edit_files: Vec<BingoProject> = fs::read_dir(path_edit)
 		.unwrap()
@@ -57,6 +57,7 @@ pub fn get_bingos() -> Vec<BingoType> {
 	edit_files
 		.iter()
 		.for_each(|project| ans.push(BingoType::Editable(project.clone())));
+
 	play_files
 		.iter()
 		.for_each(|play| ans.push(BingoType::Playable(play.clone())));
