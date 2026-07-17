@@ -1,7 +1,11 @@
-# Tauri + Vanilla
+# Bingus
+![Bingus](/src/assets/bingus.svg)
+Create, play, and share bingo boards designed about the places you travel!
 
-This template should help get you started developing with Tauri in vanilla HTML, CSS and Javascript.
+## How To Use
+Compile the program using:
+```bash
+just run
+```
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+Create a board by clicking the "Get Started" button and enter the spots you want.
