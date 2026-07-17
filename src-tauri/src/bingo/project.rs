@@ -10,7 +10,7 @@ pub struct BingoProject {
 	pub title: String,
 	pub city: String,
 	pub items: Vec<BingoItem>,
-	pub last_board: Option<BingoBoard>
+	pub last_board: Option<BingoBoard>,
 }
 
 impl BingoProject {

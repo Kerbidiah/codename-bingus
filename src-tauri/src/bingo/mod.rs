@@ -29,13 +29,15 @@ pub fn get_bingos() -> Vec<BingoType> {
 	let path_edit = Path::new(BINGO_EDIT_STORE_PATH);
 	let path_play = Path::new(BINGO_PLAY_STORE_PATH);
 
-	let edit_files: Vec<BingoProject> = fs::read_dir(path_edit).unwrap()
+	let edit_files: Vec<BingoProject> = fs::read_dir(path_edit)
+		.unwrap()
 		.filter_map(|res| res.ok().map(|dir| File::open(dir.path())))
 		.filter_map(|f| f.ok().map(|x| x)) // filter out Errors and extract the value out of Oks
 		.map(|mut f| BingoProject::from_file(&mut f))
 		.filter_map(|f| f.ok().map(|x| x)) // filter out Errors and extract the value out of Oks
 		.collect();
-	let play_files: Vec<PlayableBingo> = fs::read_dir(path_play).unwrap()
+	let play_files: Vec<PlayableBingo> = fs::read_dir(path_play)
+		.unwrap()
 		.filter_map(|res| res.ok().map(|dir| File::open(dir.path())))
 		.filter_map(|f| f.ok().map(|x| x)) // filter out Errors and extract the value out of Oks
 		.map(|mut f| PlayableBingo::from_file(&mut f))
@@ -44,8 +46,12 @@ pub fn get_bingos() -> Vec<BingoType> {
 
 	let mut ans = Vec::with_capacity(edit_files.len() + play_files.len());
 
-	edit_files.iter().for_each(|project| ans.push(BingoType::Editable(project.clone())));
-	play_files.iter().for_each(|play| ans.push(BingoType::Playable(play.clone())));
+	edit_files
+		.iter()
+		.for_each(|project| ans.push(BingoType::Editable(project.clone())));
+	play_files
+		.iter()
+		.for_each(|play| ans.push(BingoType::Playable(play.clone())));
 
 	ans
 }
