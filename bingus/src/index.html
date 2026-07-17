@@ -9,6 +9,14 @@
 			a {
 				cursor: pointer;
 			}
+			/* Prevents images from being draggable */
+			img {
+				-webkit-user-drag: none;
+				user-drag: none;
+				draggable = false;
+				pointer-events: auto;
+			}
+
 			/* DARK THEME (default) */
 			body{
 				--bg: #0b1220;
@@ -16,17 +24,17 @@
 
 				--nav-bg: rgba(11, 18, 32, 0.85);
 				--nav-border: rgba(255, 255, 255, 0.08);
-			
+
 				--link: #e8eefc;
 				--link-hover-bg: rgba(255, 255, 255, 0.08);
-			
+
 				--btn-text: #0b1220;
 				--btn-g1: #1dd3ff;
 				--btn-g2: #7cff5c;
 				--btn-shadow: rgba(92, 124, 255, 0.22);
 				--btn-shadow-2: rgba(92, 124, 255, 0.30);
 			}
-			
+
 			/* LIGHT THEME */
 			body.light{
 				--bg: #f6f7fb;
@@ -34,10 +42,10 @@
 
 				--nav-bg: rgba(246, 247, 251, 0.9);
 				--nav-border: rgba(15, 23, 42, 0.08);
-			
+
 				--link: #0f172a;
 				--link-hover-bg: rgba(15, 23, 42, 0.06);
-			
+
 				--btn-text: #0b1220;
 				--btn-g1: #56f6ff;
 				--btn-g2: #6fff5b;
@@ -51,7 +59,7 @@
 				background: var(--bg);
 				color: var(--text);
 			}
-			
+
 			.navigation{
 				position: sticky;
 				top: 0;
@@ -60,7 +68,7 @@
 				backdrop-filter: blur(10px);
 				border-bottom: 1px solid var(--nav-border);
 			}
-			
+
 			nav.navigation a{
 				color: var(--link);
 				text-decoration: none;
@@ -70,12 +78,12 @@
 				border-radius: 10px;
 				transition: background-color 160ms ease, transform 160ms ease;
 			}
-			
+
 			nav.navigation a:hover{
 				background: var(--link-hover-bg);
 				transform: translateY(-1px);
 			}
-			
+
 			#bingo-cards button{
 				appearance: none;
 				border: 0;
@@ -90,17 +98,17 @@
 				box-shadow: 0 12px 30px var(--btn-shadow);
 				transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
 			}
-			
+
 			#bingo-cards button:hover{
 				transform: translateY(-2px);
 				box-shadow: 0 16px 36px var(--btn-shadow-2);
 				filter: brightness(1.04);
 			}
-			
+
 			#bingo-cards button:active{
 				transform: translateY(0);
 			}
-			
+
 			/* Layout unchanged */
 			nav.navigation{
 				max-width: 1100px;
@@ -111,7 +119,7 @@
 				gap: 18px;
 				justify-content: center;
 			}
-			
+
 			nav.navigation a#dark-mode{
 				margin-left: auto;
 				padding: 8px;
@@ -119,7 +127,7 @@
 				align-items: center;
 				justify-content: center;
 			}
-			
+
 			nav.navigation a#dark-mode img{
 				width: 22px;
 				height: 22px;
@@ -154,7 +162,7 @@
 				const toggle = document.getElementById('dark-mode');
 				const theme_img = document.getElementById('theme-img');
 				const editable_img = Array.from(document.getElementsByClassName('editable'));
-				
+
 				const ICON_LIGHT = '/assets/enable-light-mode.svg';
 				const ICON_DARK  = '/assets/enable-dark-mode.svg';
 
@@ -179,7 +187,7 @@
 					const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
 					setTheme(prefersLight ? 'light' : 'dark');
 				}
-				
+
 				toggle.addEventListener('click', (e) => {
 					e.preventDefault(); // prevents jumping due to href
 					const next = document.body.classList.contains('light') ? 'dark' : 'light';
@@ -197,17 +205,27 @@
 				const card_name = document.createElement('a');
 				card_name.textContent = name;
 				name_wrapper.appendChild(card_name);
-				
+
 				const button_wrapper = document.createElement('div');
 				button_wrapper.className = "button-wrapper";
 				if (owner === true) {
+					// TODO: Handle routing the user to the proper board (all items screen)
 					const edit_anchor = document.createElement('a');
 					const edit_img = document.createElemnt('img');
-					const IMAGE = '/assets/editable-board-dark.svg'
+					const EDIT_ICON_PATH = '/assets/editable-board-dark.svg'
+					edit_img.src = EDIT_ICON_PATH;
+					edit_anchor.appendChild(edit_img);
 					
 					button_wrapper.appendChild(edit_anchor);
 				}
-				
+				// TODO: Handle routing the user to the proper board (play)
+				const play_anchor = document.createElemnt('a');
+				const play_img = document.createElement('img');
+				const PLAY_ICON_PATH = '/assets/play-board.svg';
+				play_img.src = PLAY_ICON_PATH;
+				play_anchor = appendChild(play_img);
+
+				button_wrapper.appendChild(play_anchor);
 				card_wrapper.appendChild(name_wrapper);
 				card_wrapper.appendChild(button_wrapper);
 			}
