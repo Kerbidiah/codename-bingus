@@ -1,668 +1,668 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Generate Bingo Board</title>
-        <!-- Styles taken from https://people.cs.gmu.edu/~rpettit/vienna_bingo_2026.html -->
-        <style>
-            * {
-                box-sizing: border-box;
-            }
-            body {
-                margin: 0;
-                padding: 12px;
-                background: #f0f4f0;
-                font-family: Arial, Helvetica, sans-serif;
-            }
-            .card {
-                max-width: 720px;
-                margin: 0 auto;
-                border-collapse: collapse;
-                border: 3px solid #1a4a2e;
-                width: 100%;
-            }
-            /* Header */
-            .card-header {
-                background-color: #1a4a2e;
-                padding: 24px 20px 18px;
-                text-align: center;
-            }
-            .card-header .subtitle {
-                font-size: 10px;
-                color: #e8c97a;
-                margin: 0 0 4px 0;
-            }
-            .card-header h1 {
-                font-family: Georgia, "Times New Roman", serif;
-                font-size: clamp(32px, 8vw, 48px);
-                color: #ffffff;
-                line-height: 1;
-                margin: 0;
-            }
-            .card-header h1 span {
-                color: #c9a84c;
-            }
-            .card-header .tagline {
-                font-size: 10px;
-                color: #e8c97a;
-                margin: 6px 0 0 0;
-            }
-            .card-header .rule {
-                margin: 8px auto 0;
-                width: 50px;
-                height: 2px;
-                background-color: #c9a84c;
-            }
-            .card-header .rule #generate {
-                margin: 0px auto 0;
-                width: 60 px;
-                heigh: 3 px;
-                background-color: #c9a84c;
-            }
-            /* BINGO column headers */
-            .bingo-header {
-                background-color: #2d6e47;
-            }
-            .bingo-header table {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            .bingo-header td {
-                width: 20%;
-                padding: 10px 4px;
-                text-align: center;
-                font-family: Georgia, "Times New Roman", serif;
-                font-size: clamp(18px, 5vw, 26px);
-                color: #c9a84c;
-            }
-            .bingo-header td:not(:last-child) {
-                border-right: 1px solid rgba(255, 255, 255, 0.15);
-            }
-            /* Grid */
-            .grid-wrapper {
-                padding: 0;
-            }
-            .grid {
-                width: 100%;
-                border-collapse: collapse;
-            }
-            .grid td {
-                width: 20%;
-                border-right: 1px solid #c8d8c8;
-                border-bottom: 1px solid #c8d8c8;
-                padding: 8px 5px;
-                text-align: center;
-                vertical-align: middle;
-                height: 90px;
-            }
-            .grid td:last-child {
-                border-right: none;
-            }
-            .grid tr:nth-child(odd) td {
-                background-color: #ffffff;
-            }
-            .grid tr:nth-child(even) td {
-                background-color: #f7fbf8;
-            }
-            .grid td a {
-                text-decoration: none;
-                display: block;
-            }
-            .grid td a .icon {
-                font-size: 18px;
-                display: block;
-                margin-bottom: 4px;
-            }
-            .grid td a .label {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: clamp(9px, 1.8vw, 10.5px);
-                color: #1a4a2e;
-                line-height: 1.3;
-                display: block;
-            }
-            .grid td a .alt {
-                font-family: Arial, Helvetica, sans-serif;
-                font-size: clamp(8px, 1.6vw, 9px);
-                color: #6a6a6a;
-                font-style: italic;
-                margin-top: 3px;
-                display: block;
-            }
-            /* Footer */
-            .card-footer {
-                background-color: #1a4a2e;
-                padding: 14px 20px;
-                text-align: center;
-            }
-            .card-footer .badge {
-                display: inline-block;
-                background-color: #c9a84c;
-                color: #1a4a2e;
-                font-family: Georgia, "Times New Roman", serif;
-                font-size: 13px;
-                padding: 5px 16px;
-            }
-            .card-footer .note {
-                font-size: 11px;
-                color: #e8c97a;
-                margin: 6px 0 0 0;
-            }
-            /* Instructions box */
-            .instructions {
-                max-width: 720px;
-                margin: 24px auto 0;
-                border-collapse: collapse;
-                border: 1px solid #d4e4d4;
-                width: 100%;
-            }
-            .instructions td.accent {
-                width: 4px;
-                background-color: #2d6e47;
-                padding: 0;
-            }
-            .instructions td.body {
-                padding: 18px 20px;
-                background-color: #ffffff;
-            }
-            .instructions h2 {
-                font-family: Georgia, "Times New Roman", serif;
-                font-size: 17px;
-                color: #1a4a2e;
-                margin: 0 0 10px 0;
-                font-weight: normal;
-            }
-            .instructions p {
-                font-size: 13px;
-                color: #2c2c2c;
-                line-height: 1.7;
-                margin: 0 0 8px 0;
-            }
-            .instructions p:last-child {
-                margin-bottom: 0;
-            }
-            .instructions .tip {
-                font-size: 11px;
-                color: #666;
-                font-style: italic;
-                margin: 10px 0 0 0;
-                padding-top: 10px;
-                border-top: 1px solid #e8e8e8;
-            }
-            /* Mobile tweaks */
-            @media (max-width: 480px) {
-                body {
-                    padding: 8px;
-                }
-                .grid td {
-                    height: 70px;
-                    padding: 5px 3px;
-                }
-                .card-header {
-                    padding: 16px 12px 12px;
-                }
-                .instructions td.body {
-                    padding: 14px;
-                }
-            }
-        </style>
-    </head>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Generate Bingo Board</title>
+		<!-- Styles taken from https://people.cs.gmu.edu/~rpettit/vienna_bingo_2026.html -->
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+				padding: 12px;
+				background: #f0f4f0;
+				font-family: Arial, Helvetica, sans-serif;
+			}
+			.card {
+				max-width: 720px;
+				margin: 0 auto;
+				border-collapse: collapse;
+				border: 3px solid #1a4a2e;
+				width: 100%;
+			}
+			/* Header */
+			.card-header {
+				background-color: #1a4a2e;
+				padding: 24px 20px 18px;
+				text-align: center;
+			}
+			.card-header .subtitle {
+				font-size: 10px;
+				color: #e8c97a;
+				margin: 0 0 4px 0;
+			}
+			.card-header h1 {
+				font-family: Georgia, "Times New Roman", serif;
+				font-size: clamp(32px, 8vw, 48px);
+				color: #ffffff;
+				line-height: 1;
+				margin: 0;
+			}
+			.card-header h1 span {
+				color: #c9a84c;
+			}
+			.card-header .tagline {
+				font-size: 10px;
+				color: #e8c97a;
+				margin: 6px 0 0 0;
+			}
+			.card-header .rule {
+				margin: 8px auto 0;
+				width: 50px;
+				height: 2px;
+				background-color: #c9a84c;
+			}
+			.card-header .rule #generate {
+				margin: 0px auto 0;
+				width: 60 px;
+				heigh: 3 px;
+				background-color: #c9a84c;
+			}
+			/* BINGO column headers */
+			.bingo-header {
+				background-color: #2d6e47;
+			}
+			.bingo-header table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+			.bingo-header td {
+				width: 20%;
+				padding: 10px 4px;
+				text-align: center;
+				font-family: Georgia, "Times New Roman", serif;
+				font-size: clamp(18px, 5vw, 26px);
+				color: #c9a84c;
+			}
+			.bingo-header td:not(:last-child) {
+				border-right: 1px solid rgba(255, 255, 255, 0.15);
+			}
+			/* Grid */
+			.grid-wrapper {
+				padding: 0;
+			}
+			.grid {
+				width: 100%;
+				border-collapse: collapse;
+			}
+			.grid td {
+				width: 20%;
+				border-right: 1px solid #c8d8c8;
+				border-bottom: 1px solid #c8d8c8;
+				padding: 8px 5px;
+				text-align: center;
+				vertical-align: middle;
+				height: 90px;
+			}
+			.grid td:last-child {
+				border-right: none;
+			}
+			.grid tr:nth-child(odd) td {
+				background-color: #ffffff;
+			}
+			.grid tr:nth-child(even) td {
+				background-color: #f7fbf8;
+			}
+			.grid td a {
+				text-decoration: none;
+				display: block;
+			}
+			.grid td a .icon {
+				font-size: 18px;
+				display: block;
+				margin-bottom: 4px;
+			}
+			.grid td a .label {
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: clamp(9px, 1.8vw, 10.5px);
+				color: #1a4a2e;
+				line-height: 1.3;
+				display: block;
+			}
+			.grid td a .alt {
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: clamp(8px, 1.6vw, 9px);
+				color: #6a6a6a;
+				font-style: italic;
+				margin-top: 3px;
+				display: block;
+			}
+			/* Footer */
+			.card-footer {
+				background-color: #1a4a2e;
+				padding: 14px 20px;
+				text-align: center;
+			}
+			.card-footer .badge {
+				display: inline-block;
+				background-color: #c9a84c;
+				color: #1a4a2e;
+				font-family: Georgia, "Times New Roman", serif;
+				font-size: 13px;
+				padding: 5px 16px;
+			}
+			.card-footer .note {
+				font-size: 11px;
+				color: #e8c97a;
+				margin: 6px 0 0 0;
+			}
+			/* Instructions box */
+			.instructions {
+				max-width: 720px;
+				margin: 24px auto 0;
+				border-collapse: collapse;
+				border: 1px solid #d4e4d4;
+				width: 100%;
+			}
+			.instructions td.accent {
+				width: 4px;
+				background-color: #2d6e47;
+				padding: 0;
+			}
+			.instructions td.body {
+				padding: 18px 20px;
+				background-color: #ffffff;
+			}
+			.instructions h2 {
+				font-family: Georgia, "Times New Roman", serif;
+				font-size: 17px;
+				color: #1a4a2e;
+				margin: 0 0 10px 0;
+				font-weight: normal;
+			}
+			.instructions p {
+				font-size: 13px;
+				color: #2c2c2c;
+				line-height: 1.7;
+				margin: 0 0 8px 0;
+			}
+			.instructions p:last-child {
+				margin-bottom: 0;
+			}
+			.instructions .tip {
+				font-size: 11px;
+				color: #666;
+				font-style: italic;
+				margin: 10px 0 0 0;
+				padding-top: 10px;
+				border-top: 1px solid #e8e8e8;
+			}
+			/* Mobile tweaks */
+			@media (max-width: 480px) {
+				body {
+					padding: 8px;
+				}
+				.grid td {
+					height: 70px;
+					padding: 5px 3px;
+				}
+				.card-header {
+					padding: 16px 12px 12px;
+				}
+				.instructions td.body {
+					padding: 14px;
+				}
+			}
+		</style>
+	</head>
 
-    <body>
-        <!-- Bingo Card -->
-        <table class="card" cellspacing="0" cellpadding="0">
-            <tbody>
-                <tr>
-                    <td class="card-header">
-                        <p class="subtitle">
-                            <!--GMU Software Engineering Abroad · Summer 2026-->
-                        </p>
-                        <h1>
-                            <div id="city">Vienna </div>
-                            <span>Bingo</span>
-                        </h1>
-                        <p class="tagline">
-                            <!-- Explore · Discover · Experience -->
-                        </p>
-                        <div class="rule">
-                            <button id="generate">
-                                Generate Board
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="bingo-header">
-                        <table cellspacing="0" cellpadding="0">
-                            <tbody>
-                                <tr>
-                                    <td>B</td>
-                                    <td>I</td>
-                                    <td>N</td>
-                                    <td>G</td>
-                                    <td>O</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="grid-wrapper">
-                        <table class="grid" cellspacing="0" cellpadding="0">
-                            <tbody id="rows">
-                                <tr>
-                                    <td>
-                                        <a
-                                            href="https://www.wien.info/en/dine-drink/viennese-cuisine/hot-dog-stands-348128"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🌭</span>
-                                            <span class="label"
-                                                >Eat a Käsekrainer</span
-                                            >
-                                            <span class="alt"
-                                                >or a döner / falafel wrap</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.wien.info/en/art-culture/music-stage-shows/strauss-monument-360274"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🎻</span>
-                                            <span class="label"
-                                                >Find the golden Strauss</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.wien.info/en/dine-drink/markets/yppenplatz-restaurants-366538"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🫙</span>
-                                            <span class="label"
-                                                >Sample food at the
-                                                Brunnenmarkt</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.albertina.at/en/exhibitions/monet-to-picasso/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🎨</span>
-                                            <span class="label"
-                                                >Visit the ‘Woman in a Green
-                                                Hat’</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.wien.gv.at/en/transportation/diversity-themed-traffic-lights"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🚦</span>
-                                            <span class="label"
-                                                >Discover a diversity-themed
-                                                traffic light</span
-                                            >
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a
-                                            href="https://www.haus-des-meeres.at/en/zoo/puppigeschichte"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🐢</span>
-                                            <span class="label"
-                                                >Visit the turtles at Haus des
-                                                Meeres</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.visitingvienna.com/eatingdrinking/food/coffee-glossary/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">☕</span>
-                                            <span class="label"
-                                                >Drink an einspanner or mélange
-                                                in a traditional coffee
-                                                house</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.visitingvienna.com/footsteps/beethovens-grave/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🎹</span>
-                                            <span class="label"
-                                                >Find Beethoven’s grave</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.visitingvienna.com/eatingdrinking/food/wiener-schnitzel/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🍽️</span>
-                                            <span class="label"
-                                                >Enjoy a schnitzel</span
-                                            >
-                                            <span class="alt"
-                                                >or Käsespätzle</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://wienerriesenrad.com/en/home-2/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🎡</span>
-                                            <span class="label"
-                                                >Ride the Riesenrad at the
-                                                Prater</span
-                                            >
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a
-                                            href="https://www.wien.info/en/art-culture/museums-exhibitions/top-museums/mq/mq-furniture-352568"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🛋️</span>
-                                            <span class="label"
-                                                >Lounge on an Enzi at the
-                                                MQ</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.visitingvienna.com/sights/winter-palace/volksgarten/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🌹</span>
-                                            <span class="label"
-                                                >Smell a rose in the
-                                                Volksgarten</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.wien.info/en/see-do/discover-vienna/tours-guides/fiaker-horse-drawn-carriage-345894"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🐎</span>
-                                            <span class="label"
-                                                >Spot a Fiaker on the
-                                                Ringstraße</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.wien.info/en/see-do/sights-from-a-to-z/st-stephens-cathedral-359690"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">⛪</span>
-                                            <span class="label"
-                                                >Go inside Stephansdom</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.visitingvienna.com/footsteps/otto-wagner-in-vienna/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🏛️</span>
-                                            <span class="label"
-                                                >Visit an Otto Wagner site</span
-                                            >
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a
-                                            href="https://www.wien.info/en/livable-vienna/water-in-vienna/summer-at-old-danube-360430"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🌊</span>
-                                            <span class="label"
-                                                >Explore the Danube</span
-                                            >
-                                            <span class="alt"
-                                                >dip your toes, hit the beach,
-                                                or rent a boat</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://spittelberg.at/en/arts-and-crafts/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🛍️</span>
-                                            <span class="label"
-                                                >Discover the shops on
-                                                Spittelberggasse</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://almdudler.com/en/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🥤</span>
-                                            <span class="label"
-                                                >Drink an Almdudler</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.timetravel-vienna.at/en/the-history-of-the-original-mozartkugel/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🍫</span>
-                                            <span class="label"
-                                                >Eat a Mozartkugel</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.visitingvienna.com/sights/plague-column-pestsaule/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🏛️</span>
-                                            <span class="label"
-                                                >Visit the Pestsäule on the
-                                                Graben</span
-                                            >
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <a
-                                            href="https://www.zanoni.co.at/eiskarte/coppas/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🍦</span>
-                                            <span class="label"
-                                                >Cool off with Gelato</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.wienerwald.info/en/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🥾</span>
-                                            <span class="label"
-                                                >Take a hike in the Vienna Woods
-                                                or countryside</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.viennaconcerts.com/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🎭</span>
-                                            <span class="label"
-                                                >Attend a live performance</span
-                                            >
-                                            <span class="alt"
-                                                >concert, opera, Lipizzaner
-                                                show, etc.</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.visitingvienna.com/sights/karlskirche/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">⛪</span>
-                                            <span class="label"
-                                                >Admire Karlskirche’s
-                                                reflection</span
-                                            >
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="https://www.austria.info/en-gb/inspiration/day-trips-from-vienna/"
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="icon">🚂</span>
-                                            <span class="label"
-                                                >Take a side trip (other than
-                                                what’s included)</span
-                                            >
-                                            <span class="alt"
-                                                >Krems, Graz, Znojmo…</span
-                                            >
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="card-footer">
-                        <span class="badge"
-                            >Complete any 3 lines for full credit</span
-                        >
-                        <p class="note">
-                            Document each completed square with a photo or brief
-                            note
-                        </p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <script type="module">
-          const { invoke } = window.__TAURI__.core;
+	<body>
+		<!-- Bingo Card -->
+		<table class="card" cellspacing="0" cellpadding="0">
+			<tbody>
+				<tr>
+					<td class="card-header">
+						<p class="subtitle">
+							<!--GMU Software Engineering Abroad · Summer 2026-->
+						</p>
+						<h1>
+							<div id="city">Vienna</div>
+							<span>Bingo</span>
+						</h1>
+						<p class="tagline">
+							<!-- Explore · Discover · Experience -->
+						</p>
+						<div class="rule">
+							<button id="generate">Generate Board</button>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="bingo-header">
+						<table cellspacing="0" cellpadding="0">
+							<tbody>
+								<tr>
+									<td>B</td>
+									<td>I</td>
+									<td>N</td>
+									<td>G</td>
+									<td>O</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="grid-wrapper">
+						<table class="grid" cellspacing="0" cellpadding="0">
+							<tbody id="rows">
+								<tr>
+									<td>
+										<a
+											href="https://www.wien.info/en/dine-drink/viennese-cuisine/hot-dog-stands-348128"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🌭</span>
+											<span class="label"
+												>Eat a Käsekrainer</span
+											>
+											<span class="alt"
+												>or a döner / falafel wrap</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.wien.info/en/art-culture/music-stage-shows/strauss-monument-360274"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🎻</span>
+											<span class="label"
+												>Find the golden Strauss</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.wien.info/en/dine-drink/markets/yppenplatz-restaurants-366538"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🫙</span>
+											<span class="label"
+												>Sample food at the
+												Brunnenmarkt</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.albertina.at/en/exhibitions/monet-to-picasso/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🎨</span>
+											<span class="label"
+												>Visit the ‘Woman in a Green
+												Hat’</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.wien.gv.at/en/transportation/diversity-themed-traffic-lights"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🚦</span>
+											<span class="label"
+												>Discover a diversity-themed
+												traffic light</span
+											>
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<a
+											href="https://www.haus-des-meeres.at/en/zoo/puppigeschichte"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🐢</span>
+											<span class="label"
+												>Visit the turtles at Haus des
+												Meeres</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.visitingvienna.com/eatingdrinking/food/coffee-glossary/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">☕</span>
+											<span class="label"
+												>Drink an einspanner or mélange
+												in a traditional coffee
+												house</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.visitingvienna.com/footsteps/beethovens-grave/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🎹</span>
+											<span class="label"
+												>Find Beethoven’s grave</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.visitingvienna.com/eatingdrinking/food/wiener-schnitzel/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🍽️</span>
+											<span class="label"
+												>Enjoy a schnitzel</span
+											>
+											<span class="alt"
+												>or Käsespätzle</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://wienerriesenrad.com/en/home-2/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🎡</span>
+											<span class="label"
+												>Ride the Riesenrad at the
+												Prater</span
+											>
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<a
+											href="https://www.wien.info/en/art-culture/museums-exhibitions/top-museums/mq/mq-furniture-352568"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🛋️</span>
+											<span class="label"
+												>Lounge on an Enzi at the
+												MQ</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.visitingvienna.com/sights/winter-palace/volksgarten/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🌹</span>
+											<span class="label"
+												>Smell a rose in the
+												Volksgarten</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.wien.info/en/see-do/discover-vienna/tours-guides/fiaker-horse-drawn-carriage-345894"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🐎</span>
+											<span class="label"
+												>Spot a Fiaker on the
+												Ringstraße</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.wien.info/en/see-do/sights-from-a-to-z/st-stephens-cathedral-359690"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">⛪</span>
+											<span class="label"
+												>Go inside Stephansdom</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.visitingvienna.com/footsteps/otto-wagner-in-vienna/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🏛️</span>
+											<span class="label"
+												>Visit an Otto Wagner site</span
+											>
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<a
+											href="https://www.wien.info/en/livable-vienna/water-in-vienna/summer-at-old-danube-360430"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🌊</span>
+											<span class="label"
+												>Explore the Danube</span
+											>
+											<span class="alt"
+												>dip your toes, hit the beach,
+												or rent a boat</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://spittelberg.at/en/arts-and-crafts/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🛍️</span>
+											<span class="label"
+												>Discover the shops on
+												Spittelberggasse</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://almdudler.com/en/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🥤</span>
+											<span class="label"
+												>Drink an Almdudler</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.timetravel-vienna.at/en/the-history-of-the-original-mozartkugel/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🍫</span>
+											<span class="label"
+												>Eat a Mozartkugel</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.visitingvienna.com/sights/plague-column-pestsaule/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🏛️</span>
+											<span class="label"
+												>Visit the Pestsäule on the
+												Graben</span
+											>
+										</a>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<a
+											href="https://www.zanoni.co.at/eiskarte/coppas/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🍦</span>
+											<span class="label"
+												>Cool off with Gelato</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.wienerwald.info/en/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🥾</span>
+											<span class="label"
+												>Take a hike in the Vienna Woods
+												or countryside</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.viennaconcerts.com/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🎭</span>
+											<span class="label"
+												>Attend a live performance</span
+											>
+											<span class="alt"
+												>concert, opera, Lipizzaner
+												show, etc.</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.visitingvienna.com/sights/karlskirche/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">⛪</span>
+											<span class="label"
+												>Admire Karlskirche’s
+												reflection</span
+											>
+										</a>
+									</td>
+									<td>
+										<a
+											href="https://www.austria.info/en-gb/inspiration/day-trips-from-vienna/"
+											target="_blank"
+											rel="noopener"
+										>
+											<span class="icon">🚂</span>
+											<span class="label"
+												>Take a side trip (other than
+												what’s included)</span
+											>
+											<span class="alt"
+												>Krems, Graz, Znojmo…</span
+											>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="card-footer">
+						<span class="badge"
+							>Complete any 3 lines for full credit</span
+						>
+						<p class="note">
+							Document each completed square with a photo or brief
+							note
+						</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<script type="module">
+			const { invoke } = window.__TAURI__.core;
 
-          // Changes the title based on the city name
-          const city = document.getElementById("city");
+			// Changes the title based on the city name
+			const city = document.getElementById("city");
 
-          // Gets the generated bingo board from the backend
-          async function generate_board() {
-          	const dummy_bingo_board_object = await invoke('generate_dummy_bingo_board');
-           	const board = dummy_bingo_board_object.items;
-            const rows = document.getElementById('rows');
-            city.textContent = dummy_bingo_board_object.city;	
-            rows.innerHTML = ' ';
+			// Gets the generated bingo board from the backend
+			async function generate_board() {
+				const dummy_bingo_board_object = await invoke(
+					"generate_dummy_bingo_board",
+				);
+				const board = dummy_bingo_board_object.items;
+				const rows = document.getElementById("rows");
+				city.textContent = dummy_bingo_board_object.city;
+				rows.innerHTML = " ";
 
-            let tr = null;
-            // Creates the rows of the Bingo Board
-            for (let i = 0; i < board.length; i++) {
-            	if (i % Math.sqrt(board.length) === 0) {
-            		tr = document.createElement('tr')
-             	} 
-             	
-              	const td = document.createElement('td');
-               	const url = document.createElement('a');
-                const emoji = document.createElement('span');
-                const title = document.createElement('span');
-                const short_description = document.createElement('span');
+				let tr = null;
+				// Creates the rows of the Bingo Board
+				for (let i = 0; i < board.length; i++) {
+					if (i % Math.sqrt(board.length) === 0) {
+						tr = document.createElement("tr");
+					}
 
-                emoji.className = "icon";
-                title.className = "label";
-                short_description.className = "alt";
+					const td = document.createElement("td");
+					const url = document.createElement("a");
+					const emoji = document.createElement("span");
+					const title = document.createElement("span");
+					const short_description = document.createElement("span");
 
-                let elem = board[i];
-                url.href = elem.url;
-                url.target = "_blank"
-                url.rel = "noopener"
+					emoji.className = "icon";
+					title.className = "label";
+					short_description.className = "alt";
 
-                emoji.textContent = elem.emoji;
-                title.textContent = elem.title;
-                short_description.textContent = elem.short_description;
+					let elem = board[i];
+					url.href = elem.url;
+					url.target = "_blank";
+					url.rel = "noopener";
 
-                url.appendChild(emoji);
-                url.appendChild(title);
-                url.appendChild(short_description);
+					emoji.textContent = elem.emoji;
+					title.textContent = elem.title;
+					short_description.textContent = elem.short_description;
 
-                td.appendChild(url);
-                tr.appendChild(td);
-                rows.appendChild(tr);
-            }
-          }
+					url.appendChild(emoji);
+					url.appendChild(title);
+					url.appendChild(short_description);
 
-          const generate_button = document.getElementById('generate');
-          generate_button.addEventListener("click", () => {
-            generate_board();
-          });
-        </script>
-    </body>
+					td.appendChild(url);
+					tr.appendChild(td);
+					rows.appendChild(tr);
+				}
+			}
+
+			const generate_button = document.getElementById("generate");
+			generate_button.addEventListener("click", () => {
+				generate_board();
+			});
+		</script>
+	</body>
 </html>
