@@ -73,7 +73,7 @@ function draw_card(name, owner) {
 }
 let boards;
 try {
-	boards = await invoke("get_boards");
+	boards = await invoke('get_bingos');
 } catch (error) {
 	// If the function doesn't exist or it fails the boards should be empty
 	boards = [];
