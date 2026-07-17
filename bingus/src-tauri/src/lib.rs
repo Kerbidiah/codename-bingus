@@ -4,6 +4,7 @@ pub mod bingo;
 use crate::bingo::board::commands::generate_dummy_bingo_board;
 use crate::bingo::item::commands::example_bingo_items;
 use crate::bingo::project::commands::generate_random_board;
+use crate::bingo::get_bingos;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
@@ -20,6 +21,7 @@ pub fn run() {
 			generate_dummy_bingo_board,
 			generate_random_board,
 			example_bingo_items,
+			get_bingos,
 		])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");
