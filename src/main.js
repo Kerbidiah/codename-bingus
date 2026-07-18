@@ -71,26 +71,28 @@ function draw_card(name, owner) {
 	card_wrapper.appendChild(name_wrapper);
 	card_wrapper.appendChild(button_wrapper);
 }
-let boards;
-try {
-	boards = await invoke('get_bingos');
-} catch (error) {
-	// If the function doesn't exist or it fails the boards should be empty
-	boards = [];
-}
-if (boards.length === 0) {
-	const cards = document.getElementById("bingo-cards");
+if (window.location.pathname === "/index.html") {
+	let boards;
+	try {
+		boards = await invoke("get_bingos");
+	} catch (error) {
+		// If the function doesn't exist or it fails the boards should be empty
+		boards = [];
+	}
+	if (boards.length === 0) {
+		const cards = document.getElementById("bingo-cards");
 
-	const create_board_button = document.createElement("button");
-	create_board_button.id = "create-board";
-	create_board_button.textContent = "Get Started";
-	create_board_button.addEventListener("click", () => {
-		window.location.href = "editable-board/editable-board.html";
-	});
-	cards.appendChild(create_board_button);
-} else {
-	for (const elem in boards) {
-		// TODO: Render the cards of the boards.
-		draw_card(elem.city, elem.owner);
+		const create_board_button = document.createElement("button");
+		create_board_button.id = "create-board";
+		create_board_button.textContent = "Get Started";
+		create_board_button.addEventListener("click", () => {
+			window.location.href = "editable-board/editable-board.html";
+		});
+		cards.appendChild(create_board_button);
+	} else {
+		for (const elem in boards) {
+			// TODO: Render the cards of the boards.
+			draw_card(elem.city, elem.owner);
+		}
 	}
 }
