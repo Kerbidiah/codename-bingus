@@ -8,26 +8,41 @@ Create, play, and share bingo boards designed about the places you travel!
 
 ### Prerequisites
 
-Install `just` from your package manager:
+#### Rust/Cargo
 
-#### Homebrew
+First, install `rustup` via the following command if you're on macOS, Linux, or BSD
+
 ```bash
-brew install just
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-#### npm
+For Windows users, install it via `scoop` through the following command:
+
 ```bash
-npm install -g rust-just
+scoop install rustup
 ```
 
-#### Cargo
+#### Tauri
+
+Next, install `tauri` using `cargo` with the following command:
+
+```bash
+cargo install create-tauri-app --locked
+cargo install tauri-cli
+```
+
+#### Just
+
+Finally, install `just` with `cargo` using the following command:
+
 ```bash
 cargo install just
 ```
 
-*If your package manager is not listed, follow the instructions on the [repository](https://www.github.com/casey/just).*
+_If your package manager is not listed, follow the instructions on the [repository](https://www.github.com/casey/just)._
 
 ### Compilation
+
 Compile the program using:
 
 ```bash
