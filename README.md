@@ -25,8 +25,7 @@ npm install -g rust-just
 cargo install just
 ```
 
-#### Other
-Or install it from its [repository](https://www.github.com/casey/just).
+*If your package manager is not listed, follow the instructions on the [repository](https://www.github.com/casey/just).*
 
 ### Compilation
 Compile the program using:
@@ -37,7 +36,7 @@ just run
 
 Create a bingo board by clicking the "Get Started" button and enter the tiles you want into your bingo board.
 
-**NOTE**: Bingo board projects must have <u>at least</u> 25 tiles to be able to make a board.
+**NOTE**: Bingo board projects must have **at least** 25 tiles to be able to make a board.
 
 ## Contributors:
 
