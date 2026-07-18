@@ -1,15 +1,34 @@
-# Bingus
+# bingus
 
 ![Bingus](/src-tauri/icons/128x128@2x.png)
 
 Create, play, and share bingo boards designed about the places you travel!
 
-## Prerequisites
+## Installation
 
-**IMPORTANT:** Install `just` from its [repository](https://www.github.com/casey/just).
+### Prerequisites
 
-## How To Use
+Install `just` from your package manager:
 
+#### Homebrew
+```bash
+brew install just
+```
+
+#### npm
+```bash
+npm install -g rust-just
+```
+
+#### Cargo
+```bash
+cargo install just
+```
+
+#### Other
+Or install it from its [repository](https://www.github.com/casey/just).
+
+### Compilation
 Compile the program using:
 
 ```bash
@@ -18,7 +37,7 @@ just run
 
 Create a bingo board by clicking the "Get Started" button and enter the tiles you want into your bingo board.
 
-**NOTE**: Bingo board projects must have _at least_ 25 tiles to be able to make a board.
+**NOTE**: Bingo board projects must have <u>at least</u> 25 tiles to be able to make a board.
 
 ## Contributors:
 
