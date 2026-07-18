@@ -71,7 +71,11 @@ function draw_card(name, owner) {
 	card_wrapper.appendChild(name_wrapper);
 	card_wrapper.appendChild(button_wrapper);
 }
-if (window.location.pathname === "/index.html") {
+if (
+	window.location.pathname === "/" ||
+	window.location.pathname === "/index.html"
+) {
+	console.log("foo");
 	let boards;
 	try {
 		boards = await invoke("get_bingos");
