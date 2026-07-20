@@ -155,6 +155,119 @@
 				align-items: center;
 				padding: 10px;
 			}
+			/* Make ONLY the card border show (gradient) */
+			.card-wrapper{
+				position: relative;
+				border-radius: 18px;
+				padding: 18px;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 14px;
+
+				/* inner fill */
+				background: rgba(255,255,255,0.02);
+
+				/* Size of card */
+				width: 75vw;
+				max-width: 900px;
+				margin: 0 auto;
+			}
+
+			/* Gradient border drawn with a pseudo-element.
+				Inner content has no borders/outlines. */
+			.card-wrapper::before{
+				content: "";
+				position: absolute;
+				inset: 0;
+				border-radius: inherit;
+				padding: 1px; /* thickness of border */
+				background: linear-gradient(135deg,
+					var(--btn-g1),
+					var(--btn-g2)
+				);
+				-webkit-mask:
+				linear-gradient(#000 0 0) content-box,
+				linear-gradient(#000 0 0);
+				-webkit-mask-composite: xor;
+				mask-composite: exclude;
+				pointer-events: none;
+			}
+
+			/* Remove any outlines/borders from everything inside the card */
+			.name-wrapper,
+			.button-wrapper,
+			.card-title,
+			.card-city,
+			.card-wrapper a,
+			.action_buttons{
+				border: none !important;
+				outline: none !important;
+				box-shadow: none !important;
+			}
+
+			/* Layout for the text area */
+			.name-wrapper{
+				display: flex;
+				flex: 1 1 auto;
+				min-width: 0;
+			}
+
+			.name-wrapper a{
+				display: flex;
+				flex-direction: column;
+				gap: 2px;
+				text-decoration: none;
+				min-width: 0;
+			}
+
+			/* Title/city styling (no outlines/borders) */
+			.card-title{
+				color: rgba(255,255,255,0.86);
+				font-size: 14px;
+				font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+				text-decoration: underline;
+				letter-spacing: 0.2px;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			.card-city{
+				color: rgba(255,255,255,0.55);
+				font-size: 12px;
+				font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+
+			/* Buttons area */
+			.button-wrapper{
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				flex: 0 0 auto;
+			}
+
+			.button-wrapper a{
+				display: grid;
+				place-items: center;
+				width: 34px;
+				height: 34px;
+
+				/* no border/outline; just subtle background */
+				background: rgba(255,255,255,0.02);
+				border-radius: 11px;
+
+				text-decoration: none;
+			}
+
+			.action_buttons{
+				width: 21px;
+				height: 21px;
+				display: block;
+			}
 		</style>
 		<script src="main.js" type="module"></script>
 	</head>

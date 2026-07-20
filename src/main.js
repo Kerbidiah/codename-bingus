@@ -3,6 +3,7 @@ const { invoke } = window.__TAURI__.core;
 const toggle = document.getElementById("dark-mode");
 const theme_img = document.getElementById("theme-img");
 const editable_img = Array.from(document.getElementsByClassName("editable"));
+const cards = document.getElementById("bingo-cards");
 
 const ICON_LIGHT = "/assets/enable-light-mode.svg";
 const ICON_DARK = "/assets/enable-dark-mode.svg";
@@ -38,54 +39,67 @@ toggle.addEventListener("click", (e) => {
 });
 
 // Creates the card in the DOM
-function draw_card(name, owner) {
+function draw_card(title, city, owner) {
 	const card_wrapper = document.createElement("div");
-	card.className = "card-wrapper";
+	card_wrapper.className = "card-wrapper";
 
 	const name_wrapper = document.createElement("div");
 	name_wrapper.className = "name-wrapper";
-	const card_name = document.createElement("a");
-	card_name.textContent = name;
-	name_wrapper.appendChild(card_name);
+
+	const card_anchor = document.createElement("a");
+
+	const card_title = document.createElement("span");
+	card_title.className = "card-title";
+
+	const card_city = document.createElement("span");
+	card_city.className = "card-city";
+
+	card_title.textContent = title;
+	card_city.textContent = city;
+
+	card_anchor.appendChild(card_title);
+	card_anchor.appendChild(card_city);
+	name_wrapper.appendChild(card_anchor);
 
 	const button_wrapper = document.createElement("div");
 	button_wrapper.className = "button-wrapper";
 	if (owner === true) {
 		// TODO: Handle routing the user to the proper board (all items screen)
 		const edit_anchor = document.createElement("a");
-		const edit_img = document.createElemnt("img");
+		const edit_img = document.createElement("img");
 		const EDIT_ICON_PATH = "/assets/editable-board-dark.svg";
 		edit_img.src = EDIT_ICON_PATH;
+		edit_img.className = "action_buttons";
 		edit_anchor.appendChild(edit_img);
 
 		button_wrapper.appendChild(edit_anchor);
 	}
 	// TODO: Handle routing the user to the proper board (play)
-	const play_anchor = document.createElemnt("a");
+	const play_anchor = document.createElement("a");
 	const play_img = document.createElement("img");
 	const PLAY_ICON_PATH = "/assets/play-board.svg";
 	play_img.src = PLAY_ICON_PATH;
-	play_anchor = appendChild(play_img);
+	play_img.className = "action_buttons";
+	play_anchor.appendChild(play_img);
 
 	button_wrapper.appendChild(play_anchor);
 	card_wrapper.appendChild(name_wrapper);
 	card_wrapper.appendChild(button_wrapper);
+	cards.appendChild(card_wrapper);
 }
 if (
 	window.location.pathname === "/" ||
 	window.location.pathname === "/index.html"
 ) {
-	console.log("foo");
-	let boards;
+	let editable_boards; // Boards that are editable/playable
+	let playable_boards; // Boards that are only playable
 	try {
-		boards = await invoke("get_bingo_projects");
+		editable_boards = await invoke("get_bingo_projects");
 	} catch (error) {
-		// If the function doesn't exist or it fails the boards should be empty
-		boards = [];
+		// If the function doesn't exist or it fails the editable_boards should be empty
+		editable_boards = [];
 	}
-	if (boards.length === 0) {
-		const cards = document.getElementById("bingo-cards");
-
+	if (editable_boards.length === 0) {
 		const create_board_button = document.createElement("button");
 		create_board_button.id = "create-board";
 		create_board_button.textContent = "Get Started";
@@ -94,9 +108,8 @@ if (
 		});
 		cards.appendChild(create_board_button);
 	} else {
-		for (const elem in boards) {
-			// TODO: Render the cards of the boards.
-			draw_card(elem.city, elem.owner);
+		for (const elem of editable_boards) {
+			draw_card(elem.title, elem.city, true);
 		}
 	}
 }
