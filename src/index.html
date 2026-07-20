@@ -21,6 +21,7 @@
 			body{
 				--bg: #0b1220;
 				--text: #e8eefc;
+				--text-1: rgba(255,255,255,0.55);
 
 				--nav-bg: rgba(11, 18, 32, 0.85);
 				--nav-border: rgba(255, 255, 255, 0.08);
@@ -39,6 +40,7 @@
 			body.light{
 				--bg: #f6f7fb;
 				--text: #0f172a;
+				--text-1: rgba(0, 0, 0, 0.35);
 
 				--nav-bg: rgba(246, 247, 251, 0.9);
 				--nav-border: rgba(15, 23, 42, 0.08);
@@ -200,7 +202,8 @@
 			.card-title,
 			.card-city,
 			.card-wrapper a,
-			.action_buttons{
+			.play-button,
+			.edit-button {
 				border: none !important;
 				outline: none !important;
 				box-shadow: none !important;
@@ -223,7 +226,7 @@
 
 			/* Title/city styling (no outlines/borders) */
 			.card-title{
-				color: rgba(255,255,255,0.86);
+				color: var(--text);
 				font-size: 14px;
 				font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 				text-decoration: underline;
@@ -234,7 +237,7 @@
 			}
 
 			.card-city{
-				color: rgba(255,255,255,0.55);
+				color: var(--text-1);
 				font-size: 12px;
 				font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 				white-space: nowrap;
@@ -263,7 +266,8 @@
 				text-decoration: none;
 			}
 
-			.action_buttons{
+			.edit-button,
+			.play-button {
 				width: 21px;
 				height: 21px;
 				display: block;

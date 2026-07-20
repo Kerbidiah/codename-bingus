@@ -2,7 +2,7 @@ const { invoke } = window.__TAURI__.core;
 
 const toggle = document.getElementById("dark-mode");
 const theme_img = document.getElementById("theme-img");
-const editable_img = Array.from(document.getElementsByClassName("editable"));
+let editable_img; 
 const cards = document.getElementById("bingo-cards");
 
 const ICON_LIGHT = "/assets/enable-light-mode.svg";
@@ -10,9 +10,11 @@ const ICON_DARK = "/assets/enable-dark-mode.svg";
 
 // Changes the theme depending on the theme the user has
 function setTheme(theme) {
+	editable_img = Array.from(document.getElementsByClassName("edit-button"));
 	document.body.classList.toggle("light", theme === "light");
 	theme_img.src = theme === "light" ? ICON_DARK : ICON_LIGHT;
-	if (editable_img != null) {
+	if (editable_img != undefined) {
+		console.log(editable_img);
 		editable_img.forEach((img) => {
 			const dark_icon = "/assets/editable-board-dark.svg";
 			const light_icon = "/assets/editable-board-light.svg";
@@ -67,9 +69,9 @@ function draw_card(title, city, owner) {
 		// TODO: Handle routing the user to the proper board (all items screen)
 		const edit_anchor = document.createElement("a");
 		const edit_img = document.createElement("img");
-		const EDIT_ICON_PATH = "/assets/editable-board-dark.svg";
+		const EDIT_ICON_PATH = (saved === 'light') ? "/assets/editable-board-light.svg" : "/assets/editable-board-dark.svg";
 		edit_img.src = EDIT_ICON_PATH;
-		edit_img.className = "action_buttons";
+		edit_img.className = "edit-button";
 		edit_anchor.appendChild(edit_img);
 
 		button_wrapper.appendChild(edit_anchor);
@@ -79,7 +81,7 @@ function draw_card(title, city, owner) {
 	const play_img = document.createElement("img");
 	const PLAY_ICON_PATH = "/assets/play-board.svg";
 	play_img.src = PLAY_ICON_PATH;
-	play_img.className = "action_buttons";
+	play_img.className = "play-button";
 	play_anchor.appendChild(play_img);
 
 	button_wrapper.appendChild(play_anchor);
