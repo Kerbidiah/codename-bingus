@@ -2,14 +2,15 @@ pub mod auto_serde;
 pub mod bingo;
 
 use crate::bingo::board::commands::generate_dummy_bingo_board;
-use crate::bingo::get_bingos;
+use crate::bingo::{get_bingo_projects, get_bingo_games};
 use crate::bingo::item::commands::example_bingo_items;
 use crate::bingo::project::commands::generate_random_board;
 
-use crate::bingo::BingoType;
 use crate::bingo::item::BingoItem;
 use crate::bingo::project::BingoProject;
+
 use auto_serde::AutoSerde;
+
 use std::fs::File;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
@@ -30,6 +31,8 @@ pub fn run() {
 	let mut f = File::create("../examples/projects/TEST.BingoProject").unwrap();
 	bingo_proj.to_file(&mut f).unwrap();
 
+	dbg!(get_bingo_projects());
+
 	tauri::Builder::default()
 		.plugin(tauri_plugin_opener::init())
 		.invoke_handler(tauri::generate_handler![
@@ -37,7 +40,8 @@ pub fn run() {
 			generate_dummy_bingo_board,
 			generate_random_board,
 			example_bingo_items,
-			get_bingos,
+			get_bingo_projects,
+			get_bingo_games,
 		])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");
