@@ -20,12 +20,12 @@ fn greet(name: &str) -> String {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-	let bingo_proj = BingoType::Editable(BingoProject {
+	let bingo_proj = BingoProject {
 		title: "TEST".to_string(),
 		city: "Fuckin Linz Man".to_string(),
 		items: BingoItem::vienna_samples().unwrap(),
 		last_board: None,
-	});
+	};
 
 	let mut f = File::create("../examples/projects/TEST.BingoProject").unwrap();
 	bingo_proj.to_file(&mut f).unwrap();

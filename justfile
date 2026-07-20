@@ -16,7 +16,7 @@ clean:
 	cargo clean --manifest-path {{PATH}}
 
 dir_setup:
-	# mkdir ~/bingus
+	mkdir ~/bingus
 	mkdir ~/bingus/edit
 	mkdir ~/bingus/play
 	cp examples/projects/TEST.BingoProject ~/bingus/edit/TEST.BingoProject

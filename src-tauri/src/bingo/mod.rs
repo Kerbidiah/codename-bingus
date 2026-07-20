@@ -14,7 +14,7 @@ use crate::bingo::project::BingoProject;
 
 use std::fs;
 use std::fs::File;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 #[non_exhaustive]
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -42,6 +42,7 @@ pub fn get_bingos() -> Vec<BingoType> {
 		.filter_map(|res| res.ok().map(|dir| File::open(dir.path())))
 		.filter_map(|f| f.ok().map(|x| x)) // filter out Errors and extract the value out of Oks
 		.map(|mut f| BingoProject::from_file(&mut f))
+		.inspect(|x| {dbg!(&x);})
 		.filter_map(|f| f.ok().map(|x| x)) // filter out Errors and extract the value out of Oks
 		.collect();
 	let play_files: Vec<PlayableBingo> = fs::read_dir(path_play)
