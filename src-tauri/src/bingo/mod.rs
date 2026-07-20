@@ -42,7 +42,6 @@ pub fn get_bingos() -> Vec<BingoType> {
 		.filter_map(|res| res.ok().map(|dir| File::open(dir.path())))
 		.filter_map(|f| f.ok().map(|x| x)) // filter out Errors and extract the value out of Oks
 		.map(|mut f| BingoProject::from_file(&mut f))
-		.inspect(|x| {dbg!(&x);})
 		.filter_map(|f| f.ok().map(|x| x)) // filter out Errors and extract the value out of Oks
 		.collect();
 	let play_files: Vec<PlayableBingo> = fs::read_dir(path_play)
