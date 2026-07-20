@@ -31,8 +31,6 @@ pub fn run() {
 	let mut f = File::create("../examples/projects/TEST.BingoProject").unwrap();
 	bingo_proj.to_file(&mut f).unwrap();
 
-	dbg!(get_bingo_projects());
-
 	tauri::Builder::default()
 		.plugin(tauri_plugin_opener::init())
 		.invoke_handler(tauri::generate_handler![

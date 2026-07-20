@@ -78,7 +78,7 @@ if (
 	console.log("foo");
 	let boards;
 	try {
-		boards = await invoke("get_bingos");
+		boards = await invoke("get_bingo_projects");
 	} catch (error) {
 		// If the function doesn't exist or it fails the boards should be empty
 		boards = [];
