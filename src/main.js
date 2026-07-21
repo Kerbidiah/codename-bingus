@@ -102,7 +102,7 @@ if (
 		editable_boards = [];
 		playable_boards = [];
 	}
-	if (editable_boards.length === 0 || playable_boards.length === 0) {
+	if (editable_boards.length === 0 && playable_boards.length === 0) {
 		const create_board_button = document.createElement("button");
 		create_board_button.id = "create-board";
 		create_board_button.textContent = "Get Started";
