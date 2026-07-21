@@ -97,11 +97,12 @@ if (
 	let playable_boards; // Boards that are only playable
 	try {
 		editable_boards = await invoke("get_bingo_projects");
+		playable_boards - await invoke("get_bingo_games");
 	} catch (error) {
-		// If the function doesn't exist or it fails the editable_boards should be empty
 		editable_boards = [];
+		playable_boards = [];
 	}
-	if (editable_boards.length === 0) {
+	if (editable_boards.length === 0 || playable_boards.length === 0) {
 		const create_board_button = document.createElement("button");
 		create_board_button.id = "create-board";
 		create_board_button.textContent = "Get Started";
@@ -112,6 +113,9 @@ if (
 	} else {
 		for (const elem of editable_boards) {
 			draw_card(elem.title, elem.city, true);
+		}
+		for (const elem of playable_boards) {
+			draw_card(elem.title, elem_city, false);
 		}
 	}
 }
