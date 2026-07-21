@@ -2,7 +2,7 @@ const { invoke } = window.__TAURI__.core;
 
 const toggle = document.getElementById("dark-mode");
 const theme_img = document.getElementById("theme-img");
-let editable_img; 
+let editable_img;
 const cards = document.getElementById("bingo-cards");
 
 const ICON_LIGHT = "/assets/enable-light-mode.svg";
@@ -14,7 +14,6 @@ function setTheme(theme) {
 	document.body.classList.toggle("light", theme === "light");
 	theme_img.src = theme === "light" ? ICON_DARK : ICON_LIGHT;
 	if (editable_img != undefined) {
-		console.log(editable_img);
 		editable_img.forEach((img) => {
 			const dark_icon = "/assets/editable-board-dark.svg";
 			const light_icon = "/assets/editable-board-light.svg";
@@ -48,7 +47,7 @@ function draw_card(title, city, owner) {
 	const name_wrapper = document.createElement("div");
 	name_wrapper.className = "name-wrapper";
 
-	const card_anchor = document.createElement("a");
+	const card_anchor = document.createElement("div");
 
 	const card_title = document.createElement("span");
 	card_title.className = "card-title";
@@ -69,7 +68,10 @@ function draw_card(title, city, owner) {
 		// TODO: Handle routing the user to the proper board (all items screen)
 		const edit_anchor = document.createElement("a");
 		const edit_img = document.createElement("img");
-		const EDIT_ICON_PATH = (saved === 'light') ? "/assets/editable-board-light.svg" : "/assets/editable-board-dark.svg";
+		const EDIT_ICON_PATH =
+			saved === "light"
+				? "/assets/editable-board-light.svg"
+				: "/assets/editable-board-dark.svg";
 		edit_img.src = EDIT_ICON_PATH;
 		edit_img.className = "edit-button";
 		edit_anchor.appendChild(edit_img);
@@ -97,7 +99,7 @@ if (
 	let playable_boards; // Boards that are only playable
 	try {
 		editable_boards = await invoke("get_bingo_projects");
-		playable_boards - await invoke("get_bingo_games");
+		playable_boards - (await invoke("get_bingo_games"));
 	} catch (error) {
 		editable_boards = [];
 		playable_boards = [];
@@ -111,11 +113,28 @@ if (
 		});
 		cards.appendChild(create_board_button);
 	} else {
-		for (const elem of editable_boards) {
-			draw_card(elem.title, elem.city, true);
+		if (editable_boards != undefined) {
+			for (const elem of editable_boards) {
+				draw_card(elem.title, elem.city, true);
+			}
 		}
-		for (const elem of playable_boards) {
-			draw_card(elem.title, elem_city, false);
+		if (playable_boards != undefined) {
+			for (const elem of playable_boards) {
+				draw_card(elem.title, elem_city, false);
+			}
 		}
 	}
+	document.addEventListener("click", (e) => {
+		const button = e.target; // Gets either the edit/play buttons
+		const button_wrapper = e.target.closest(".button-wrapper"); 
+		if (!button_wrapper) return;
+		else {
+			localStorage.setItem("path", button_wrapper.id);
+			if (button.className === "edit-button") {
+				window.location.href = "./editable-board/board.html";
+			} else {
+				window.location.href = "./generate-board/generate-board.html";
+			}
+		}
+	});
 }
