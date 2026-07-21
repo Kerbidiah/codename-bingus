@@ -201,9 +201,7 @@
 			.button-wrapper,
 			.card-title,
 			.card-city,
-			.card-wrapper a,
-			.play-button,
-			.edit-button {
+			.card-wrapper a {
 				border: none !important;
 				outline: none !important;
 				box-shadow: none !important;
@@ -264,6 +262,11 @@
 				border-radius: 11px;
 
 				text-decoration: none;
+
+				/* Make buttons positionable for the pseudo border */
+				position: relative;
+				overflow: hidden;          /* keeps corners clean */
+				z-index: 0;                /* pseudo can sit behind content */
 			}
 
 			.edit-button,
@@ -271,6 +274,53 @@
 				width: 21px;
 				height: 21px;
 				display: block;
+			}
+
+			/* Gradient border on the button */
+			.button-wrapper a::before{
+				content: "";
+				position: absolute;
+				inset: 0;
+				border-radius: inherit;
+
+				padding: 1px; /* thickness */
+				background: linear-gradient(135deg, var(--btn-g1), var(--btn-g2));
+
+				/* mask to show only the border */
+				-webkit-mask:
+				linear-gradient(#000 0 0) content-box,
+				linear-gradient(#000 0 0);
+				-webkit-mask-composite: xor;
+				mask-composite: exclude;
+
+				pointer-events: none;
+				z-index: -1;
+				opacity: 0.9;
+				transition: opacity 160ms ease, filter 160ms ease;
+			}
+
+			/* Hover/focus response */
+			.button-wrapper a{
+				transition: background 160ms ease, transform 160ms ease;
+			}
+
+			.button-wrapper a:hover{
+				background: rgba(255,255,255,0.06);
+				transform: translateY(-1px);
+			}
+
+			.button-wrapper a:hover::before{
+				opacity: 1;
+				filter: brightness(1.15);
+			}
+
+			.button-wrapper a:focus-visible{
+				background: rgba(255,255,255,0.06);
+			}
+
+			.button-wrapper a:focus-visible::before{
+				opacity: 1;
+				filter: brightness(1.2);
 			}
 		</style>
 		<script src="main.js" type="module"></script>
