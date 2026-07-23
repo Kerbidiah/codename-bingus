@@ -50,12 +50,12 @@ pub mod commands {
 	}
 
 	#[tauri::command]
-	pub fn open_project(path: String) -> BingoBoard {
-		BingoBoard::open(path).unwrap()
+	pub fn open_project(path: String) -> BingoProject {
+		BingoProject::open(path).unwrap()
 	}
 
 	#[tauri::command]
-	pub fn save_project(path: String, obj: BingoBoard) {
+	pub fn save_project(path: String, obj: BingoProject) {
 		obj.write(path).unwrap();
 	}
 }
