@@ -27,8 +27,9 @@ const BINGO_PLAY_PATH: &str = "bingus/play/";
 
 fn resolve_path(relative: &str) -> PathBuf {
 	let mut path = dirs::home_dir().expect("could not determine home directory");
+	
 	path.push(relative);
-	path
+	dbg!(path)
 }
 
 #[tauri::command]
