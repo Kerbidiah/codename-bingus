@@ -94,16 +94,19 @@ if (
 	window.location.pathname === "/" ||
 	window.location.pathname === "/index.html"
 ) {
-	let editable_boards_metadata; // All metadata for boards that are editable/playable
-	let playable_boards_metadata; // All metadat for boards that are only playable
+	let editable_boards; // All metadata for boards that are editable/playable
+	let playable_boards; // All metadat for boards that are only playable
 	try {
-		editable_boards_metadata = await invoke("get_bingo_projects");
-		playable_boards_metadata = await invoke("get_bingo_games");
+		editable_boards = await invoke("get_bingo_projects");
+		playable_boards = await invoke("get_bingo_games");
 	} catch (error) {
-		editable_boards_metadata = [];
-		playable_boards_metadata = [];
+		editable_boards = [];
+		playable_boards = [];
 	}
-	if (editable_boards_metadata.length === 0 && playable_boards_metadata.length === 0) {
+	if (
+		editable_boards.length === 0 &&
+		playable_boards.length === 0
+	) {
 		const create_board_button = document.createElement("button");
 		create_board_button.id = "create-board";
 		create_board_button.textContent = "Get Started";
@@ -112,24 +115,22 @@ if (
 		});
 		cards.appendChild(create_board_button);
 	} else {
-		if (editable_boards_metadata != undefined) {
-			for (const elem of editable_boards_metadata) {
-				const items = elem[0];
-				const path = elem[1];
+		if (editable_boards != undefined) {
+			for (const elem of editable_boards) {
+				const [items, path] = elem;
 				draw_card(items.title, items.city, path, true);
 			}
 		}
-		if (playable_boards_metadata != undefined) {
-			for (const elem of playable_boards_metadata) {
-				const items = elem[0];
-				const path = elem[1];
+		if (playable_boards != undefined) {
+			for (const elem of playable_boards) {
+				const [items, path] = elem;
 				draw_card(items.title, items.city, path, false);
 			}
 		}
 	}
 	document.addEventListener("click", (e) => {
 		const button = e.target; // Gets either the edit/play buttons
-		const button_wrapper = e.target.closest(".button-wrapper"); 
+		const button_wrapper = e.target.closest(".button-wrapper");
 		if (!button_wrapper) return;
 		else {
 			localStorage.setItem("path", button_wrapper.id);
