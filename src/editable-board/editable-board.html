@@ -67,7 +67,6 @@
 			
 			/* Main content layout */
 			.body{
-			  min-height: calc(100vh - 60px);
 			  display: flex;
 			  flex-direction: column;
 			  justify-content: center;
@@ -156,6 +155,85 @@
                 background: rgba(77, 227, 255, 0.17);
             }
 
+            .button-box button {
+                --btn-g1: #4de3ff;
+                --btn-g2: #3b82f6;
+
+                position: relative;
+
+                width: 56px;
+                height: 56px;
+                margin: 8px 0;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                border: none;
+                border-radius: 14px;
+
+                background: rgba(255,255,255,0.03);
+                color: #e8eefc;
+
+                font-size: 1.6rem;
+                font-weight: bold;
+
+                cursor: pointer;
+            }
+
+            /* Gradient border */
+            .button-box button::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+
+                padding: 1px;
+                background: linear-gradient(135deg, var(--btn-g1), var(--btn-g2));
+
+                -webkit-mask:
+                    linear-gradient(#000 0 0) content-box,
+                    linear-gradient(#000 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+
+                pointer-events: none;
+                z-index: 0;
+
+                opacity: 0.9;
+                transition: opacity 160ms ease, filter 160ms ease;
+            }
+
+            /* Hover/focus */
+            .button-box button {
+                transition:
+                    background 160ms ease,
+                    transform 160ms ease;
+            }
+
+            .button-box button:hover {
+                background: rgba(255,255,255,0.06);
+                transform: translateY(-1px);
+            }
+
+            .button-box button:hover::before {
+                opacity: 1;
+                filter: brightness(1.15);
+            }
+
+            .button-box button:focus-visible {
+                background: rgba(255,255,255,0.06);
+            }
+
+            .button-box button:focus-visible::before {
+                opacity: 1;
+                filter: brightness(1.2);
+            }
+
+            .button-box button:active {
+                transform: translateY(1px);
+            }
+
 	    </style>
   	</head>
 
@@ -163,8 +241,8 @@
 	    <!-- Top navigation bar -->
         <div class="navigation">
 	    	<nav class="navigation">
-	     		<a href="#home" id="home">Home</a>
-				<a href="#about" id="about">About</a>
+	     		<a href="../index.html" id="home">Home</a>
+				<a href="../about/about.html" id="about">About</a>
 				<a href="#dark-mode" id="dark-mode">
 					<img src="../assets/enable-light-mode.svg" alt="Light Mode Selector"/>
 				</a>
