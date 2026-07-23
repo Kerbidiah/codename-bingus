@@ -16,7 +16,6 @@ use std::fs;
 use std::fs::File;
 use std::path::PathBuf;
 
-#[non_exhaustive]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum BingoType {
 	Editable(BingoProject),
@@ -33,15 +32,32 @@ fn resolve_path(relative: &str) -> PathBuf {
 }
 
 #[tauri::command]
-pub fn get_bingo_projects() -> Vec<BingoProject> {
+pub fn get_bingo_projects() -> Vec<(BingoProject, String)> {
 	let path_edit = resolve_path(BINGO_EDIT_PATH);
 
 	fs::read_dir(path_edit)
 		.unwrap()
-		.filter_map(|res| res.ok().map(|dir| File::open(dir.path())))
-		.filter_map(|f| f.ok().map(|x| x)) // filter out Errors and extract the value out of Oks
-		.map(|mut f| BingoProject::from_file(&mut f))
-		.filter_map(|f| f.ok().map(|x| x)) // filter out Errors and extract the value out of Oks
+		.filter_map(|res| {
+			res.ok().map(|dir| {
+				let p = dir.path();
+				(File::open(&p), p.to_str().unwrap().to_string())
+			})
+		})
+		.filter_map(|f| {
+			if f.0.is_ok() {
+				Some((f.0.unwrap(), f.1))
+			} else {
+				None
+			}
+		}) // filter out Errors and extract the value out of Oks
+		.map(|mut f| (BingoProject::from_file(&mut f.0), f.1))
+		.filter_map(|f| {
+			if f.0.is_ok() {
+				Some((f.0.unwrap(), f.1))
+			} else {
+				None
+			}
+		}) // filter out Errors and extract the value out of Oks
 		.collect()
 }
 
