@@ -1,1 +1,328 @@
-bla bla
+<!doctype html>
+<html lang="en">
+	<head>
+    	<meta charset="UTF-8"/>
+     	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      	<title>Bingus</title>
+	    <style>
+			/* Page baseline */
+			body{
+			  margin: 0;
+			  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+			  background: #0b1220;
+			  color: #e8eefc;
+			}
+			
+			/* Top navigation container */
+			.navigation{
+			  position: sticky;
+			  top: 0;
+			  z-index: 10;
+			  background: rgba(11, 18, 32, 0.85);
+			  backdrop-filter: blur(10px);
+			  border-bottom: 1px solid rgba(255,255,255,0.08);
+			}
+			
+			/* The nav itself */
+			nav.navigation{
+			  max-width: 1100px;
+			  margin: 0 auto;
+			  padding: 14px 18px;
+			  display: flex;
+			  align-items: center;
+			  gap: 18px;
+			}
+			
+			/* Nav links */
+			nav.navigation a{
+			  color: #e8eefc;
+			  text-decoration: none;
+			  font-weight: 600;
+			  letter-spacing: 0.2px;
+			  padding: 10px 12px;
+			  border-radius: 10px;
+			  transition: background-color 160ms ease, transform 160ms ease;
+			}
+			
+			nav.navigation a:hover{
+			  background: rgba(255,255,255,0.08);
+			  transform: translateY(-1px);
+			}
+			
+			/* Dark mode icon button link */
+			nav.navigation a#dark-mode{
+		  	  margin-left: auto;
+			  display: inline-flex;
+			  align-items: center;
+			  justify-content: center;
+			  padding: 8px;
+			}
+			
+			nav.navigation a#dark-mode img{
+			  width: 22px;
+			  height: 22px;
+			  display: block;
+			  align-self: right;
+			}
+			
+			/* Main content layout */
+			.body{
+			  min-height: calc(100vh - 60px);
+			  display: flex;
+			  flex-direction: column;
+			  justify-content: center;
+			  align-items: center;
+			  padding: 48px 18px;
+			  text-align: center;
+			}
+			
+			.title{
+			  font-size: clamp(2rem, 5vw, 3.25rem);
+			  margin: 0 0 18px;
+			  line-height: 1.05;
+			}
+
+            .button-box{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                padding: 10px;
+            }
+			
+			/* Item modals container */
+			.item-modals{
+                width: min(900px, 100%);
+			    display: grid;
+                grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+                align-items: stretch;
+                gap: 24px;
+			}
+
+            /* Bank values container */
+            .value-modal {
+                min-height: 430px;
+                padding: 22px;
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 28px;
+                background: rgba(255, 255, 255, 0.05);
+                box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+                overflow: hidden;
+            }
+
+            .value-modal h2 {
+                margin: 0 0 18px;
+                font-size: 1.2rem;
+                text-align: center;
+            }
+
+            .value-list {
+                min-height: 340px;
+                max-height: 430px;
+                margin: 0;
+                padding: 8px;
+                list-style: none;
+                overflow-y: auto;
+                border-radius: 18px;
+                background: rgba(0, 0, 0, 0.12);
+            }
+
+            .value-item {
+                margin-bottom: 8px;
+                padding: 12px 14px;
+                border: 1px solid transparent;
+                border-radius: 12px;
+                cursor: pointer;
+                user-select: none;
+                text-align: left;
+                background: rgba(255, 255, 255, 0.07);
+                transition:
+                    background-color 150ms ease,
+                    border-color 150ms ease,
+                    transform 150ms ease;
+            }
+
+            .value-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .value-item:hover {
+                background: rgba(255, 255, 255, 0.12);
+                transform: translateY(-1px);
+            }
+
+            .value-item.selected {
+                border-color: #4de3ff;
+                background: rgba(77, 227, 255, 0.17);
+            }
+
+	    </style>
+  	</head>
+
+   	<body>
+	    <!-- Top navigation bar -->
+        <div class="navigation">
+	    	<nav class="navigation">
+	     		<a href="#home" id="home">Home</a>
+				<a href="#about" id="about">About</a>
+				<a href="#dark-mode" id="dark-mode">
+					<img src="../assets/enable-light-mode.svg" alt="Light Mode Selector"/>
+				</a>
+	     	</nav>
+	    </div>
+	    
+        <!-- Main screen -->
+        <div class="body">
+            <!-- Title of the specific bingo board/city will fill in here -->
+            <h1 id="title" class="title">Bingus</h1>
+
+            <!-- The actual stuff on the screen -->
+            <div id="main-view" class="item-modals">
+
+                <!-- Options to select from -->
+                <div id="bank-values" class="value-modal">
+                    <h2>Bank Values</h2>
+                    <ul id="bank-values-list" class="value-list">
+                        <!-- The bank of values will be here -->
+                    </ul>
+                </div>
+
+                <!-- Button controls -->
+                <div id="buttons" class="button-box">
+                    <button id="move-one-right">&gt;</button>
+                    <button id="move-one-left">&lt;</button>
+                </div>
+
+                <!-- Selected values -->
+                <div id="selected-values" class="value-modal">
+                    
+                    <div id="selected-values-header" style="
+                        position: relative;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;">
+                        
+                        <h2>Selected Values</h2>
+                        
+                        <h2 style="
+                            position: absolute;
+                            right: 0;
+                            color: red">0/25</h2>
+                    </div>
+                    
+                    
+                    
+                    <ul id="selected-values-list" class="value-list">
+                        <!-- The selected values will be here -->
+                    </ul>
+                </div>
+            </div>
+	    </div>
+
+        <script type="module">
+            const { invoke } = window.__TAURI__.core;
+
+            const bank_values_list = document.getElementById("bank-values-list");
+            const selected_values_list = document.getElementById("selected-values-list");
+
+            const move_one_right = document.getElementById("move-one-right");
+            const move_one_left = document.getElementById("move-one-left");
+
+            const selected_count_display = document.querySelector("#selected-values-header h2:last-child");
+
+            //const project_id = localStorage.getItem("path");
+
+            let items = [];
+            let selected_count = 0;
+
+            // adds an item to the list based on parameters
+            function add_item(item, list) {
+                const list_item = document.createElement("li");
+
+                list_item.className = "value-item";
+                list_item.textContent = item.emoji + " " + item.title;
+
+                // adds a listener to select the item when clicked
+                list_item.addEventListener("click", () => {
+                    if(list_item.parentElement === bank_values_list) {
+                        if(list_item.classList.contains("selected")) {
+                            selected_count--;
+                            list_item.classList.remove("selected");
+                        }
+                        else {
+
+                            if(selected_count >= 25) {
+                                return; // Do not allow more than 25 selected items
+                            }
+                            else {
+                                selected_count++;
+                                list_item.classList.add("selected");   
+                            }
+                        }
+                        update_selected_count();
+                    }
+                    else
+                    {
+                        list_item.classList.toggle("selected");
+                    }
+                });
+
+                list.appendChild(list_item);
+            }
+
+            // adds all items to the bank values list
+            function load_items() {
+                bank_values_list.innerHTML = "";
+
+                for (const item of items) {
+                    add_item(item, bank_values_list);
+                }
+            }
+
+            function update_selected_count() {
+                selected_count_display.textContent = `${selected_count}/25`;
+                if(selected_count == 25) {
+                    selected_count_display.style.color = "green";
+                } else {
+                    selected_count_display.style.color = "red";
+                }
+            }
+
+            // moves the selected items from the bank to the right
+            function move_selected_right() {
+                const selected_items = bank_values_list.querySelectorAll(".value-item.selected");
+
+                for (const item of selected_items) {
+                    item.classList.remove("selected");
+                    selected_values_list.appendChild(item);
+                }
+            }
+
+            // moves the selected items from the selected list to the left
+            function move_selected_left() {
+                const selected_items = selected_values_list.querySelectorAll(".value-item.selected");
+
+                for (const item of selected_items) {
+                    item.classList.remove("selected");
+                    bank_values_list.appendChild(item);
+                    selected_count--;
+                }
+
+                update_selected_count();
+            }
+
+            try {
+                items = await invoke("example_bingo_items");
+                console.log("Loaded items from Rust:", items);
+                load_items();
+            } catch (error) {
+                console.error("Failed to load example bingo items:", error);
+                items = [];
+            }
+
+            move_one_right.addEventListener("click", move_selected_right);
+            move_one_left.addEventListener("click", move_selected_left);
+		</script>
+
+    </body>
+</html>
