@@ -40,7 +40,7 @@ toggle.addEventListener("click", (e) => {
 });
 
 // Creates the card in the DOM
-function draw_card(title, city, owner) {
+function draw_card(title, city, path, owner) {
 	const card_wrapper = document.createElement("div");
 	card_wrapper.className = "card-wrapper";
 
@@ -64,8 +64,8 @@ function draw_card(title, city, owner) {
 
 	const button_wrapper = document.createElement("div");
 	button_wrapper.className = "button-wrapper";
+	button_wrapper.id = path;
 	if (owner === true) {
-		// TODO: Handle routing the user to the proper board (all items screen)
 		const edit_anchor = document.createElement("a");
 		const edit_img = document.createElement("img");
 		const EDIT_ICON_PATH =
@@ -78,7 +78,6 @@ function draw_card(title, city, owner) {
 
 		button_wrapper.appendChild(edit_anchor);
 	}
-	// TODO: Handle routing the user to the proper board (play)
 	const play_anchor = document.createElement("a");
 	const play_img = document.createElement("img");
 	const PLAY_ICON_PATH = "/assets/play-board.svg";
@@ -95,16 +94,16 @@ if (
 	window.location.pathname === "/" ||
 	window.location.pathname === "/index.html"
 ) {
-	let editable_boards; // Boards that are editable/playable
-	let playable_boards; // Boards that are only playable
+	let editable_boards_metadata; // All metadata for boards that are editable/playable
+	let playable_boards_metadata; // All metadat for boards that are only playable
 	try {
-		editable_boards = await invoke("get_bingo_projects");
-		playable_boards - (await invoke("get_bingo_games"));
+		editable_boards_metadata = await invoke("get_bingo_projects");
+		playable_boards_metadata = await invoke("get_bingo_games");
 	} catch (error) {
-		editable_boards = [];
-		playable_boards = [];
+		editable_boards_metadata = [];
+		playable_boards_metadata = [];
 	}
-	if (editable_boards.length === 0 && playable_boards.length === 0) {
+	if (editable_boards_metadata.length === 0 && playable_boards_metadata.length === 0) {
 		const create_board_button = document.createElement("button");
 		create_board_button.id = "create-board";
 		create_board_button.textContent = "Get Started";
@@ -113,14 +112,18 @@ if (
 		});
 		cards.appendChild(create_board_button);
 	} else {
-		if (editable_boards != undefined) {
-			for (const elem of editable_boards) {
-				draw_card(elem.title, elem.city, true);
+		if (editable_boards_metadata != undefined) {
+			for (const elem of editable_boards_metadata) {
+				const items = elem[0];
+				const path = elem[1];
+				draw_card(items.title, items.city, path, true);
 			}
 		}
-		if (playable_boards != undefined) {
-			for (const elem of playable_boards) {
-				draw_card(elem.title, elem_city, false);
+		if (playable_boards_metadata != undefined) {
+			for (const elem of playable_boards_metadata) {
+				const items = elem[0];
+				const path = elem[1];
+				draw_card(items.title, items.city, path, false);
 			}
 		}
 	}
@@ -131,7 +134,7 @@ if (
 		else {
 			localStorage.setItem("path", button_wrapper.id);
 			if (button.className === "edit-button") {
-				window.location.href = "./editable-board/board.html";
+				window.location.href = "./editable-board/editable-board.html";
 			} else {
 				window.location.href = "./generate-board/generate-board.html";
 			}
