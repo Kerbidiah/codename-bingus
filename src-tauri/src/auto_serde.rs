@@ -28,6 +28,20 @@ pub trait AutoSerde: Serialize + DeserializeOwned + Sized {
 		file.read_to_string(&mut s)?;
 		Self::from_ron(&s)
 	}
+
+	/// Open from `String` path
+	fn open(path: String) -> anyhow::Result<Self> {
+		let mut f = File::open(path)?;
+
+		Self::from_file(&mut f)
+	}
+
+	/// Open from `String` path
+	fn write(self, path: String) -> anyhow::Result<()> {
+		let mut f = File::create(path)?;
+
+		self.to_file(&mut f)
+	}
 }
 
 // Blanket impl: every type that satisfies the bounds gets above funcs automatically

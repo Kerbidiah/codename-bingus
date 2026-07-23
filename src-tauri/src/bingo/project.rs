@@ -40,10 +40,22 @@ impl BingoProject {
 }
 
 pub mod commands {
+	use crate::auto_serde::AutoSerde;
+
 	use super::*;
 
 	#[tauri::command]
 	pub fn generate_random_board(project: BingoProject) -> BingoBoard {
 		project.generate_random_board()
+	}
+
+	#[tauri::command]
+	pub fn open_project(path: String) -> BingoBoard {
+		BingoBoard::open(path).unwrap()
+	}
+
+	#[tauri::command]
+	pub fn save_project(path: String, obj: BingoBoard) {
+		obj.write(path).unwrap();
 	}
 }
