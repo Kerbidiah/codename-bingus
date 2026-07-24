@@ -161,8 +161,7 @@
 
                 position: relative;
 
-                width: 56px;
-                height: 56px;
+                padding: 14px 22px;
                 margin: 8px 0;
 
                 display: flex;
@@ -288,12 +287,14 @@
                             color: red">0/25</h2>
                     </div>
                     
-                    
-                    
                     <ul id="selected-values-list" class="value-list">
                         <!-- The selected values will be here -->
                     </ul>
                 </div>
+            </div>
+
+            <div id="randomize" class="button-box">
+                <button id="randomize-button">Randomize</button>
             </div>
 	    </div>
 
@@ -305,6 +306,7 @@
 
             const move_one_right = document.getElementById("move-one-right");
             const move_one_left = document.getElementById("move-one-left");
+            const randomize_button = document.getElementById("randomize-button");
 
             const selected_count_display = document.querySelector("#selected-values-header h2:last-child");
 
@@ -346,6 +348,29 @@
                 });
 
                 list.appendChild(list_item);
+            }
+
+            function randomize()
+            {
+                // clear the selected values
+                const selected_items = selected_values_list.querySelectorAll(".value-item");
+                for (const item of selected_items) {
+                    item.classList.remove("selected");
+                    bank_values_list.appendChild(item);
+                }
+
+                // shuffle the bank items and pick 25 random items
+                const bank_items = Array.from(bank_values_list.querySelectorAll(".value-item"));
+                const shuffled_items = bank_items.sort(() => Math.random() - 0.5);
+                const random_selection = shuffled_items.slice(0, 25);
+
+                for (const item of random_selection) {
+                    selected_values_list.appendChild(item);
+                }
+
+                selected_count = random_selection.length;
+
+                update_selected_count();
             }
 
             // adds all items to the bank values list
@@ -400,6 +425,7 @@
 
             move_one_right.addEventListener("click", move_selected_right);
             move_one_left.addEventListener("click", move_selected_left);
+            randomize_button.addEventListener("click", randomize);
 		</script>
 
     </body>
