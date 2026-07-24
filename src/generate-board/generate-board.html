@@ -6,10 +6,7 @@
 		<title>Generate Bingo Board</title>
 		<!-- Styles taken from https://people.cs.gmu.edu/~rpettit/vienna_bingo_2026.html -->
 		<style>
-			* {
-				box-sizing: border-box;
-			}
-			.navigation{
+			.navigation {
 				position: sticky;
 				top: 0;
 				z-index: 10;
@@ -18,23 +15,25 @@
 				border-bottom: 1px solid var(--nav-border);
 			}
 
-			nav.navigation a{
+			nav.navigation a {
 				color: var(--link);
 				text-decoration: none;
 				font-weight: 600;
 				letter-spacing: 0.2px;
 				padding: 10px 12px;
 				border-radius: 10px;
-				transition: background-color 160ms ease, transform 160ms ease;
+				transition:
+					background-color 160ms ease,
+					transform 160ms ease;
 			}
 
-			nav.navigation a:hover{
+			nav.navigation a:hover {
 				background: var(--link-hover-bg);
 				transform: translateY(-1px);
 			}
 
 			/* Layout unchanged */
-			nav.navigation{
+			nav.navigation {
 				max-width: 1100px;
 				margin: 0 auto;
 				padding: 14px 18px;
@@ -44,7 +43,7 @@
 				justify-content: center;
 			}
 
-			nav.navigation a#dark-mode{
+			nav.navigation a#dark-mode {
 				margin-left: auto;
 				padding: 8px;
 				display: inline-flex;
@@ -52,12 +51,12 @@
 				justify-content: center;
 			}
 
-			nav.navigation a#dark-mode img{
+			nav.navigation a#dark-mode img {
 				width: 22px;
 				height: 22px;
 				display: block;
 			}
-			.body{
+			.body {
 				min-height: calc(100vh - 60px);
 				display: flex;
 				flex-direction: column;
@@ -66,6 +65,10 @@
 				padding: 48px 18px;
 				text-align: center;
 			}
+			<style > * {
+				box-sizing: border-box;
+			}
+
 			/* Theme (DARK default) */
 			body {
 				margin: 0;
@@ -74,36 +77,28 @@
 				color: var(--text, #e8eefc);
 				font-family: Arial, Helvetica, sans-serif;
 
-				/* --- shared theme vars for this bingo layout --- */
+				/* Board-specific tokens mapped to your scheme */
+				--header-bg: rgba(255, 255, 255, 0.06);
+				--header-bg-soft: var(--nav-bg, rgba(11, 18, 32, 0.85));
 				--card-border: var(--nav-border, rgba(255, 255, 255, 0.08));
-				--panel-bg: rgba(255, 255, 255, 0.03);
 
-				--accent: #1dd3ff; /* fallback if you want to reuse */
-				--gold: #e8c97a;
+				--cell-odd: rgba(255, 255, 255, 0.04);
+				--cell-even: rgba(255, 255, 255, 0.06);
+				--grid-line: rgba(255, 255, 255, 0.12);
 
-				--header-bg: rgba(
-					45,
-					110,
-					71,
-					1
-				); /* will be overridden below */
-				--header-bg-soft: rgba(45, 110, 71, 0.85);
+				--label-main: var(--text, #e8eefc);
+				--label-sub: rgba(232, 238, 252, 0.65);
 
-				/* grid colors */
-				--cell-odd: #ffffff;
-				--cell-even: #f7fbf8;
-				--grid-line: #c8d8c8;
+				--accent-1: var(--btn-g1, #1dd3ff); /* cyan */
+				--accent-2: var(--btn-g2, #7cff5c); /* green */
+				--gold: var(
+					--btn-g2,
+					#7cff5c
+				); /* replace “gold” usage with scheme */
+				--gold-soft: rgba(124, 255, 92, 0.35);
 
-				/* text colors */
-				--label-main: #c9a84c;
-				--label-sub: rgba(200, 200, 200, 0.95);
-
-				/* rounded corners */
 				--radius-lg: 14px;
 				--radius-md: 12px;
-
-				/* “table border-collapse” can’t do rounded outer corners cleanly,
-       so we use border-spacing + overflow hidden instead. */
 			}
 
 			body.light {
@@ -123,47 +118,29 @@
 				--btn-shadow: rgba(91, 111, 255, 0.18);
 				--btn-shadow-2: rgba(91, 111, 255, 0.26);
 
+				--header-bg-soft: var(--nav-bg, rgba(246, 247, 251, 0.9));
 				--card-border: rgba(15, 23, 42, 0.1);
 
-				--header-bg: #2d6e47;
-				--header-bg-soft: rgba(45, 110, 71, 0.9);
-
 				--cell-odd: #ffffff;
-				--cell-even: #f7fbf8;
+				--cell-even: rgba(15, 23, 42, 0.04);
 				--grid-line: rgba(15, 23, 42, 0.1);
 
-				--label-main: #1a4a2e;
+				--label-main: #0f172a;
 				--label-sub: rgba(15, 23, 42, 0.55);
-			}
 
-			/* Set header + panel colors for DARK theme too (default body) */
-			body {
-				--header-bg: #2d6e47;
-				--header-bg-soft: rgba(45, 110, 71, 0.85);
-
-				/* override grid colors for dark */
-				--cell-odd: rgba(255, 255, 255, 0.04);
-				--cell-even: rgba(255, 255, 255, 0.06);
-				--grid-line: rgba(255, 255, 255, 0.12);
-
-				/* match your palette-ish labels */
-				--label-main: #c9a84c;
-				--label-sub: rgba(255, 255, 255, 0.58);
+				--gold: var(--btn-g2, #6fff5b);
+				--gold-soft: rgba(111, 255, 91, 0.3);
 			}
 
 			.card {
 				max-width: 720px;
 				margin: 0 auto;
 				width: 100%;
-
-				/* rounded outer border */
 				border: 0;
 				border-radius: var(--radius-lg);
 				overflow: hidden;
-
-				/* enables outer padding (so rounded corners don’t get “squared” by table border-collapse) */
 				border-spacing: 0;
-				background: var(--panel-bg, rgba(255, 255, 255, 0.02));
+				background: rgba(255, 255, 255, 0.02);
 			}
 
 			/* Header */
@@ -172,12 +149,30 @@
 				padding: 24px 20px 18px;
 				text-align: center;
 				border-bottom: 1px solid var(--card-border);
+				position: relative;
+			}
+			/* subtle accent bar */
+			.card-header::after {
+				content: "";
+				position: absolute;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				height: 3px;
+				background: linear-gradient(
+					90deg,
+					var(--accent-1),
+					var(--gold)
+				);
+				opacity: 0.9;
 			}
 
-			.card-header .subtitle {
+			.card-header .subtitle,
+			.card-header .tagline {
 				font-size: 10px;
-				color: var(--gold, #e8c97a);
+				color: var(--gold);
 				margin: 0 0 4px 0;
+				letter-spacing: 0.2px;
 			}
 
 			.card-header h1 {
@@ -187,30 +182,26 @@
 				line-height: 1;
 				margin: 0;
 			}
-
-			.card-header h1 span {
-				color: var(--gold, #c9a84c);
+			body.light .card-header h1 {
+				color: #0b1220;
 			}
 
-			.card-header .tagline {
-				font-size: 10px;
-				color: var(--gold, #e8c97a);
-				margin: 6px 0 0 0;
+			.card-header h1 span {
+				color: var(--gold);
 			}
 
 			.card-header .rule {
 				margin: 8px auto 0;
 				width: 50px;
 				height: 2px;
-				background-color: var(--gold, #c9a84c);
+				background-color: var(--gold);
 			}
 
-			/* (Bugfix) your selector had an invalid width unit and typo; kept the intent. */
 			.card-header .rule #generate {
 				margin: 0 auto 0;
 				width: 60px;
 				height: 3px;
-				background-color: var(--gold, #c9a84c);
+				background-color: var(--gold);
 			}
 
 			/* BINGO column headers */
@@ -221,7 +212,7 @@
 
 			.bingo-header table {
 				width: 100%;
-				border-collapse: separate; /* required for outer rounding behavior */
+				border-collapse: separate;
 				border-spacing: 0;
 			}
 
@@ -231,7 +222,7 @@
 				text-align: center;
 				font-family: Georgia, "Times New Roman", serif;
 				font-size: clamp(18px, 5vw, 26px);
-				color: var(--label-main);
+				color: var(--gold); /* was green/gold; now scheme green */
 				border-right: 1px solid rgba(255, 255, 255, 0.15);
 			}
 
@@ -250,7 +241,7 @@
 
 			.grid {
 				width: 100%;
-				border-collapse: separate; /* lets rounded look better */
+				border-collapse: separate;
 				border-spacing: 0;
 			}
 
@@ -276,6 +267,20 @@
 				background-color: var(--cell-even);
 			}
 
+			/* rounded outer cells feel */
+			.grid tr:first-child td:first-child {
+				border-top-left-radius: var(--radius-md);
+			}
+			.grid tr:first-child td:last-child {
+				border-top-right-radius: var(--radius-md);
+			}
+			.grid tr:last-child td:first-child {
+				border-bottom-left-radius: var(--radius-md);
+			}
+			.grid tr:last-child td:last-child {
+				border-bottom-right-radius: var(--radius-md);
+			}
+
 			.grid td a {
 				text-decoration: none;
 				display: block;
@@ -287,13 +292,13 @@
 				font-size: 18px;
 				display: block;
 				margin-bottom: 4px;
-				color: var(--label-main);
+				color: var(--accent-1); /* cyan accent for icons */
 			}
 
 			.grid td a .label {
 				font-family: Arial, Helvetica, sans-serif;
 				font-size: clamp(9px, 1.8vw, 10.5px);
-				color: var(--label-main);
+				color: var(--gold);
 				line-height: 1.3;
 				display: block;
 			}
@@ -313,25 +318,28 @@
 				padding: 14px 20px;
 				text-align: center;
 				border-top: 1px solid var(--card-border);
+				position: relative;
 			}
 
 			.card-footer .badge {
 				display: inline-block;
-				background-color: var(--gold, #c9a84c);
-				color: #0b1220; /* keeps your dark label; adjust for light below */
+				background: linear-gradient(
+					90deg,
+					var(--accent-1),
+					rgba(124, 255, 92, 0.95)
+				);
+				color: var(--btn-text, #0b1220);
 				font-family: Georgia, "Times New Roman", serif;
 				font-size: 13px;
 				padding: 5px 16px;
 				border-radius: 999px;
-			}
-
-			body.light .card-footer .badge {
-				color: #0f172a;
+				box-shadow: 0 10px 25px
+					var(--btn-shadow, rgba(92, 124, 255, 0.2));
 			}
 
 			.card-footer .note {
 				font-size: 11px;
-				color: var(--gold, #e8c97a);
+				color: var(--gold);
 				margin: 6px 0 0 0;
 			}
 
@@ -353,7 +361,11 @@
 
 			.instructions td.accent {
 				width: 4px;
-				background-color: var(--header-bg-soft);
+				background: linear-gradient(
+					180deg,
+					var(--accent-1),
+					var(--gold)
+				);
 				padding: 0;
 			}
 
@@ -365,7 +377,7 @@
 			.instructions h2 {
 				font-family: Georgia, "Times New Roman", serif;
 				font-size: 17px;
-				color: var(--label-main);
+				color: var(--gold);
 				margin: 0 0 10px 0;
 				font-weight: normal;
 			}
@@ -376,14 +388,6 @@
 				line-height: 1.7;
 				margin: 0 0 8px 0;
 				opacity: 0.9;
-			}
-
-			body.light .instructions p {
-				opacity: 0.9;
-			}
-
-			.instructions p:last-child {
-				margin-bottom: 0;
 			}
 
 			.instructions .tip {
@@ -437,14 +441,16 @@
 					<tr>
 						<td class="card-header">
 							<p class="subtitle">
-								<!--GMU Software Engineering Abroad · Summer 2026-->
+								<!--Date-->
 							</p>
 							<h1>
-								<div id="city">Vienna</div>
+								<div id="city">
+									<!--Title-->
+								</div>
 								<span>Bingo</span>
 							</h1>
 							<p class="tagline">
-								<!-- Explore · Discover · Experience -->
+								<!--City Name-->
 							</p>
 							<div class="rule"></div>
 						</td>
