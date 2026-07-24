@@ -4,8 +4,20 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Generate Bingo Board</title>
-		<!-- Styles taken from https://people.cs.gmu.edu/~rpettit/vienna_bingo_2026.html -->
 		<style>
+			/* QoL for users to know what elements are clickable */
+			a {
+				cursor: pointer;
+			}
+
+			/* Prevents images from being draggable */
+			img {
+				-webkit-user-drag: none;
+				user-drag: none;
+				draggable = false;
+				pointer-events: auto;
+			}
+
 			.navigation {
 				position: sticky;
 				top: 0;
@@ -65,7 +77,7 @@
 				padding: 48px 18px;
 				text-align: center;
 			}
-			<style > * {
+			* {
 				box-sizing: border-box;
 			}
 
@@ -76,6 +88,9 @@
 				background: var(--bg, #0b1220);
 				color: var(--text, #e8eefc);
 				font-family: Arial, Helvetica, sans-serif;
+
+				--nav-bg: rgba(11, 18, 32, 0.85);
+				--nav-border: rgba(255, 255, 255, 0.08);
 
 				/* Board-specific tokens mapped to your scheme */
 				--header-bg: rgba(255, 255, 255, 0.06);
@@ -494,61 +509,82 @@
 			</table>
 		</div>
 		<script type="module">
-			const { invoke } = window.__TAURI__.core;
+		const toggle = document.getElementById("dark-mode");
+		const theme_img = document.getElementById("theme-img");
+		const ICON_LIGHT = "/assets/enable-light-mode.svg";
+		const ICON_DARK = "/assets/enable-dark-mode.svg";
+		function setTheme(theme) {
+			document.body.classList.toggle("light", theme === "light");
+			theme_img.src = theme === "light" ? ICON_DARK : ICON_LIGHT;
+			localStorage.setItem("theme", theme);
+		}
+		// Caches the user's theme preference
+		const saved = localStorage.getItem("theme");
+		if (saved === "light" || saved === "dark") {
+			setTheme(saved);
+		} else {
+			const prefersLight = window.matchMedia(
+				"(prefers-color-scheme: light)",
+			).matches;
+			setTheme(prefersLight ? "light" : "dark");
+		}
 
-			// Changes the title based on the city name
-			const city = document.getElementById("city");
+		toggle.addEventListener("click", (e) => {
+			e.preventDefault(); // prevents jumping due to href
+			const next = document.body.classList.contains("light") ? "dark" : "light";
+			setTheme(next);
+		});
+		const { invoke } = window.__TAURI__.core;
 
-			// Gets the generated bingo board from the backend
-				try {
-					const board = await invoke(
-						"generate_board", { path: localStorage.getItem('path') }
-					);
-				} catch (error) {
-					// ERR: Function doesn't exist or board has less than 25 items
-					window.location.href = "../error/error.html";
-				}
-				const items = board.items;
-				const rows = document.getElementById("rows");
-				city.textContent = board.city;
+		// Changes the title based on the city name
+		const city = document.getElementById("city");
 
-				let tr = null;
-				// Creates the rows of the Bingo Board
-				for (let i = 0; i < 25; i++) {
-					if (i % 5 === 0) {
-						tr = document.createElement("tr");
-					}
+		// Gets the generated bingo board from the backend
+		try {
+			const board = await invoke(
+				"generate_board", { path: localStorage.getItem('path') }
+			);
+		} catch (error) {
+			// ERR: Function doesn't exist or board has less than 25 items
+			window.location.href = "../error/error.html";
+		}
+		const items = board.items;
+		const rows = document.getElementById("rows");
+		city.textContent = board.city;
 
-					const td = document.createElement("td");
-					const url = document.createElement("a");
-					const emoji = document.createElement("span");
-					const title = document.createElement("span");
-					const short_description = document.createElement("span");
-
-					emoji.className = "icon";
-					title.className = "label";
-					short_description.className = "alt";
-
-					let elem = items[i];
-					url.href = elem.url;
-					url.target = "_blank";
-					url.rel = "noopener";
-
-					emoji.textContent = elem.emoji;
-					title.textContent = elem.title;
-					short_description.textContent = elem.short_description;
-
-					url.appendChild(emoji);
-					url.appendChild(title);
-					url.appendChild(short_description);
-
-					td.appendChild(url);
-					tr.appendChild(td);
-					rows.appendChild(tr);
-				}
-<<<<<<< HEAD
+		let tr = null;
+		// Creates the rows of the Bingo Board
+		for (let i = 0; i < 25; i++) {
+			if (i % 5 === 0) {
+				tr = document.createElement("tr");
 			}
-=======
->>>>>>> BIN-17-bingo-items
+
+			const td = document.createElement("td");
+			const url = document.createElement("a");
+			const emoji = document.createElement("span");
+			const title = document.createElement("span");
+			const short_description = document.createElement("span");
+
+			emoji.className = "icon";
+			title.className = "label";
+			short_description.className = "alt";
+
+			let elem = items[i];
+			url.href = elem.url;
+			url.target = "_blank";
+			url.rel = "noopener";
+
+			emoji.textContent = elem.emoji;
+			title.textContent = elem.title;
+			short_description.textContent = elem.short_description;
+
+			url.appendChild(emoji);
+			url.appendChild(title);
+			url.appendChild(short_description);
+
+			td.appendChild(url);
+			tr.appendChild(td);
+			rows.appendChild(tr);
+		}
 		</script>
 </html>
