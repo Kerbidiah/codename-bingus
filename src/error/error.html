@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Error: Something went wrong</title>
+		<style>
+			body {
+				background: rgb(200, 200, 200);
+				margin: 0;
+				place-items: center;
+				min-height: 100vh;
+				display: grid;
+			}
+
+			.message-wrapper {
+				height: 10vh;
+				text-align: center;
+
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+			}
+
+			.message-wrapper p {
+				margin: 0;
+				line-height: 1;
+			}
+			h1,
+			p {
+				font-family:
+					ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+					"Liberation Mono", "Courier New", monospace;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="message-wrapper">
+			<h1 id="error">
+				ERROR: Redirecting Home in <span id="timer"></span>...
+			</h1>
+			<p id="message">
+				Unable to load board contents, insufficient items provided.
+			</p>
+			<p id="found"><b>FOUND:</b> <span id="num-items"></span>.</p>
+			<p id="expected"><b>EXPECTED:</b> 25 items.</p>
+		</div>
+	</body>
+	<script type="module">
+		let length;
+		let timerMessage = document.getElementById("timer");
+		let timer = 15;
+
+		const interval = setInterval(() => {
+			if (timer === 0) {
+				clearInterval(interval);
+				window.location.href = "../index.html";
+			}
+			
+			timerMessage.innerHTML =
+				timer != 1
+					? timer.toString() + " seconds"
+					: timer.toString() + " second";
+
+			timer--;
+
+		}, 1000);
+
+		// If the function doesn't exist,
+		try {
+			const { invoke } = window.__TAURI__.core;
+			const board = await invoke("generate_board");
+			length = board.items.length;
+		} catch (error) {
+			length = -1;
+		}
+
+		// Tells the user the number of items they placed into their board.
+		const num_items = document.getElementById("num-items");
+		if (length === -1) {
+			length = "Unable to fetch board";
+		} else {
+			length =
+				length != 1
+					? length.toString() + " items"
+					: length.toString() + " item";
+		}
+		num_items.innerHTML = length;
+	</script>
+</html>
