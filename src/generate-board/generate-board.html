@@ -9,30 +9,177 @@
 			* {
 				box-sizing: border-box;
 			}
+			.navigation{
+				position: sticky;
+				top: 0;
+				z-index: 10;
+				background: var(--nav-bg);
+				backdrop-filter: blur(10px);
+				border-bottom: 1px solid var(--nav-border);
+			}
+
+			nav.navigation a{
+				color: var(--link);
+				text-decoration: none;
+				font-weight: 600;
+				letter-spacing: 0.2px;
+				padding: 10px 12px;
+				border-radius: 10px;
+				transition: background-color 160ms ease, transform 160ms ease;
+			}
+
+			nav.navigation a:hover{
+				background: var(--link-hover-bg);
+				transform: translateY(-1px);
+			}
+
+			/* Layout unchanged */
+			nav.navigation{
+				max-width: 1100px;
+				margin: 0 auto;
+				padding: 14px 18px;
+				display: flex;
+				align-items: center;
+				gap: 18px;
+				justify-content: center;
+			}
+
+			nav.navigation a#dark-mode{
+				margin-left: auto;
+				padding: 8px;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			nav.navigation a#dark-mode img{
+				width: 22px;
+				height: 22px;
+				display: block;
+			}
+			.body{
+				min-height: calc(100vh - 60px);
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				padding: 48px 18px;
+				text-align: center;
+			}
+			/* Theme (DARK default) */
 			body {
 				margin: 0;
 				padding: 12px;
-				background: #f0f4f0;
+				background: var(--bg, #0b1220);
+				color: var(--text, #e8eefc);
 				font-family: Arial, Helvetica, sans-serif;
+
+				/* --- shared theme vars for this bingo layout --- */
+				--card-border: var(--nav-border, rgba(255, 255, 255, 0.08));
+				--panel-bg: rgba(255, 255, 255, 0.03);
+
+				--accent: #1dd3ff; /* fallback if you want to reuse */
+				--gold: #e8c97a;
+
+				--header-bg: rgba(
+					45,
+					110,
+					71,
+					1
+				); /* will be overridden below */
+				--header-bg-soft: rgba(45, 110, 71, 0.85);
+
+				/* grid colors */
+				--cell-odd: #ffffff;
+				--cell-even: #f7fbf8;
+				--grid-line: #c8d8c8;
+
+				/* text colors */
+				--label-main: #c9a84c;
+				--label-sub: rgba(200, 200, 200, 0.95);
+
+				/* rounded corners */
+				--radius-lg: 14px;
+				--radius-md: 12px;
+
+				/* “table border-collapse” can’t do rounded outer corners cleanly,
+       so we use border-spacing + overflow hidden instead. */
 			}
+
+			body.light {
+				--bg: #f6f7fb;
+				--text: #0f172a;
+				--text-1: rgba(0, 0, 0, 0.35);
+
+				--nav-bg: rgba(246, 247, 251, 0.9);
+				--nav-border: rgba(15, 23, 42, 0.08);
+
+				--link: #0f172a;
+				--link-hover-bg: rgba(15, 23, 42, 0.06);
+
+				--btn-text: #0b1220;
+				--btn-g1: #56f6ff;
+				--btn-g2: #6fff5b;
+				--btn-shadow: rgba(91, 111, 255, 0.18);
+				--btn-shadow-2: rgba(91, 111, 255, 0.26);
+
+				--card-border: rgba(15, 23, 42, 0.1);
+
+				--header-bg: #2d6e47;
+				--header-bg-soft: rgba(45, 110, 71, 0.9);
+
+				--cell-odd: #ffffff;
+				--cell-even: #f7fbf8;
+				--grid-line: rgba(15, 23, 42, 0.1);
+
+				--label-main: #1a4a2e;
+				--label-sub: rgba(15, 23, 42, 0.55);
+			}
+
+			/* Set header + panel colors for DARK theme too (default body) */
+			body {
+				--header-bg: #2d6e47;
+				--header-bg-soft: rgba(45, 110, 71, 0.85);
+
+				/* override grid colors for dark */
+				--cell-odd: rgba(255, 255, 255, 0.04);
+				--cell-even: rgba(255, 255, 255, 0.06);
+				--grid-line: rgba(255, 255, 255, 0.12);
+
+				/* match your palette-ish labels */
+				--label-main: #c9a84c;
+				--label-sub: rgba(255, 255, 255, 0.58);
+			}
+
 			.card {
 				max-width: 720px;
 				margin: 0 auto;
-				border-collapse: collapse;
-				border: 3px solid #1a4a2e;
 				width: 100%;
+
+				/* rounded outer border */
+				border: 0;
+				border-radius: var(--radius-lg);
+				overflow: hidden;
+
+				/* enables outer padding (so rounded corners don’t get “squared” by table border-collapse) */
+				border-spacing: 0;
+				background: var(--panel-bg, rgba(255, 255, 255, 0.02));
 			}
+
 			/* Header */
 			.card-header {
-				background-color: #1a4a2e;
+				background-color: var(--header-bg-soft);
 				padding: 24px 20px 18px;
 				text-align: center;
+				border-bottom: 1px solid var(--card-border);
 			}
+
 			.card-header .subtitle {
 				font-size: 10px;
-				color: #e8c97a;
+				color: var(--gold, #e8c97a);
 				margin: 0 0 4px 0;
 			}
+
 			.card-header h1 {
 				font-family: Georgia, "Times New Roman", serif;
 				font-size: clamp(32px, 8vw, 48px);
@@ -40,164 +187,225 @@
 				line-height: 1;
 				margin: 0;
 			}
+
 			.card-header h1 span {
-				color: #c9a84c;
+				color: var(--gold, #c9a84c);
 			}
+
 			.card-header .tagline {
 				font-size: 10px;
-				color: #e8c97a;
+				color: var(--gold, #e8c97a);
 				margin: 6px 0 0 0;
 			}
+
 			.card-header .rule {
 				margin: 8px auto 0;
 				width: 50px;
 				height: 2px;
-				background-color: #c9a84c;
+				background-color: var(--gold, #c9a84c);
 			}
+
+			/* (Bugfix) your selector had an invalid width unit and typo; kept the intent. */
 			.card-header .rule #generate {
-				margin: 0px auto 0;
-				width: 60 px;
-				heigh: 3 px;
-				background-color: #c9a84c;
+				margin: 0 auto 0;
+				width: 60px;
+				height: 3px;
+				background-color: var(--gold, #c9a84c);
 			}
+
 			/* BINGO column headers */
 			.bingo-header {
-				background-color: #2d6e47;
+				background-color: var(--header-bg-soft);
+				border-bottom: 1px solid var(--card-border);
 			}
+
 			.bingo-header table {
 				width: 100%;
-				border-collapse: collapse;
+				border-collapse: separate; /* required for outer rounding behavior */
+				border-spacing: 0;
 			}
+
 			.bingo-header td {
 				width: 20%;
 				padding: 10px 4px;
 				text-align: center;
 				font-family: Georgia, "Times New Roman", serif;
 				font-size: clamp(18px, 5vw, 26px);
-				color: #c9a84c;
-			}
-			.bingo-header td:not(:last-child) {
+				color: var(--label-main);
 				border-right: 1px solid rgba(255, 255, 255, 0.15);
 			}
+
+			body.light .bingo-header td {
+				border-right: 1px solid rgba(15, 23, 42, 0.12);
+			}
+
+			.bingo-header td:last-child {
+				border-right: none;
+			}
+
 			/* Grid */
 			.grid-wrapper {
 				padding: 0;
 			}
+
 			.grid {
 				width: 100%;
-				border-collapse: collapse;
+				border-collapse: separate; /* lets rounded look better */
+				border-spacing: 0;
 			}
+
 			.grid td {
 				width: 20%;
-				border-right: 1px solid #c8d8c8;
-				border-bottom: 1px solid #c8d8c8;
+				border-right: 1px solid var(--grid-line);
+				border-bottom: 1px solid var(--grid-line);
 				padding: 8px 5px;
 				text-align: center;
 				vertical-align: middle;
 				height: 90px;
+				background: transparent;
 			}
+
 			.grid td:last-child {
 				border-right: none;
 			}
+
 			.grid tr:nth-child(odd) td {
-				background-color: #ffffff;
+				background-color: var(--cell-odd);
 			}
 			.grid tr:nth-child(even) td {
-				background-color: #f7fbf8;
+				background-color: var(--cell-even);
 			}
+
 			.grid td a {
 				text-decoration: none;
 				display: block;
+				color: inherit;
+				border-radius: var(--radius-md);
 			}
+
 			.grid td a .icon {
 				font-size: 18px;
 				display: block;
 				margin-bottom: 4px;
+				color: var(--label-main);
 			}
+
 			.grid td a .label {
 				font-family: Arial, Helvetica, sans-serif;
 				font-size: clamp(9px, 1.8vw, 10.5px);
-				color: #1a4a2e;
+				color: var(--label-main);
 				line-height: 1.3;
 				display: block;
 			}
+
 			.grid td a .alt {
 				font-family: Arial, Helvetica, sans-serif;
 				font-size: clamp(8px, 1.6vw, 9px);
-				color: #6a6a6a;
+				color: var(--label-sub);
 				font-style: italic;
 				margin-top: 3px;
 				display: block;
 			}
+
 			/* Footer */
 			.card-footer {
-				background-color: #1a4a2e;
+				background-color: var(--header-bg-soft);
 				padding: 14px 20px;
 				text-align: center;
+				border-top: 1px solid var(--card-border);
 			}
+
 			.card-footer .badge {
 				display: inline-block;
-				background-color: #c9a84c;
-				color: #1a4a2e;
+				background-color: var(--gold, #c9a84c);
+				color: #0b1220; /* keeps your dark label; adjust for light below */
 				font-family: Georgia, "Times New Roman", serif;
 				font-size: 13px;
 				padding: 5px 16px;
+				border-radius: 999px;
 			}
+
+			body.light .card-footer .badge {
+				color: #0f172a;
+			}
+
 			.card-footer .note {
 				font-size: 11px;
-				color: #e8c97a;
+				color: var(--gold, #e8c97a);
 				margin: 6px 0 0 0;
 			}
+
 			/* Instructions box */
 			.instructions {
 				max-width: 720px;
 				margin: 24px auto 0;
-				border-collapse: collapse;
-				border: 1px solid #d4e4d4;
 				width: 100%;
+
+				border-collapse: separate;
+				border-spacing: 0;
+
+				border: 1px solid var(--card-border);
+				border-radius: var(--radius-lg);
+				overflow: hidden;
+
+				background: var(--nav-bg, rgba(255, 255, 255, 0.04));
 			}
+
 			.instructions td.accent {
 				width: 4px;
-				background-color: #2d6e47;
+				background-color: var(--header-bg-soft);
 				padding: 0;
 			}
+
 			.instructions td.body {
 				padding: 18px 20px;
-				background-color: #ffffff;
+				background-color: transparent;
 			}
+
 			.instructions h2 {
 				font-family: Georgia, "Times New Roman", serif;
 				font-size: 17px;
-				color: #1a4a2e;
+				color: var(--label-main);
 				margin: 0 0 10px 0;
 				font-weight: normal;
 			}
+
 			.instructions p {
 				font-size: 13px;
-				color: #2c2c2c;
+				color: var(--text, #e8eefc);
 				line-height: 1.7;
 				margin: 0 0 8px 0;
+				opacity: 0.9;
 			}
+
+			body.light .instructions p {
+				opacity: 0.9;
+			}
+
 			.instructions p:last-child {
 				margin-bottom: 0;
 			}
+
 			.instructions .tip {
 				font-size: 11px;
-				color: #666;
+				color: var(--text-1, rgba(0, 0, 0, 0.35));
 				font-style: italic;
 				margin: 10px 0 0 0;
 				padding-top: 10px;
-				border-top: 1px solid #e8e8e8;
+				border-top: 1px solid var(--card-border);
 			}
+
 			/* Mobile tweaks */
 			@media (max-width: 480px) {
 				body {
 					padding: 8px;
 				}
+
 				.grid td {
 					height: 70px;
 					padding: 5px 3px;
 				}
+
 				.card-header {
 					padding: 16px 12px 12px;
 				}
@@ -209,404 +417,76 @@
 	</head>
 
 	<body>
-		<!-- Bingo Card -->
-		<table class="card" cellspacing="0" cellpadding="0">
-			<tbody>
-				<tr>
-					<td class="card-header">
-						<p class="subtitle">
-							<!--GMU Software Engineering Abroad · Summer 2026-->
-						</p>
-						<h1>
-							<div id="city">Vienna</div>
-							<span>Bingo</span>
-						</h1>
-						<p class="tagline">
-							<!-- Explore · Discover · Experience -->
-						</p>
-						<div class="rule">
-							<button id="generate">Generate Board</button>
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td class="bingo-header">
-						<table cellspacing="0" cellpadding="0">
-							<tbody>
-								<tr>
-									<td>B</td>
-									<td>I</td>
-									<td>N</td>
-									<td>G</td>
-									<td>O</td>
-								</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td class="grid-wrapper">
-						<table class="grid" cellspacing="0" cellpadding="0">
-							<tbody id="rows">
-								<tr>
-									<td>
-										<a
-											href="https://www.wien.info/en/dine-drink/viennese-cuisine/hot-dog-stands-348128"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🌭</span>
-											<span class="label"
-												>Eat a Käsekrainer</span
-											>
-											<span class="alt"
-												>or a döner / falafel wrap</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.wien.info/en/art-culture/music-stage-shows/strauss-monument-360274"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🎻</span>
-											<span class="label"
-												>Find the golden Strauss</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.wien.info/en/dine-drink/markets/yppenplatz-restaurants-366538"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🫙</span>
-											<span class="label"
-												>Sample food at the
-												Brunnenmarkt</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.albertina.at/en/exhibitions/monet-to-picasso/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🎨</span>
-											<span class="label"
-												>Visit the ‘Woman in a Green
-												Hat’</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.wien.gv.at/en/transportation/diversity-themed-traffic-lights"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🚦</span>
-											<span class="label"
-												>Discover a diversity-themed
-												traffic light</span
-											>
-										</a>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<a
-											href="https://www.haus-des-meeres.at/en/zoo/puppigeschichte"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🐢</span>
-											<span class="label"
-												>Visit the turtles at Haus des
-												Meeres</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.visitingvienna.com/eatingdrinking/food/coffee-glossary/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">☕</span>
-											<span class="label"
-												>Drink an einspanner or mélange
-												in a traditional coffee
-												house</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.visitingvienna.com/footsteps/beethovens-grave/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🎹</span>
-											<span class="label"
-												>Find Beethoven’s grave</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.visitingvienna.com/eatingdrinking/food/wiener-schnitzel/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🍽️</span>
-											<span class="label"
-												>Enjoy a schnitzel</span
-											>
-											<span class="alt"
-												>or Käsespätzle</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://wienerriesenrad.com/en/home-2/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🎡</span>
-											<span class="label"
-												>Ride the Riesenrad at the
-												Prater</span
-											>
-										</a>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<a
-											href="https://www.wien.info/en/art-culture/museums-exhibitions/top-museums/mq/mq-furniture-352568"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🛋️</span>
-											<span class="label"
-												>Lounge on an Enzi at the
-												MQ</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.visitingvienna.com/sights/winter-palace/volksgarten/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🌹</span>
-											<span class="label"
-												>Smell a rose in the
-												Volksgarten</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.wien.info/en/see-do/discover-vienna/tours-guides/fiaker-horse-drawn-carriage-345894"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🐎</span>
-											<span class="label"
-												>Spot a Fiaker on the
-												Ringstraße</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.wien.info/en/see-do/sights-from-a-to-z/st-stephens-cathedral-359690"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">⛪</span>
-											<span class="label"
-												>Go inside Stephansdom</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.visitingvienna.com/footsteps/otto-wagner-in-vienna/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🏛️</span>
-											<span class="label"
-												>Visit an Otto Wagner site</span
-											>
-										</a>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<a
-											href="https://www.wien.info/en/livable-vienna/water-in-vienna/summer-at-old-danube-360430"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🌊</span>
-											<span class="label"
-												>Explore the Danube</span
-											>
-											<span class="alt"
-												>dip your toes, hit the beach,
-												or rent a boat</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://spittelberg.at/en/arts-and-crafts/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🛍️</span>
-											<span class="label"
-												>Discover the shops on
-												Spittelberggasse</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://almdudler.com/en/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🥤</span>
-											<span class="label"
-												>Drink an Almdudler</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.timetravel-vienna.at/en/the-history-of-the-original-mozartkugel/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🍫</span>
-											<span class="label"
-												>Eat a Mozartkugel</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.visitingvienna.com/sights/plague-column-pestsaule/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🏛️</span>
-											<span class="label"
-												>Visit the Pestsäule on the
-												Graben</span
-											>
-										</a>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<a
-											href="https://www.zanoni.co.at/eiskarte/coppas/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🍦</span>
-											<span class="label"
-												>Cool off with Gelato</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.wienerwald.info/en/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🥾</span>
-											<span class="label"
-												>Take a hike in the Vienna Woods
-												or countryside</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.viennaconcerts.com/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🎭</span>
-											<span class="label"
-												>Attend a live performance</span
-											>
-											<span class="alt"
-												>concert, opera, Lipizzaner
-												show, etc.</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.visitingvienna.com/sights/karlskirche/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">⛪</span>
-											<span class="label"
-												>Admire Karlskirche’s
-												reflection</span
-											>
-										</a>
-									</td>
-									<td>
-										<a
-											href="https://www.austria.info/en-gb/inspiration/day-trips-from-vienna/"
-											target="_blank"
-											rel="noopener"
-										>
-											<span class="icon">🚂</span>
-											<span class="label"
-												>Take a side trip (other than
-												what’s included)</span
-											>
-											<span class="alt"
-												>Krems, Graz, Znojmo…</span
-											>
-										</a>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-				<tr>
-					<td class="card-footer">
-						<span class="badge"
-							>Complete any 3 lines for full credit</span
-						>
-						<p class="note">
-							Document each completed square with a photo or brief
-							note
-						</p>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="navigation">
+			<nav class="navigation">
+				<a href="index.html" id="home">Home</a>
+				<a href="about/about.html" id="about">About</a>
+				<a id="dark-mode">
+					<img
+						src="/assets/enable-light-mode.svg"
+						alt="Light Mode Selector"
+						id="theme-img"
+					/>
+				</a>
+			</nav>
+		</div>
+		<div class="body">
+			<!-- Bingo Card -->
+			<table class="card" cellspacing="0" cellpadding="0">
+				<tbody>
+					<tr>
+						<td class="card-header">
+							<p class="subtitle">
+								<!--GMU Software Engineering Abroad · Summer 2026-->
+							</p>
+							<h1>
+								<div id="city">Vienna</div>
+								<span>Bingo</span>
+							</h1>
+							<p class="tagline">
+								<!-- Explore · Discover · Experience -->
+							</p>
+							<div class="rule"></div>
+						</td>
+					</tr>
+					<tr>
+						<td class="bingo-header">
+							<table cellspacing="0" cellpadding="0">
+								<tbody>
+									<tr>
+										<td>B</td>
+										<td>I</td>
+										<td>N</td>
+										<td>G</td>
+										<td>O</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="grid-wrapper">
+							<table class="grid" cellspacing="0" cellpadding="0">
+								<tbody id="rows">
+									<!--The 5x5 Bingo Board will go here-->
+								</tbody>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td class="card-footer">
+							<span class="badge"
+								>Complete any 3 lines for full credit</span
+							>
+							<p class="note">
+								Document each completed square with a photo or
+								brief note
+							</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<script type="module">
 			const { invoke } = window.__TAURI__.core;
 
@@ -658,11 +538,6 @@
 					rows.appendChild(tr);
 				}
 			}
-
-			const generate_button = document.getElementById("generate");
-			generate_button.addEventListener("click", () => {
-				generate_board();
-			});
 		</script>
 	</body>
 </html>
