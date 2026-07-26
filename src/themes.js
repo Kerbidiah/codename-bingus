@@ -23,7 +23,6 @@ function setTheme(theme) {
 		}
 	}
 	document.body.classList.toggle("light", theme === "light");
-	console.log(theme_img);
 	theme_img.src = theme === "light" ? ICON_DARK : ICON_LIGHT;
 	localStorage.setItem("theme", theme);
 }
