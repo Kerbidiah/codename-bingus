@@ -1,10 +1,11 @@
 pub mod auto_serde;
 pub mod bingo;
 
-use crate::bingo::board::commands::generate_dummy_bingo_board;
 use crate::bingo::{get_bingo_projects, get_bingo_games};
-use crate::bingo::item::commands::example_bingo_items;
-use crate::bingo::project::commands::{generate_random_board, open_project, save_project};
+use crate::bingo::board::commands::*;
+use crate::bingo::item::commands::*;
+use crate::bingo::project::commands::*;
+use crate::bingo::play::commands::*;
 
 use crate::bingo::item::BingoItem;
 use crate::bingo::project::BingoProject;
@@ -42,6 +43,10 @@ pub fn run() {
 			get_bingo_games,
 			open_project,
 			save_project,
+			open_board,
+			save_board,
+			open_play,
+			save_play
 		])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");
