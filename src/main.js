@@ -100,7 +100,7 @@ if (
 			if (button.className === "edit-button") {
 				window.location.href = "./editable-board/editable-board.html";
 			} else {
-				window.location.href = "./generate-board/generate-board.html";
+				window.location.href = "./play-board/play-board.html";
 			}
 		}
 	});
