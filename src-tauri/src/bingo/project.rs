@@ -71,6 +71,7 @@ pub mod commands {
 
 	#[tauri::command]
 	pub fn new_proj(title: String, city: String) -> String {
+		info!("new_proj ran");
 		let n: u32 = rand::random();
 		let s = n.to_string();
 

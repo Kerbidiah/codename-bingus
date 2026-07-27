@@ -25,7 +25,6 @@ pub trait AutoSerde: Serialize + DeserializeOwned + Sized {
 	/// Deserialize from RON file
 	fn from_file(file: &mut File) -> anyhow::Result<Self> {
 		let mut s = String::new();
-		log::info!("EHKALJDHKJDH");
 		file.read_to_string(&mut s)?;
 		Self::from_ron(&s)
 	}

@@ -79,26 +79,31 @@ pub mod commands {
 
 	#[tauri::command]
 	pub fn get_vienna_samples() -> Vec<BingoItem> {
+		info!("get_vienna_samples run");
 		BingoItem::vienna_samples().unwrap()
 	}
 
 	#[tauri::command]
 	pub fn get_prauge_samples() -> Vec<BingoItem> {
+		info!("get_prauge_samples run");
 		BingoItem::prauge_samples().unwrap()
 	}
 
 	#[tauri::command]
 	pub fn get_london_samples() -> Vec<BingoItem> {
+		info!("get_london_samples run");
 		BingoItem::london_samples().unwrap()
 	}
 
 	#[tauri::command]
 	pub fn get_luzern_samples() -> Vec<BingoItem> {
+		info!("get_luzern_samples run");
 		BingoItem::luzern_samples().unwrap()
 	}
 
 	#[tauri::command]
 	pub fn get_budapest_samples() -> Vec<BingoItem> {
+		info!("get_budapest_samples run");
 		BingoItem::budapest_samples().unwrap()
 	}
 }
