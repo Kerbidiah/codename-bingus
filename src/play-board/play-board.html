@@ -602,6 +602,8 @@
 		const backdrop = document.getElementById("modal-backdrop");
 		const cancel = document.getElementById("cancel-custom");
 		const save = document.getElementById("save-custom");
+		const modalTitle = document.getElementById("title-custom");
+		const desc = document.getElementById("custom-description");
 		let hidden = true;
 
 		function showModal() {
@@ -610,9 +612,8 @@
 
 		function hideModal() {
 			backdrop.classList.add("hidden");
-			custom_emoji.value = "";
-			custom_title.value = "";
-			save_custom_button.disabled = true;
+			modalTitle.value = "";
+			save.disabled = true;
 		}
 
 		bingoContainer.addEventListener("click", (e) => {
@@ -620,12 +621,16 @@
 			showModal();
 			hidden = false;
 
-			const title = document.getElementById("title-custom");
-			const desc = document.getElementById("custom-description");
-			const save = document.getElementById("save-custom");
+			modalTitle.textContent = elem.childNodes[0].textContent + " " + elem.childNodes[1].textContent;
+		});
 
-			title.textContent = elem.childNodes[0].textContent + " " + elem.childNodes[1].textContent;
-			
+		save.addEventListener("click", () => {
+			if (desc) {
+				save.disabled = false;
+			}
+			else {
+				save.disabled = true;
+			}
 		});
 
 		cancel.addEventListener("click", () => {
