@@ -133,7 +133,7 @@ pub fn quick_export(proj_path: String) {
 	let game = if proj.last_board.is_some() {
 		let mut g = proj.last_board.unwrap();
 		g.title.push_str(" <IS GAME>");
-		
+
 		g
 	} else {
 		proj.generate_random_board()
