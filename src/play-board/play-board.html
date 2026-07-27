@@ -349,194 +349,41 @@
 				<h2 class="subtitle-text" id="subtitle-text"></h2>
 			</div>
 			<!--Bingo Board-->
-			<div class="bingo-box">
-				<div class="bingo-row">
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-				</div>
-				<div class="bingo-row">
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-				</div>
-				<div class="bingo-row">
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-				</div>
-				<div class="bingo-row">
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-				</div>
-				<div class="bingo-row">
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-					<div class="bingo-item">
-						<button class="bingo-button">
-							<span class="emoji"></span>
-							<span class="title"></span>
-							<span class="alt"></span>
-						</button>
-					</div>
-				</div>
+			<div class="bingo-box" id="bingo-box">
+				
 			</div>
 		</div>
 	</body>
 	<script type="module" src="../themes.js"></script>
+	<script type="module">
+		const { invoke } = window.__TAURI__.core;
+		// const board = await invoke("open_game");
+		const bingoContainer = document.getElementByID("bingo-box");
+
+		function drawItem(emoji, title, alt, row) {
+			const row = row;
+			const bingoItem = document.createElement("div");
+			bingoItem.className = "bingo-item";
+			
+			const bingoButton = document.createElement("button");
+			bingoButton.className = "bingo-button";
+
+			const icon = document.createElement("span");
+			const name = document.createElement("span");
+			const shortDescription = document.createElement("span");
+			
+			icon.className = "emoji";
+			name.className = "title";
+			shortDescription.className = "alt";
+
+			icon.textContent = emoji;
+			name.textContent = title;
+			shortDescription.textContent = alt;
+
+			bingoButton.appendChild(icon);
+			bingoButton.appendChild(name);
+			bingoButton.appendChild(shortDescription);
+			bingoItem.appendChild(bingoButton);
+		}
+	</script>
 </html>
