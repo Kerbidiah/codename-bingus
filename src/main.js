@@ -111,12 +111,12 @@ if (
 			} else if (button.className === "export-button") {
 				// TODO: Create alert notification to alert the user that the .BingoGame file was created.
 				invoke("quick_export", { projPath: localStorage.getItem("path") });
+				const relPosition = window.scrollY / window.innerHeight;
+				window.location.reload();
+				window.scrollTo(0, window.innerHeight * relPosition);
 			} else {
 				window.location.href = "./play-board/play-board.html";
 			}
 		}
-		const position = window.scrollY;
-		window.location.reload();
-		window.scrollTo(0, position);
 	});
 }
