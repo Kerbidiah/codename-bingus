@@ -401,6 +401,25 @@
                 color: #e8eefc;
             }
 
+            .input-box {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 12px 14px;
+
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                border-radius: 12px;
+
+                background: rgba(255, 255, 255, 0.06);
+                color: #e8eefc;
+
+                font: inherit;
+            }
+
+            .input-box:focus {
+                outline: 2px solid #4de3ff;
+                outline-offset: 2px;
+            }
+
 
 	    </style>
   	</head>
@@ -488,10 +507,19 @@
                 <h2>Create Custom Bingo Item</h2>
 
                 <p>
-                    Enter a title, description, and emoji for your custom bingo item.
+                    Enter a title and emoji for your custom bingo item.
                 </p>
 
                 <div class="custom-item-form">
+
+                    <label for="custom-title">Title</label>
+                    <textarea
+                        id="custom-title"
+                        rows="1"
+                        maxlength="50"
+                        placeholder="Enter a short title"
+                    ></textarea>
+
                     <label for="custom-emoji">Emoji</label>
                     <select id="custom-emoji">
                         <option value="">Select an emoji</option>
@@ -503,14 +531,6 @@
                         <option value="🚆">🚆 Travel</option>
                         <option value="📸">📸 Photo</option>
                     </select>
-                    
-                    <label for="custom-description">Description</label>
-                    <textarea
-                        id="custom-description"
-                        rows="1"
-                        maxlength="50"
-                        placeholder="Enter a short description"
-                    ></textarea>
 
                     
                 </div>
@@ -540,17 +560,37 @@
 
             const selected_count_display = document.querySelector("#selected-values-header h2:last-child");
 
-            //const project_id = localStorage.getItem("path");
+            const project_id = localStorage.getItem("path");
+            
 
             let items = [];
             let selected_count = 0;
             let changed = false;
             let old_title = title.textContent;
 
+            const cancel_button = document.getElementById("cancel-button");
+            cancel_button.addEventListener("click", () => {
+                set_changed(false);
+                window.location.href = "../index.html";
+            });
+
+            const save_button = document.getElementById("save-button");
+            save_button.addEventListener("click", save_board);
+            
+            function save_board() {
+                set_changed(false);
+                /*
+                    Push all changes to rust;
+                */
+                window.location.href = "../index.html";
+            }
+
             function new_title() {
                 input.type = "text";
-                input.value = title.textContent;
+                //input.value = title.textContent;
+                input.value = project_id;
                 input.id = "title";
+                input.classList.add("input-box")
 
                 title.replaceWith(input);
                 edit_button.src = "../assets/checkmark-light.svg";
@@ -560,13 +600,13 @@
 
                 input.focus();
                 input.select();
+                save_button.disabled = true;
             }
 
             function save_title() {
                 const new_title_value = input.value.trim();
-                if(new_title_value != old_title) {
+                if(new_title_value != old_title || changed) {
                     set_changed(true);
-                    old_title = new_title_value;
                 }
                 input.replaceWith(title);
                 title.textContent = new_title_value;
@@ -680,16 +720,16 @@
             const save_custom_button = document.getElementById("save-custom");
             const cancel_custom_button = document.getElementById("cancel-custom");
             const custom_emoji = document.getElementById("custom-emoji");
-            const custom_description = document.getElementById("custom-description");
+            const custom_title = document.getElementById("custom-title");
 
-            custom_emoji.addEventListener("change", save_custom_item);
-            custom_description.addEventListener("input", save_custom_item);
+            custom_emoji.addEventListener("change", new_custom_item);
+            custom_title.addEventListener("input", new_custom_item);
 
-            function save_custom_item() {
+            function new_custom_item() {
                 const emoji = custom_emoji.value.trim();
-                const description = custom_description.value.trim();
+                const title = custom_title.value.trim();
 
-                if (emoji && description) {
+                if (emoji && title) {
                     save_custom_button.disabled = false;
                 } else {
                     save_custom_button.disabled = true;
@@ -702,6 +742,9 @@
 
             function hide_modal() {
                 backdrop.classList.add("hidden");
+                custom_emoji.value = "";
+                custom_title.value = "";
+                save_custom_button.disabled = true;
             }
 
             function set_changed(value) {
@@ -716,33 +759,20 @@
             });
             custom_button.addEventListener("click", show_modal);
             save_custom_button.addEventListener("click", () => {
-                // Here you would implement the logic to save the custom item
-                // For now, we'll just hide the modal
+                const emoji = custom_emoji.value.trim();
+                const title = custom_title.value.trim();
+
+                const new_item = {title: title, emoji:emoji, description:""};
+                items.push(new_item);
+                add_item(new_item, bank_values_list);
+
                 set_changed(true);
                 hide_modal();
             });
             cancel_custom_button.addEventListener("click", hide_modal);
 
-            const cancel_button = document.getElementById("cancel-button");
-            cancel_button.addEventListener("click", () => {
-                set_changed(false);
-                window.location.href = "../index.html";
-            });
-
-            const save_button = document.getElementById("save-button");
-            save_button.addEventListener("click", save_board);
-            
-            function save_board() {
-                set_changed(false);
-                /*
-                    Push all changes to rust;
-                */
-                window.location.href = "../index.html";
-            }
-
             try {
                 items = await invoke("example_bingo_items");
-                console.log("Loaded items from Rust:", items);
                 load_items();
             } catch (error) {
                 console.error("Failed to load example bingo items:", error);
