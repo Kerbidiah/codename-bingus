@@ -8,8 +8,6 @@ use crate::auto_serde::AutoSerde;
 use crate::bingo::board::BingoBoard;
 use crate::bingo::item::BingoItem;
 
-use rand::prelude::*;
-
 use crate::bingo::resolve_path;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -86,7 +84,7 @@ pub mod commands {
 			title,
 			city,
 			items: Vec::new(),
-			last_board: None
+			last_board: None,
 		};
 
 		proj.write(p.clone()).unwrap();
