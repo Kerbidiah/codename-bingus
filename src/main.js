@@ -32,7 +32,7 @@ function draw_card(title, city, path, owner) {
 		const editAnchor = document.createElement("a");
 		const editImage = document.createElement("img");
 		const EDIT_ICON_PATH =
-			localStorage.getItem('theme') === "light"
+			localStorage.getItem("theme") === "light"
 				? "/assets/editable-board-light.svg"
 				: "/assets/editable-board-dark.svg";
 		editImage.src = EDIT_ICON_PATH;
@@ -49,8 +49,7 @@ function draw_card(title, city, path, owner) {
 
 		button_wrapper.appendChild(editAnchor);
 		button_wrapper.appendChild(exportAnchor);
-	}
-	else {
+	} else {
 		const playAnchor = document.createElement("a");
 		const playImage = document.createElement("img");
 		const PLAY_ICON_PATH = "/assets/play-board.svg";
@@ -70,7 +69,7 @@ if (
 	window.location.pathname === "/index.html"
 ) {
 	let editable_boards; // All metadata for boards that are editable/playable
-	let playable_boards; // All metadat for boards that are only playable
+	let playable_boards; // All metadata for boards that are only playable
 	try {
 		editable_boards = await invoke("get_bingo_projects");
 		playable_boards = await invoke("get_bingo_games");
@@ -78,10 +77,7 @@ if (
 		editable_boards = [];
 		playable_boards = [];
 	}
-	if (
-		editable_boards.length === 0 &&
-		playable_boards.length === 0
-	) {
+	if (editable_boards.length === 0 && playable_boards.length === 0) {
 		const create_board_button = document.createElement("button");
 		create_board_button.id = "create-board";
 		create_board_button.textContent = "Get Started";
@@ -104,13 +100,15 @@ if (
 		}
 	}
 	document.addEventListener("click", (e) => {
-		const button = e.target; // Gets either the edit/play buttons
+		const button = e.target; // Gets either the edit/export buttons
 		const button_wrapper = e.target.closest(".button-wrapper");
 		if (!button_wrapper) return;
 		else {
 			localStorage.setItem("path", button_wrapper.id);
 			if (button.className === "edit-button") {
 				window.location.href = "./editable-board/editable-board.html";
+			} else if (button.className === "export-button") {
+				// invoke("quick_export", { path: localStorage.getItem("path") });
 			} else {
 				window.location.href = "./play-board/play-board.html";
 			}
