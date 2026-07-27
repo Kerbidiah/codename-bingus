@@ -121,6 +121,7 @@
 			  justify-content: center;
 			  align-items: center;
 			  padding: 48px 18px;
+			 padding-top: 0px;
 			  text-align: center;
 			}
 
@@ -160,7 +161,7 @@
 				gap: 16px;
 				padding: 10px;
 			}
-			
+
 			/* Item modals container */
 			.item-modals{
 				width: min(900px, 100%);
@@ -395,7 +396,7 @@
 				flex-direction: row;
 
 				padding: 0;
-				margin: 0 0 24px 0;
+				/*margin: 0 0 24px 0;*/
 				box-sizing: border-box;
 			}
 
@@ -507,7 +508,7 @@
 				</a>
 		 	</nav>
 		</div>
-		
+
 		<!-- Main screen -->
 		<div class="body">
 
@@ -515,7 +516,7 @@
 				<button id="cancel-button" class="glass-button cancel">&larr;</button>
 				<button id="save-button" class = "glass-button save" disabled="true">Save</button>
 			</div>
-			
+
 			<div id="title-container">
 				<h1 id="title" class="title"></h1>
 				<div id="edit-button-container" style="
@@ -548,21 +549,21 @@
 
 				<!-- Selected values -->
 				<div id="selected-values" class="value-modal">
-					
+
 					<div id="selected-values-header" style="
 						position: relative;
 						display: flex;
 						justify-content: center;
 						align-items: center;">
-						
+
 						<h2>Selected Values</h2>
-						
+
 						<h2 style="
 							position: absolute;
 							right: 0;
 							color: red">0/25</h2>
 					</div>
-					
+
 					<ul id="selected-values-list" class="value-list">
 						<!-- The selected values will be here -->
 					</ul>
@@ -604,7 +605,7 @@
 						<option value="📸">📸 Photo</option>
 					</select>
 
-					
+
 				</div>
 
 				<div class="button-box modal-buttons">
@@ -700,7 +701,7 @@
 					second: str.substring(spaceIdx + 1)
 				};
 			}
-			
+
 			async function save_board() {
 				const selected_items_HTML = Array.from(selected_values_list.querySelectorAll(".value-item"));
 				const sel_items = [];
@@ -725,7 +726,7 @@
 				catch (err)
 				{
 					alert("Error creating bingo board: " + err);
-				}			
+				}
 
 				const new_project = {title: title.textContent, city: city, items: items, last_board: selected};
 
@@ -801,7 +802,7 @@
 							}
 							else {
 								selected_count++;
-								list_item.classList.add("selected");   
+								list_item.classList.add("selected");
 							}
 						}
 						update_selected_count();
@@ -853,7 +854,7 @@
 						selected_count++;
 					}
 					update_selected_count();
-					for (const item of items) 
+					for (const item of items)
 					{
 						if(!selected.items.some(selectedItem => selectedItem.title === item.title))
 						{
@@ -863,12 +864,12 @@
 				}
 				else
 				{
-					for (const item of items) 
+					for (const item of items)
 					{
 						add_item(item, bank_values_list);
 					}
 				}
-				
+
 			}
 
 			function update_selected_count() {
