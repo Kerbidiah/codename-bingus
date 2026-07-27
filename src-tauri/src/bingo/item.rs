@@ -49,13 +49,13 @@ pub mod commands {
 
 	#[tauri::command]
 	pub fn example_bingo_items() -> Vec<BingoItem> {
-		info!("example_bingo_items ran\n");
+		info!("example_bingo_items ran");
 		BingoItem::vienna_samples().unwrap()
 	}
 
 	#[tauri::command]
 	pub fn new_bingo_item(title: String, mut emoji: String) -> BingoItem {
-		info!("new_bingo_item ran\n");
+		info!("new_bingo_item ran");
 		BingoItem {
 			title: title,
 			emoji: emoji.pop(),

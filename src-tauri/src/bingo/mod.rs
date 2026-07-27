@@ -36,7 +36,7 @@ pub fn resolve_path(relative: &str) -> PathBuf {
 
 #[tauri::command]
 pub fn get_bingo_projects() -> Vec<(BingoProject, String)> {
-	info!("get_bingo_projects ran\n");
+	info!("get_bingo_projects ran");
 	let path_edit = resolve_path(BINGO_EDIT_PATH);
 
 	fs::read_dir(path_edit)
@@ -67,7 +67,7 @@ pub fn get_bingo_projects() -> Vec<(BingoProject, String)> {
 
 #[tauri::command]
 pub fn get_bingo_games() -> Vec<(PlayableBingo, String)> {
-	info!("get_bingo_games ran\n");
+	info!("get_bingo_games ran");
 	let path_play = resolve_path(BINGO_PLAY_PATH);
 
 	fs::read_dir(path_play)
@@ -98,7 +98,7 @@ pub fn get_bingo_games() -> Vec<(PlayableBingo, String)> {
 
 #[tauri::command]
 pub fn convert_proj_path_to_game_path(input: String) -> String {
-	info!("convert_proj_path_to_game_path ran\n");
+	info!("convert_proj_path_to_game_path ran");
 	let mut p: PathBuf = input.into();
 
 	let c = p.clone();
@@ -112,7 +112,7 @@ pub fn convert_proj_path_to_game_path(input: String) -> String {
 
 #[tauri::command]
 pub fn quick_export(proj_path: String) {
-	info!("quick_export ran\n");
+	info!("quick_export ran");
 	let proj = BingoProject::open(proj_path.clone()).unwrap();
 	let game_path = convert_proj_path_to_game_path(proj_path);
 

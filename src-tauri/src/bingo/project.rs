@@ -51,19 +51,19 @@ pub mod commands {
 
 	#[tauri::command]
 	pub fn generate_random_board(project: BingoProject) -> BingoBoard {
-		info!("generate_random_board ran\n");
+		info!("generate_random_board ran");
 		project.generate_random_board()
 	}
 
 	#[tauri::command]
 	pub fn open_project(path: String) -> BingoProject {
-		info!("open_project ran\n");
+		info!("open_project ran");
 		BingoProject::open(path).unwrap()
 	}
 
 	#[tauri::command]
 	pub fn save_project(path: String, obj: BingoProject) {
-		info!("save_project ran\n");
+		info!("save_project ran");
 		obj.write(path).unwrap();
 	}
 }

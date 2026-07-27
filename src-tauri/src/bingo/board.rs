@@ -39,25 +39,25 @@ pub mod commands {
 
 	#[tauri::command]
 	pub fn generate_dummy_bingo_board() -> BingoBoard {
-		info!("generate_dummy_bingo_board ran\n");
+		info!("generate_dummy_bingo_board ran");
 		BingoBoard::dummy()
 	}
 
 	#[tauri::command]
 	pub fn open_board(path: String) -> BingoBoard {
-		info!("open_board ran\n");
+		info!("open_board ran");
 		BingoBoard::open(path).unwrap()
 	}
 
 	#[tauri::command]
 	pub fn save_board(path: String, obj: BingoBoard) {
-		info!("save_board ran\n");
+		info!("save_board ran");
 		obj.write(path).unwrap();
 	}
 
 	#[tauri::command]
 	pub fn new_bingo_board(title: String, city: String, items: Vec<BingoItem>) -> BingoBoard {
-		info!("new_bingo_board ran\n");
+		info!("new_bingo_board ran");
 		BingoBoard { title, city, items }
 	}
 }

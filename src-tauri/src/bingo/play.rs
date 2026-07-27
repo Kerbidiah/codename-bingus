@@ -20,13 +20,13 @@ pub mod commands {
 	use log::info;
 	#[tauri::command]
 	pub fn open_play(path: String) -> PlayableBingo {
-		info!("open_play ran\n");
+		info!("open_play ran");
 		PlayableBingo::open(path).unwrap()
 	}
 
 	#[tauri::command]
 	pub fn save_play(path: String, obj: PlayableBingo) {
-		info!("save_play ran\n");
+		info!("save_play ran");
 		obj.write(path).unwrap();
 	}
 }
