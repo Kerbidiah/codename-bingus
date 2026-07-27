@@ -46,7 +46,7 @@ pub fn run() {
 			open_board,
 			save_board,
 			open_play,
-			save_play
+			save_play,
 			new_bingo_board,
 		])
 		.run(tauri::generate_context!())
