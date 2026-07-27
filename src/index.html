@@ -87,20 +87,22 @@
 			}
 
 			#bingo-cards button{
+				place-items: center;
+				color: var(--btn-text);
+				box-shadow: 0 12px 30px var(--btn-shadow);
+				transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+			}
+
+			#create-board {
 				appearance: none;
-				border: 0;
 				cursor: pointer;
 				padding: 14px 22px;
 				border-radius: 14px;
 				font-size: 1rem;
 				font-weight: 700;
-
-				color: var(--btn-text);
 				background: linear-gradient(135deg, var(--btn-g1), var(--btn-g2));
-				box-shadow: 0 12px 30px var(--btn-shadow);
-				transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;
+				border: 0;
 			}
-
 			#bingo-cards button:hover{
 				transform: translateY(-2px);
 				box-shadow: 0 16px 36px var(--btn-shadow-2);
@@ -159,7 +161,7 @@
 			}
 			/* Make ONLY the card border show (gradient) */
 			.card-wrapper{
-				position: relative;
+				border: 1px solid transparent;
 				border-radius: 18px;
 				padding: 18px;
 				display: flex;
@@ -167,38 +169,17 @@
 				justify-content: space-between;
 				gap: 14px;
 
-				/* inner fill */
-				background: rgba(255,255,255,0.02);
+			background:
+				linear-gradient(var(--bg), var(--bg)) padding-box,
+				linear-gradient(135deg, var(--btn-g1), var(--btn-g2)) border-box;
 
-				/* Size of card */
 				width: 75vw;
 				max-width: 900px;
 				margin: 40px auto;
 			}
 
-			/* Gradient border drawn with a pseudo-element.
-				Inner content has no borders/outlines. */
-			.card-wrapper::before{
-				content: "";
-				position: absolute;
-				inset: 0;
-				border-radius: inherit;
-				padding: 1px; /* thickness of border */
-				background: linear-gradient(135deg,
-					var(--btn-g1),
-					var(--btn-g2)
-				);
-				-webkit-mask:
-				linear-gradient(#000 0 0) content-box,
-				linear-gradient(#000 0 0);
-				-webkit-mask-composite: xor;
-				mask-composite: exclude;
-				pointer-events: none;
-			}
-
 			/* Remove any outlines/borders from everything inside the card */
 			.name-wrapper,
-			.button-wrapper,
 			.card-title,
 			.card-city,
 			.card-wrapper a {
@@ -251,83 +232,57 @@
 				flex: 0 0 auto;
 			}
 
-			.button-wrapper a{
-				display: grid;
-				place-items: center;
+			.button-wrapper button{
+				appearance: none;
+				cursor: pointer;
+
+				padding: 0;
+				margin: 0;
 				width: 34px;
 				height: 34px;
 
-				/* no border/outline; just subtle background */
-				background: rgba(255,255,255,0.02);
-				border-radius: 11px;
-
-				text-decoration: none;
-
-				/* Make buttons positionable for the pseudo border */
-				position: relative;
+				display: grid;
+				place-items: center;
+			
+				border: 1px solid transparent;
 				border-radius: 50%;
-				overflow: hidden;          /* keeps corners clean */
-				z-index: 0;                /* pseudo can sit behind content */
+			
+				background:
+					linear-gradient(var(--bg), var(--bg)) padding-box,
+					linear-gradient(135deg, var(--btn-g1), var(--btn-g2)) border-box;
+			
+				transition:
+				background 160ms ease,
+				transform 160ms ease;
 			}
 
 			.edit-button,
 			.play-button {
 				width: 25px;
 				height: 25px;
-				display: block;
 			}
 
 			.export-button {
 				width: 21px;
 				height: 21px;
-				display: block;
-			}
-
-			/* Gradient border on the button */
-			.button-wrapper a::before{
-				content: "";
-				position: absolute;
-				inset: 0;
-				border-radius: inherit;
-
-				padding: 1px; /* thickness */
-				background: linear-gradient(135deg, var(--btn-g1), var(--btn-g2));
-
-				/* mask to show only the border */
-				-webkit-mask:
-				linear-gradient(#000 0 0) content-box,
-				linear-gradient(#000 0 0);
-				-webkit-mask-composite: xor;
-				mask-composite: exclude;
-
-				pointer-events: none;
-				z-index: -1;
-				opacity: 0.9;
-				transition: opacity 160ms ease, filter 160ms ease;
 			}
 
 			/* Hover/focus response */
-			.button-wrapper a{
-				transition: background 160ms ease, transform 160ms ease;
+			.button-wrapper button img{
+				display: block;
+				margin: 0;
+
+				transition:
+				background 160ms ease,
+				transform 160ms ease;
 			}
 
-			.button-wrapper a:hover{
-				background: rgba(255,255,255,0.06);
+			.button-wrapper button:hover{
 				transform: translateY(-1px);
 			}
 
-			.button-wrapper a:hover::before{
-				opacity: 1;
-				filter: brightness(1.15);
-			}
-
-			.button-wrapper a:focus-visible{
+			.button-wrapper button:focus-visible{
 				background: rgba(255,255,255,0.06);
-			}
-
-			.button-wrapper a:focus-visible::before{
-				opacity: 1;
-				filter: brightness(1.2);
 			}
 		</style>
 		<script src="themes.js" type="module"></script>

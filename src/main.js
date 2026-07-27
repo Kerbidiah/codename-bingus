@@ -29,7 +29,7 @@ function draw_card(title, city, path, owner) {
 	button_wrapper.className = "button-wrapper";
 	button_wrapper.id = path;
 	if (owner === true) {
-		const editAnchor = document.createElement("a");
+		const editAnchor = document.createElement("button");
 		const editImage = document.createElement("img");
 		const EDIT_ICON_PATH =
 			sessionStorage.getItem("theme") === "light"
@@ -39,7 +39,7 @@ function draw_card(title, city, path, owner) {
 		editImage.className = "edit-button";
 		editAnchor.appendChild(editImage);
 
-		const exportAnchor = document.createElement("a");
+		const exportAnchor = document.createElement("button");
 		const exportImage = document.createElement("img");
 		const EXPORT_ICON_PATH = "/assets/export.svg";
 
@@ -50,7 +50,7 @@ function draw_card(title, city, path, owner) {
 		button_wrapper.appendChild(editAnchor);
 		button_wrapper.appendChild(exportAnchor);
 	} else {
-		const playAnchor = document.createElement("a");
+		const playAnchor = document.createElement("button");
 		const playImage = document.createElement("img");
 		const PLAY_ICON_PATH = "/assets/play-board.svg";
 		playImage.src = PLAY_ICON_PATH;
