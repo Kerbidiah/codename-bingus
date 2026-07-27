@@ -387,7 +387,7 @@
 
 		// Board Items
 		const boardObj = await invoke("open_play", {
-			path: localStorage.getItem("path"),
+			path: sessionStorage.getItem("path"),
 		});
 		const board = boardObj.board;
 		const items = board.items;

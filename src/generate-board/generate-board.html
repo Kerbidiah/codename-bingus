@@ -520,7 +520,7 @@
 		// Gets the generated bingo board from the backend
 		try {
 			board = await invoke(
-				"open_project", { path: localStorage.getItem('path') }
+				"open_project", { path: sessionStorage.getItem('path') }
 			);
 		} catch (error) {
 			// ERR: Function doesn't exist or board has less than 25 items
