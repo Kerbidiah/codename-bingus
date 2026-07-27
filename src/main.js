@@ -117,7 +117,7 @@ if (
 			} else if (button.className === "export-button") {
 				// TODO: Create alert notification to alert the user that the .BingoGame file was created.
 				invoke("quick_export", { projPath: sessionStorage.getItem("path") });
-			} else {
+			} else if (button.className === "play-button") {
 				window.location.href = "./play-board/play-board.html";
 			}
 		}
