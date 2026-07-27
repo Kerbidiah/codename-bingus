@@ -125,11 +125,6 @@ pub fn quick_export(proj_path: String) {
 	let game_path = convert_proj_path_to_game_path(proj_path);
 	info!("quick_export game_path: {game_path}");
 
-	// let game = proj
-	// 	.clone()
-	// 	.last_board
-	// 	.unwrap_or_else(|| proj.generate_random_board());
-
 	let game = if proj.last_board.is_some() {
 		let mut g = proj.last_board.unwrap();
 		g.title.push_str(" <IS GAME>");
