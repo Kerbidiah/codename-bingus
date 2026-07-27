@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en">
 	<head>
-    	<meta charset="UTF-8"/>
-     	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      	<title>Bingus</title>
-	    <style>
+		<meta charset="UTF-8"/>
+	 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	  	<title>Bingus</title>
+		<style>
 			/* Page baseline */
 			body{
 			  margin: 0;
@@ -75,717 +75,781 @@
 			  text-align: center;
 			}
 
-            #title-container {
-                display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                gap: 16px;
-            }
+			#title-container {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+				gap: 16px;
+			}
 
-            .title{
+			.title{
 			  font-size: clamp(2rem, 5vw, 3.25rem);
 			  margin: 0 0 18px;
 			  line-height: 1.05;
 			}
 
-            #edit-button {
-                height: clamp(2rem, 5vw, 3.25rem);
-                width: auto;
-                cursor: pointer;
-            }
+			#edit-button {
+				height: clamp(2rem, 5vw, 3.25rem);
+				width: auto;
+				cursor: pointer;
+			}
 
-            .button-box{
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: column;
-                padding: 10px;
-            }
+			.button-box{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-direction: column;
+				padding: 10px;
+			}
 
-            .modal-buttons {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                flex-direction: row;
-                gap: 16px;
-                padding: 10px;
-            }
+			.modal-buttons {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-direction: row;
+				gap: 16px;
+				padding: 10px;
+			}
 			
 			/* Item modals container */
 			.item-modals{
-                width: min(900px, 100%);
-			    display: grid;
-                grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
-                align-items: stretch;
-                gap: 24px;
+				width: min(900px, 100%);
+				display: grid;
+				grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+				align-items: stretch;
+				gap: 24px;
 			}
 
-            /* Bank values container */
-            .value-modal {
-                min-height: 430px;
-                padding: 22px;
-                border: 1px solid rgba(255, 255, 255, 0.12);
-                border-radius: 28px;
-                background: rgba(255, 255, 255, 0.05);
-                box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
-                overflow: hidden;
-            }
-
-            .value-modal h2 {
-                margin: 0 0 18px;
-                font-size: 1.2rem;
-                text-align: center;
-            }
-
-            .value-list {
-                min-height: 340px;
-                max-height: 430px;
-                height: 100%;
-                margin: 0;
-                padding: 8px;
-                list-style: none;
-                overflow-y: auto;
-                border-radius: 18px;
-                background: rgba(0, 0, 0, 0.12);
-            }
-
-            .value-item {
-                margin-bottom: 8px;
-                padding: 12px 14px;
-                border: 1px solid transparent;
-                border-radius: 12px;
-                cursor: pointer;
-                user-select: none;
-                text-align: left;
-                background: rgba(255, 255, 255, 0.07);
-                transition:
-                    background-color 150ms ease,
-                    border-color 150ms ease,
-                    transform 150ms ease;
-            }
-
-            .value-item:last-child {
-                margin-bottom: 0;
-            }
-
-            .value-item:hover {
-                background: rgba(255, 255, 255, 0.12);
-                transform: translateY(-1px);
-            }
-
-            .value-item.selected {
-                border-color: #4de3ff;
-                background: rgba(77, 227, 255, 0.17);
-            }
-
-            .glass-button {
-                --btn-g1: #4de3ff;
-                --btn-g2: #3b82f6;
-
-                position: relative;
-
-                padding: 14px 22px;
-                margin: 8px 0;
-
-                display: flex;
-                align-items: center;
-                justify-content: center;
-
-                border: none;
-                border-radius: 14px;
-
-                background: rgba(255,255,255,0.03);
-                color: #e8eefc;
-
-                font-size: 1.6rem;
-                font-weight: bold;
-
-                cursor: pointer;
-            }
-
-            /* Gradient border */
-            .glass-button::before {
-                content: "";
-                position: absolute;
-                inset: 0;
-                border-radius: inherit;
-
-                padding: 1px;
-                background: linear-gradient(135deg, var(--btn-g1), var(--btn-g2));
-
-                -webkit-mask:
-                    linear-gradient(#000 0 0) content-box,
-                    linear-gradient(#000 0 0);
-                -webkit-mask-composite: xor;
-                mask-composite: exclude;
-
-                pointer-events: none;
-                z-index: 0;
-
-                opacity: 0.9;
-                transition: opacity 160ms ease, filter 160ms ease;
-            }
-
-            /* Hover/focus */
-            .glass-button {
-                transition:
-                    background 160ms ease,
-                    transform 160ms ease;
-            }
-
-            .glass-button:hover {
-                background: rgba(255,255,255,0.06);
-                transform: translateY(-1px);
-            }
-
-            .glass-button:hover::before {
-                opacity: 1;
-                filter: brightness(1.15);
-            }
-
-            .glass-button:focus-visible {
-                background: rgba(255,255,255,0.06);
-            }
-
-            .glass-button:focus-visible::before {
-                opacity: 1;
-                filter: brightness(1.2);
-            }
-
-            .glass-button:active {
-                transform: translateY(1px);
-            }
-
-            .modal-backdrop {
-                position: fixed;
-                inset: 0;
-
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                background: rgba(0,0,0,0.55);
-                backdrop-filter: blur(5px);
-
-                z-index: 1000;
-            }
-
-            .hidden {
-                display: none;
-            }
-
-            .modal {
-                width: min(500px, 90vw);
-
-                padding: 28px;
-
-                border-radius: 24px;
-
-                background: #172033;
-                color: #e8eefc;
-
-                border: 1px solid rgba(255,255,255,.1);
-
-                box-shadow:
-                    0 20px 60px rgba(0,0,0,.45);
-            }
-
-            .modal h2 {
-                margin-top: 0;
-            }
-
-            #add-custom {
-                display: block;
-                margin-top: 12px;
-                text-align: left;
-
-                color: #3b82f6;
-                text-decoration: none;
-                font-weight: 600;
-
-                transition: opacity 150ms ease, transform 150ms ease;
-            }
-
-            #add-custom:visited,
-            #add-custom:active,
-            #add-custom:focus {
-                color: #3b82f6;
-            }
-
-            #add-custom:hover {
-                color: #3b82f6;
-                opacity: 0.85;
-                transform: translateX(5px);
-            }
-
-            .top-buttons {
-                width: min(900px, 100%);
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                flex-direction: row;
-
-                padding: 0;
-                margin: 0 0 24px 0;
-                box-sizing: border-box;
-            }
-
-            .cancel {
-                --btn-g1: #ef4444;
-                --btn-g2: #b91c1c;
-            }
-
-            .save {
-                --btn-g1: #22c55e;
-                --btn-g2: #15803d;
-            }
-
-            .save:disabled {
-                --btn-g1: #666;
-                --btn-g2: #555;
-
-                color: #888;
-                cursor: not-allowed;
-                opacity: 0.6;
-            }
-
-            .save:disabled:hover {
-                background: rgba(255,255,255,0.03);
-                transform: none;
-            }
-
-            .save:disabled:hover::before {
-                filter: none;
-                opacity: 0.9;
-            }
-
-            .custom-item-form {
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
-                margin: 20px 0;
-                text-align: left;
-            }
-
-            .custom-item-form label {
-                margin-top: 8px;
-                font-weight: 600;
-            }
-
-            .custom-item-form input,
-            .custom-item-form textarea,
-            .custom-item-form select {
-                width: 100%;
-                box-sizing: border-box;
-                padding: 12px 14px;
-
-                border: 1px solid rgba(255, 255, 255, 0.14);
-                border-radius: 12px;
-
-                background: rgba(255, 255, 255, 0.06);
-                color: #e8eefc;
-
-                font: inherit;
-            }
-
-            .custom-item-form input:focus,
-            .custom-item-form textarea:focus,
-            .custom-item-form select:focus {
-                outline: 2px solid #4de3ff;
-                outline-offset: 2px;
-            }
-
-            .custom-item-form select option {
-                background: #172033;
-                color: #e8eefc;
-            }
-
-            .input-box {
-                width: 100%;
-                box-sizing: border-box;
-                padding: 12px 14px;
-
-                border: 1px solid rgba(255, 255, 255, 0.14);
-                border-radius: 12px;
-
-                background: rgba(255, 255, 255, 0.06);
-                color: #e8eefc;
-
-                font: inherit;
-            }
-
-            .input-box:focus {
-                outline: 2px solid #4de3ff;
-                outline-offset: 2px;
-            }
-
-
-	    </style>
+			/* Bank values container */
+			.value-modal {
+				min-height: 430px;
+				padding: 22px;
+				border: 1px solid rgba(255, 255, 255, 0.12);
+				border-radius: 28px;
+				background: rgba(255, 255, 255, 0.05);
+				box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+				overflow: hidden;
+			}
+
+			.value-modal h2 {
+				margin: 0 0 18px;
+				font-size: 1.2rem;
+				text-align: center;
+			}
+
+			.value-list {
+				min-height: 340px;
+				max-height: 430px;
+				height: 100%;
+				margin: 0;
+				padding: 8px;
+				list-style: none;
+				overflow-y: auto;
+				border-radius: 18px;
+				background: rgba(0, 0, 0, 0.12);
+			}
+
+			.value-item {
+				margin-bottom: 8px;
+				padding: 12px 14px;
+				border: 1px solid transparent;
+				border-radius: 12px;
+				cursor: pointer;
+				user-select: none;
+				text-align: left;
+				background: rgba(255, 255, 255, 0.07);
+				transition:
+					background-color 150ms ease,
+					border-color 150ms ease,
+					transform 150ms ease;
+			}
+
+			.value-item:last-child {
+				margin-bottom: 0;
+			}
+
+			.value-item:hover {
+				background: rgba(255, 255, 255, 0.12);
+				transform: translateY(-1px);
+			}
+
+			.value-item.selected {
+				border-color: #4de3ff;
+				background: rgba(77, 227, 255, 0.17);
+			}
+
+			.glass-button {
+				--btn-g1: #4de3ff;
+				--btn-g2: #3b82f6;
+
+				position: relative;
+
+				padding: 14px 22px;
+				margin: 8px 0;
+
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				border: none;
+				border-radius: 14px;
+
+				background: rgba(255,255,255,0.03);
+				color: #e8eefc;
+
+				font-size: 1.6rem;
+				font-weight: bold;
+
+				cursor: pointer;
+			}
+
+			/* Gradient border */
+			.glass-button::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+				border-radius: inherit;
+
+				padding: 1px;
+				background: linear-gradient(135deg, var(--btn-g1), var(--btn-g2));
+
+				-webkit-mask:
+					linear-gradient(#000 0 0) content-box,
+					linear-gradient(#000 0 0);
+				-webkit-mask-composite: xor;
+				mask-composite: exclude;
+
+				pointer-events: none;
+				z-index: 0;
+
+				opacity: 0.9;
+				transition: opacity 160ms ease, filter 160ms ease;
+			}
+
+			/* Hover/focus */
+			.glass-button {
+				transition:
+					background 160ms ease,
+					transform 160ms ease;
+			}
+
+			.glass-button:hover {
+				background: rgba(255,255,255,0.06);
+				transform: translateY(-1px);
+			}
+
+			.glass-button:hover::before {
+				opacity: 1;
+				filter: brightness(1.15);
+			}
+
+			.glass-button:focus-visible {
+				background: rgba(255,255,255,0.06);
+			}
+
+			.glass-button:focus-visible::before {
+				opacity: 1;
+				filter: brightness(1.2);
+			}
+
+			.glass-button:active {
+				transform: translateY(1px);
+			}
+
+			.modal-backdrop {
+				position: fixed;
+				inset: 0;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				background: rgba(0,0,0,0.55);
+				backdrop-filter: blur(5px);
+
+				z-index: 1000;
+			}
+
+			.hidden {
+				display: none;
+			}
+
+			.modal {
+				width: min(500px, 90vw);
+
+				padding: 28px;
+
+				border-radius: 24px;
+
+				background: #172033;
+				color: #e8eefc;
+
+				border: 1px solid rgba(255,255,255,.1);
+
+				box-shadow:
+					0 20px 60px rgba(0,0,0,.45);
+			}
+
+			.modal h2 {
+				margin-top: 0;
+			}
+
+			#add-custom {
+				display: block;
+				margin-top: 12px;
+				text-align: left;
+
+				color: #3b82f6;
+				text-decoration: none;
+				font-weight: 600;
+
+				transition: opacity 150ms ease, transform 150ms ease;
+			}
+
+			#add-custom:visited,
+			#add-custom:active,
+			#add-custom:focus {
+				color: #3b82f6;
+			}
+
+			#add-custom:hover {
+				color: #3b82f6;
+				opacity: 0.85;
+				transform: translateX(5px);
+			}
+
+			.top-buttons {
+				width: min(900px, 100%);
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				flex-direction: row;
+
+				padding: 0;
+				margin: 0 0 24px 0;
+				box-sizing: border-box;
+			}
+
+			.cancel {
+				--btn-g1: #ef4444;
+				--btn-g2: #b91c1c;
+			}
+
+			.save {
+				--btn-g1: #22c55e;
+				--btn-g2: #15803d;
+			}
+
+			.save:disabled {
+				--btn-g1: #666;
+				--btn-g2: #555;
+
+				color: #888;
+				cursor: not-allowed;
+				opacity: 0.6;
+			}
+
+			.save:disabled:hover {
+				background: rgba(255,255,255,0.03);
+				transform: none;
+			}
+
+			.save:disabled:hover::before {
+				filter: none;
+				opacity: 0.9;
+			}
+
+			.custom-item-form {
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+				margin: 20px 0;
+				text-align: left;
+			}
+
+			.custom-item-form label {
+				margin-top: 8px;
+				font-weight: 600;
+			}
+
+			.custom-item-form input,
+			.custom-item-form textarea,
+			.custom-item-form select {
+				width: 100%;
+				box-sizing: border-box;
+				padding: 12px 14px;
+
+				border: 1px solid rgba(255, 255, 255, 0.14);
+				border-radius: 12px;
+
+				background: rgba(255, 255, 255, 0.06);
+				color: #e8eefc;
+
+				font: inherit;
+			}
+
+			.custom-item-form input:focus,
+			.custom-item-form textarea:focus,
+			.custom-item-form select:focus {
+				outline: 2px solid #4de3ff;
+				outline-offset: 2px;
+			}
+
+			.custom-item-form select option {
+				background: #172033;
+				color: #e8eefc;
+			}
+
+			.input-box {
+				width: 100%;
+				box-sizing: border-box;
+				padding: 12px 14px;
+
+				border: 1px solid rgba(255, 255, 255, 0.14);
+				border-radius: 12px;
+
+				background: rgba(255, 255, 255, 0.06);
+				color: #e8eefc;
+
+				font: inherit;
+			}
+
+			.input-box:focus {
+				outline: 2px solid #4de3ff;
+				outline-offset: 2px;
+			}
+
+
+		</style>
   	</head>
 
    	<body>
-	    <!-- Top navigation bar -->
-        <div class="navigation">
-	    	<nav class="navigation">
-	     		<a href="../index.html" id="home">Home</a>
+		<!-- Top navigation bar -->
+		<div class="navigation">
+			<nav class="navigation">
+		 		<a href="../index.html" id="home">Home</a>
 				<a href="../about/about.html" id="about">About</a>
 				<a href="#dark-mode" id="dark-mode">
 					<img src="../assets/enable-light-mode.svg" alt="Light Mode Selector"/>
 				</a>
-	     	</nav>
-	    </div>
-	    
-        <!-- Main screen -->
-        <div class="body">
+		 	</nav>
+		</div>
+		
+		<!-- Main screen -->
+		<div class="body">
 
-            <div class="button-box top-buttons">
-                <button id="cancel-button" class="glass-button cancel">Cancel</button>
-                <button id="save-button" class = "glass-button save" disabled="true">Save</button>
-            </div>
-            
-            <div id="title-container">
-                <h1 id="title" class="title">Bingus</h1>
-                <div id="edit-button-container" style="
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                ">
-                    <img src="../assets/editable-board-dark.svg"
-                        alt="Edit Title"
-                        id="edit-button">
-                </div>
-            </div>
-            <!-- The actual stuff on the screen -->
-            <div id="main-view" class="item-modals">
+			<div class="button-box top-buttons">
+				<button id="cancel-button" class="glass-button cancel">Cancel</button>
+				<button id="save-button" class = "glass-button save" disabled="true">Save</button>
+			</div>
+			
+			<div id="title-container">
+				<h1 id="title" class="title"></h1>
+				<div id="edit-button-container" style="
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+				">
+					<img src="../assets/editable-board-dark.svg"
+						alt="Edit Title"
+						id="edit-button">
+				</div>
+			</div>
+			<!-- The actual stuff on the screen -->
+			<div id="main-view" class="item-modals">
 
-                <!-- Options to select from -->
-                <div id="bank-values" class="value-modal">
-                    <h2>Bank Values</h2>
-                    <ul id="bank-values-list" class="value-list">
-                        <!-- The bank of values will be here -->
-                    </ul>
-                    <a href="#" id="add-custom">+ Custom</a>
-                </div>
+				<!-- Options to select from -->
+				<div id="bank-values" class="value-modal">
+					<h2>Bank Values</h2>
+					<ul id="bank-values-list" class="value-list">
+						<!-- The bank of values will be here -->
+					</ul>
+					<a href="#" id="add-custom">+ Custom</a>
+				</div>
 
-                <!-- Button controls -->
-                <div id="buttons" class="button-box">
-                    <button id="move-one-right" class="glass-button">&gt;</button>
-                    <button id="move-one-left" class="glass-button">&lt;</button>
-                </div>
+				<!-- Button controls -->
+				<div id="buttons" class="button-box">
+					<button id="move-one-right" class="glass-button">&gt;</button>
+					<button id="move-one-left" class="glass-button">&lt;</button>
+				</div>
 
-                <!-- Selected values -->
-                <div id="selected-values" class="value-modal">
-                    
-                    <div id="selected-values-header" style="
-                        position: relative;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;">
-                        
-                        <h2>Selected Values</h2>
-                        
-                        <h2 style="
-                            position: absolute;
-                            right: 0;
-                            color: red">0/25</h2>
-                    </div>
-                    
-                    <ul id="selected-values-list" class="value-list">
-                        <!-- The selected values will be here -->
-                    </ul>
-                </div>
-            </div>
+				<!-- Selected values -->
+				<div id="selected-values" class="value-modal">
+					
+					<div id="selected-values-header" style="
+						position: relative;
+						display: flex;
+						justify-content: center;
+						align-items: center;">
+						
+						<h2>Selected Values</h2>
+						
+						<h2 style="
+							position: absolute;
+							right: 0;
+							color: red">0/25</h2>
+					</div>
+					
+					<ul id="selected-values-list" class="value-list">
+						<!-- The selected values will be here -->
+					</ul>
+				</div>
+			</div>
 
-            <div id="randomize" class="button-box">
-                <button id="randomize-button" class="glass-button">Randomize</button>
-            </div>
-	    </div>
+			<div id="randomize" class="button-box">
+				<button id="randomize-button" class="glass-button">Randomize</button>
+			</div>
+		</div>
 
-        <div id="modal-backdrop" class="modal-backdrop hidden">
-            <div class="modal">
-                <h2>Create Custom Bingo Item</h2>
+		<div id="modal-backdrop" class="modal-backdrop hidden">
+			<div class="modal">
+				<h2>Create Custom Bingo Item</h2>
 
-                <p>
-                    Enter a title and emoji for your custom bingo item.
-                </p>
+				<p>
+					Enter a title and emoji for your custom bingo item.
+				</p>
 
-                <div class="custom-item-form">
+				<div class="custom-item-form">
 
-                    <label for="custom-title">Title</label>
-                    <textarea
-                        id="custom-title"
-                        rows="1"
-                        maxlength="50"
-                        placeholder="Enter a short title"
-                    ></textarea>
+					<label for="custom-title">Title</label>
+					<textarea
+						id="custom-title"
+						rows="1"
+						maxlength="50"
+						placeholder="Enter a short title"
+					></textarea>
 
-                    <label for="custom-emoji">Emoji</label>
-                    <select id="custom-emoji">
-                        <option value="">Select an emoji</option>
-                        <option value="🎯">🎯 Target</option>
-                        <option value="🎉">🎉 Celebration</option>
-                        <option value="🍕">🍕 Food</option>
-                        <option value="🏛️">🏛️ Landmark</option>
-                        <option value="🎭">🎭 Entertainment</option>
-                        <option value="🚆">🚆 Travel</option>
-                        <option value="📸">📸 Photo</option>
-                    </select>
+					<label for="custom-emoji">Emoji</label>
+					<select id="custom-emoji">
+						<option value="">Select an emoji</option>
+						<option value="🎯">🎯 Target</option>
+						<option value="🎉">🎉 Celebration</option>
+						<option value="🍕">🍕 Food</option>
+						<option value="🏛️">🏛️ Landmark</option>
+						<option value="🎭">🎭 Entertainment</option>
+						<option value="🚆">🚆 Travel</option>
+						<option value="📸">📸 Photo</option>
+					</select>
 
-                    
-                </div>
+					
+				</div>
 
-                <div class="button-box modal-buttons">
-                    <button id="cancel-custom" class="glass-button cancel">Cancel</button>
-                    <button id="save-custom" class="glass-button save" disabled="true">Save</button>
-                </div>
-            </div>
-        </div>
+				<div class="button-box modal-buttons">
+					<button id="cancel-custom" class="glass-button cancel">Cancel</button>
+					<button id="save-custom" class="glass-button save" disabled="true">Save</button>
+				</div>
+			</div>
+		</div>
 
-        <script type="module">
-            const { invoke } = window.__TAURI__.core;
+		<script type="module">
+			const { invoke } = window.__TAURI__.core;
 
-            const bank_values_list = document.getElementById("bank-values-list");
-            const selected_values_list = document.getElementById("selected-values-list");
+			const bank_values_list = document.getElementById("bank-values-list");
+			const selected_values_list = document.getElementById("selected-values-list");
 
-            const move_one_right = document.getElementById("move-one-right");
-            const move_one_left = document.getElementById("move-one-left");
-            const randomize_button = document.getElementById("randomize-button");
-            const edit_button = document.getElementById("edit-button");
+			const move_one_right = document.getElementById("move-one-right");
+			const move_one_left = document.getElementById("move-one-left");
+			const randomize_button = document.getElementById("randomize-button");
+			const edit_button = document.getElementById("edit-button");
 
-            const title = document.getElementById("title");
-            const input = document.createElement("input");
+			const title = document.getElementById("title");
+			const input = document.createElement("input");
 
-            edit_button.addEventListener("click", new_title);
+			const selected_count_display = document.querySelector("#selected-values-header h2:last-child");
 
-            const selected_count_display = document.querySelector("#selected-values-header h2:last-child");
+			const project_id = localStorage.getItem("path");
 
-            const project_id = localStorage.getItem("path");
-            
+			const cancel_button = document.getElementById("cancel-button");
+			const save_button = document.getElementById("save-button");
 
-            let board;
-            let items = [];
-            let selected_count = 0;
-            let changed = false;
-            let old_title = title.textContent;
+			const backdrop = document.getElementById("modal-backdrop");
+			const custom_button = document.getElementById("add-custom");
+			const save_custom_button = document.getElementById("save-custom");
+			const cancel_custom_button = document.getElementById("cancel-custom");
+			const custom_emoji = document.getElementById("custom-emoji");
+			const custom_title = document.getElementById("custom-title");
 
-            const cancel_button = document.getElementById("cancel-button");
-            cancel_button.addEventListener("click", () => {
-                set_changed(false);
-                window.location.href = "../index.html";
-            });
+			let board;
+			let selected;
+			let old_title;
+			let items = [];
+			let selected_count = 0;
+			let changed_items = false;
+			let changed_selections = false;
+			let changed_title = false;
 
-            const save_button = document.getElementById("save-button");
-            save_button.addEventListener("click", save_board);
-            
-            function save_board() {
-                set_changed(false);
-                /*
-                    Push all changes to rust;
-                */
-                window.location.href = "../index.html";
-            }
+			edit_button.addEventListener("click", new_title);
 
-            function new_title() {
-                input.type = "text";
-                input.value = title.textContent;
-                input.id = "title";
-                input.classList.add("input-box")
+			cancel_button.addEventListener("click", () => {
+				window.location.href = "../index.html";
+			});
 
-                title.replaceWith(input);
-                edit_button.src = "../assets/checkmark-light.svg";
-                edit_button.alt = "Save Title";
-                edit_button.removeEventListener("click", new_title);
-                edit_button.addEventListener("click", save_title);
+			save_button.addEventListener("click", save_board);
 
-                input.focus();
-                input.select();
-                save_button.disabled = true;
-            }
+			custom_emoji.addEventListener("change", new_custom_item);
+			custom_title.addEventListener("input", new_custom_item);
 
-            function save_title() {
-                const new_title_value = input.value.trim();
-                if(new_title_value != old_title || changed) {
-                    set_changed(true);
-                }
-                input.replaceWith(title);
-                title.textContent = new_title_value;
-                edit_button.src = "../assets/editable-board-dark.svg";
-                edit_button.alt = "Edit Title";
-                edit_button.removeEventListener("click", save_title);
-                edit_button.addEventListener("click", new_title);
-            }
+			backdrop.addEventListener("click", (event) => {
+				if (event.target === backdrop) {
+					hide_modal();
+				}
+			});
+			custom_button.addEventListener("click", show_modal);
+			save_custom_button.addEventListener("click", () => {
+				const emoji = custom_emoji.value.trim();
+				const title = custom_title.value.trim();
 
-            // adds an item to the list based on parameters
-            function add_item(item, list) {
-                const list_item = document.createElement("li");
+				const new_item = {title: title, emoji:emoji, description:""};
+				items.push(new_item);
+				add_item(new_item, bank_values_list);
+				changed_items = true;
+				check_change();
 
-                list_item.className = "value-item";
-                list_item.textContent = item.emoji + " " + item.title;
+				hide_modal();
+			});
+			cancel_custom_button.addEventListener("click", hide_modal);
+			
+			async function save_board() {
+				const selected_items_HTML = Array.from(selected_values_list.querySelectorAll(".value-item"));
+				for(const item of selected_items_HTML)
+				{
+					const emoji = item.textContent.substring(0, 1);
+					const title = item.textContent.substring(2);
+					const bing_item = {}
+				}
+				//const selected_items = [];
+				//for(const item of selected_items_HTML)
+				//{
 
-                // adds a listener to select the item when clicked
-                list_item.addEventListener("click", () => {
-                    if(list_item.parentElement === bank_values_list) {
-                        if(list_item.classList.contains("selected")) {
-                            selected_count--;
-                            list_item.classList.remove("selected");
-                        }
-                        else {
+				//}
+				selected = {city: "", items: selected_items};				
+				const new_project = {title: title.textContent, city: "", items: items, last_board: selected};
 
-                            if(selected_count >= 25) {
-                                return; // Do not allow more than 25 selected items
-                            }
-                            else {
-                                selected_count++;
-                                list_item.classList.add("selected");   
-                            }
-                        }
-                        update_selected_count();
-                    }
-                    else
-                    {
-                        list_item.classList.toggle("selected");
-                    }
-                });
+				try
+				{
+					await invoke("save_project", {path: project_id, obj: new_project});
+				}
+				catch (err)
+				{
+					alert("Failed to save project: " + err);
+				}
 
-                list.appendChild(list_item);
-            }
+				window.location.href = "../index.html";
+			}
 
-            function randomize()
-            {
-                // clear the selected values
-                const selected_items = selected_values_list.querySelectorAll(".value-item");
-                for (const item of selected_items) {
-                    item.classList.remove("selected");
-                    bank_values_list.appendChild(item);
-                }
+			function new_title() {
+				input.type = "text";
+				input.value = title.textContent;
+				input.id = "title";
+				input.classList.add("input-box");
 
-                // shuffle the bank items and pick 25 random items
-                const bank_items = Array.from(bank_values_list.querySelectorAll(".value-item"));
-                const shuffled_items = bank_items.sort(() => Math.random() - 0.5);
-                const random_selection = shuffled_items.slice(0, 25);
+				title.replaceWith(input);
+				edit_button.src = "../assets/checkmark-light.svg";
+				edit_button.alt = "Save Title";
+				edit_button.removeEventListener("click", new_title);
+				edit_button.addEventListener("click", save_title);
 
-                for (const item of random_selection) {
-                    selected_values_list.appendChild(item);
-                }
+				save_button.disabled = true; // cannot save while currently editing the title
 
-                selected_count = random_selection.length;
+				input.focus();
+				input.select();
+			}
 
-                update_selected_count();
-            }
+			function save_title() {
+				const new_title_value = input.value.trim();
+				input.replaceWith(title);
+				title.textContent = new_title_value;
+				edit_button.src = "../assets/editable-board-dark.svg";
+				edit_button.alt = "Edit Title";
+				edit_button.removeEventListener("click", save_title);
+				edit_button.addEventListener("click", new_title);
 
-            // adds all items to the bank values list
-            function load_items() {
-                bank_values_list.innerHTML = "";
+				if(new_title_value == old_title)
+				{
+					changed_title = false;
+				}
+				else
+				{
+					changed_title = true;
+				}
 
-                for (const item of items) {
-                    add_item(item, bank_values_list);
-                }
-            }
+				check_change();
+			}
 
-            function update_selected_count() {
-                selected_count_display.textContent = `${selected_count}/25`;
-                if(selected_count == 25) {
-                    selected_count_display.style.color = "green";
-                } else {
-                    selected_count_display.style.color = "red";
-                }
-            }
+			// adds an item to the list based on parameters
+			function add_item(item, list) {
+				const list_item = document.createElement("li");
 
-            // moves the selected items from the bank to the right
-            function move_selected_right() {
-                const selected_items = bank_values_list.querySelectorAll(".value-item.selected");
+				list_item.className = "value-item";
+				list_item.textContent = item.emoji + " " + item.title;
 
-                for (const item of selected_items) {
-                    item.classList.remove("selected");
-                    selected_values_list.appendChild(item);
-                }
-            }
+				// adds a listener to select the item when clicked
+				list_item.addEventListener("click", () => {
+					if(list_item.parentElement === bank_values_list) {
+						if(list_item.classList.contains("selected")) {
+							selected_count--;
+							list_item.classList.remove("selected");
+						}
+						else {
 
-            // moves the selected items from the selected list to the left
-            function move_selected_left() {
-                const selected_items = selected_values_list.querySelectorAll(".value-item.selected");
+							if(selected_count >= 25) {
+								return; // Do not allow more than 25 selected items
+							}
+							else {
+								selected_count++;
+								list_item.classList.add("selected");   
+							}
+						}
+						update_selected_count();
+					}
+					else
+					{
+						list_item.classList.toggle("selected");
+					}
+				});
 
-                for (const item of selected_items) {
-                    item.classList.remove("selected");
-                    bank_values_list.appendChild(item);
-                    selected_count--;
-                }
+				list.appendChild(list_item);
+			}
 
-                update_selected_count();
-            }
+			function randomize()
+			{
+				// clear the selected values
+				const selected_items = selected_values_list.querySelectorAll(".value-item");
+				for (const item of selected_items) {
+					item.classList.remove("selected");
+					bank_values_list.appendChild(item);
+				}
 
-            const backdrop = document.getElementById("modal-backdrop");
-            const custom_button = document.getElementById("add-custom");
-            const save_custom_button = document.getElementById("save-custom");
-            const cancel_custom_button = document.getElementById("cancel-custom");
-            const custom_emoji = document.getElementById("custom-emoji");
-            const custom_title = document.getElementById("custom-title");
+				// shuffle the bank items and pick 25 random items
+				const bank_items = Array.from(bank_values_list.querySelectorAll(".value-item"));
+				const shuffled_items = bank_items.sort(() => Math.random() - 0.5);
+				const random_selection = shuffled_items.slice(0, 25);
 
-            custom_emoji.addEventListener("change", new_custom_item);
-            custom_title.addEventListener("input", new_custom_item);
+				for (const item of random_selection) {
+					selected_values_list.appendChild(item);
+				}
 
-            function new_custom_item() {
-                const emoji = custom_emoji.value.trim();
-                const title = custom_title.value.trim();
+				selected_count = random_selection.length;
 
-                if (emoji && title) {
-                    save_custom_button.disabled = false;
-                } else {
-                    save_custom_button.disabled = true;
-                }
-            }
+				update_selected_count();
+				check_change();
+			}
 
-            function show_modal() {
-                backdrop.classList.remove("hidden");
-            }
+			// adds items to the appropriate list
+			function load_items() {
+				bank_values_list.innerHTML = "";
+				selected_values_list.innerHTML = "";
 
-            function hide_modal() {
-                backdrop.classList.add("hidden");
-                custom_emoji.value = "";
-                custom_title.value = "";
-                save_custom_button.disabled = true;
-            }
+				if(selected != null)
+				{
+					for(const item of selected.items)
+					{
+						add_item(item, selected_values_list);
+					}
+					for (const item of items) 
+					{
+						if(!(item in selected.items))
+						{
+							add_item(item, bank_values_list);
+						}
+					}
+				}
+				else
+				{
+					for (const item of items) 
+					{
+						add_item(item, bank_values_list);
+					}
+				}
+				
+			}
 
-            function set_changed(value) {
-                changed = value;
-                document.getElementById("save-button").disabled = !changed;
-            }
+			function update_selected_count() {
+				selected_count_display.textContent = `${selected_count}/25`;
+				if(selected_count == 25) {
+					selected_count_display.style.color = "green";
+					changed_selections = true;	// FIXME: TODO: Check to see if selections have actually changed
+				} else {
+					selected_count_display.style.color = "red";
+				}
+			}
 
-            backdrop.addEventListener("click", (event) => {
-                if (event.target === backdrop) {
-                    hide_modal();
-                }
-            });
-            custom_button.addEventListener("click", show_modal);
-            save_custom_button.addEventListener("click", () => {
-                const emoji = custom_emoji.value.trim();
-                const title = custom_title.value.trim();
+			// moves the selected items from the bank to the right
+			function move_selected_right() {
+				const selected_items = bank_values_list.querySelectorAll(".value-item.selected");
 
-                const new_item = {title: title, emoji:emoji, description:""};
-                items.push(new_item);
-                add_item(new_item, bank_values_list);
+				for (const item of selected_items) {
+					item.classList.remove("selected");
+					selected_values_list.appendChild(item);
+				}
+				check_change();
+			}
 
-                set_changed(true);
-                hide_modal();
-            });
-            cancel_custom_button.addEventListener("click", hide_modal);
+			// moves the selected items from the selected list to the left
+			function move_selected_left() {
+				const selected_items = selected_values_list.querySelectorAll(".value-item.selected");
 
-            try {
-                board = await invoke("open_board", {path: project_id});
-                items = board.items;
-                alert("Title: " + board.city + "\nPath: " + project_id);
-                title.textContent = board.title;
-                load_items();
-            } catch (error) {
-                console.error("Failed to load example bingo items:", error);
-                items = [];
-            }
+				for (const item of selected_items) {
+					item.classList.remove("selected");
+					bank_values_list.appendChild(item);
+					selected_count--;
+				}
 
-            move_one_right.addEventListener("click", move_selected_right);
-            move_one_left.addEventListener("click", move_selected_left);
-            randomize_button.addEventListener("click", randomize);
+				update_selected_count();
+				check_change();
+			}
+
+			function new_custom_item() {
+				const emoji = custom_emoji.value.trim();
+				const title = custom_title.value.trim();
+
+				if (emoji && title) {
+					save_custom_button.disabled = false;
+				} else {
+					save_custom_button.disabled = true;
+				}
+			}
+
+			function show_modal() {
+				backdrop.classList.remove("hidden");
+			}
+
+			function hide_modal() {
+				backdrop.classList.add("hidden");
+				custom_emoji.value = "";
+				custom_title.value = "";
+				save_custom_button.disabled = true;
+			}
+
+			function check_change()
+			{
+				if((changed_items || changed_selections || changed_title) && selected_count == 25)
+				{
+					save_button.disabled = false;
+				}
+				else
+				{
+					save_button.disabled = true;
+				}
+			}
+
+			try {
+				board = await invoke("open_project", {path: project_id});
+				items = board.items;
+				selected = board.last_board;
+				old_title = board.title;
+				title.textContent = old_title;
+				load_items();
+			} catch (error) {
+				console.error("Failed to load example bingo items:", error);
+				items = [];
+			}
+
+			move_one_right.addEventListener("click", move_selected_right);
+			move_one_left.addEventListener("click", move_selected_left);
+			randomize_button.addEventListener("click", randomize);
 		</script>
 
-    </body>
+	</body>
 </html>
