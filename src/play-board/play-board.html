@@ -16,7 +16,7 @@
 			}
 
 			/* DARK THEME (default) */
-			body{
+			body {
 				--bg: #0b1220;
 				--text: #e8eefc;
 				--text-1: rgba(255,255,255,0.55);
@@ -35,7 +35,7 @@
 			}
 
 			/* LIGHT THEME */
-			body.light{
+			body.light {
 				--bg: #f6f7fb;
 				--text: #0f172a;
 				--text-1: rgba(0, 0, 0, 0.35);
@@ -53,14 +53,14 @@
 				--btn-shadow-2: rgba(91, 111, 255, 0.26);
 			}
 
-			body{
+			body {
 				margin: 0;
 				font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 				background: var(--bg);
 				color: var(--text);
 			}
 
-			.navigation{
+			.navigation {
 				position: sticky;
 				top: 0;
 				z-index: 10;
@@ -69,7 +69,7 @@
 				border-bottom: 1px solid var(--nav-border);
 			}
 
-			nav.navigation a{
+			nav.navigation a {
 				color: var(--link);
 				text-decoration: none;
 				font-weight: 600;
@@ -79,12 +79,12 @@
 				transition: background-color 160ms ease, transform 160ms ease;
 			}
 
-			nav.navigation a:hover{
+			nav.navigation a:hover {
 				background: var(--link-hover-bg);
 				transform: translateY(-1px);
 			}
 
-			nav.navigation{
+			nav.navigation {
 				max-width: 1100px;
 				margin: 0 auto;
 				padding: 14px 18px;
@@ -94,7 +94,7 @@
 				justify-content: center;
 			}
 
-			nav.navigation a#dark-mode{
+			nav.navigation a#dark-mode {
 				margin-left: auto;
 				padding: 8px;
 				display: inline-flex;
@@ -102,13 +102,13 @@
 				justify-content: center;
 			}
 
-			nav.navigation a#dark-mode img{
+			nav.navigation a#dark-mode img {
 				width: 22px;
 				height: 22px;
 				display: block;
 			}
 
-			.body{
+			.body {
 				min-height: calc(100vh - 60px);
 				display: flex;
 				flex-direction: column;
@@ -125,7 +125,7 @@
 			   Top-left #return styling
 			   ========================= */
 
-			.top-buttons{
+			.top-buttons {
 				position: absolute;
 				top: 18px;
 				left: 18px;
@@ -133,7 +133,7 @@
 			}
 
 			/* The border gradient is applied to the wrapper via padding+background */
-			.top-buttons{
+			.top-buttons {
 				--b1: var(--btn-g1);
 				--b2: var(--btn-g2);
 				--bdr: 2px;
@@ -145,7 +145,7 @@
 			}
 
 			/* The button itself uses the page background as the inner fill */
-			.top-buttons button#return{
+			.top-buttons button#return {
 				width: 36px;
 				height: 36px;
 				border-radius: calc(var(--radius) - var(--bdr));
@@ -169,7 +169,7 @@
 					inset 0 1px 0 rgba(255,255,255,0.08);
 			}
 
-			.top-buttons button#return:hover{
+			.top-buttons button#return:hover {
 				transform: translateY(-2px);
 				filter: saturate(1.08);
 				box-shadow:
@@ -181,7 +181,7 @@
 				Bingo: border gradient + inner fill = --bg
 				========================= */
 
-			.bingo-item{
+			.bingo-item {
 				/* per-element border gradient endpoints */
 				--b1: var(--btn-g1);
 				--b2: var(--btn-g2);
@@ -198,7 +198,7 @@
 			}
 
 			/* Inner fill is the background color; no gradient fill */
-			.bingo-button{
+			.bingo-button {
 				width: 100%;
 				aspect-ratio: 1 / 1;
 				border-radius: calc(var(--radius) - var(--bdr));
@@ -224,7 +224,7 @@
 				-webkit-tap-highlight-color: transparent;
 			}
 
-			.bingo-button:hover{
+			.bingo-button:hover {
 				transform: translateY(-0.5px) scale(1.01);
 				filter: saturate(1.05);
 				box-shadow:
@@ -232,20 +232,20 @@
 					0 4px 14px rgba(0,0,0,0.18);
 			}
 
-			.bingo-button:active{
+			.bingo-button:active {
 				transform: translateY(0px) scale(0.99);
 				filter: saturate(1.02);
 			}
 
 			/* Optional: focus ring via shadow (border already gradient) */
-			.bingo-button:focus-visible{
+			.bingo-button:focus-visible {
 				box-shadow:
 					0 16px 40px rgba(92, 124, 255, 0.30),
 					0 4px 14px rgba(0,0,0,0.18),
 					0 0 0 4px rgba(255,255,255,0.18);
 			}
 
-			.title-box{
+			.title-box {
 				margin: 18px 0 28px;
 				padding: 16px 18px;
 				border-radius: 18px;
@@ -255,32 +255,32 @@
 				backdrop-filter: blur(10px);
 			}
 
-			.title-text{
+			.title-text {
 				margin: 0;
 				font-size: clamp(22px, 3vw, 34px);
 				letter-spacing: 0.3px;
 			}
-			.subtitle-text{
+			.subtitle-text {
 				margin: 8px 0 0;
 				font-size: clamp(14px, 2vw, 18px);
 				font-weight: 600;
 				color: var(--text-1);
 			}
 
-			.bingo-box{
+			.bingo-box {
 				width: min(980px, 100%);
 				display: flex;
 				flex-direction: column;
 				gap: 12px;
 			}
 
-			.bingo-row{
+			.bingo-row {
 				display: grid;
 				grid-template-columns: repeat(5, 1fr);
 				gap: 12px;
 			}
 
-			.bingo-button .emoji{
+			.bingo-button .emoji {
 				font-size: clamp(22px, 2.4vw, 30px);
 				line-height: 1;
 				height: 1em;
@@ -290,24 +290,24 @@
 				filter: drop-shadow(0 6px 10px rgba(0,0,0,0.18));
 			}
 
-			.bingo-button .title{
+			.bingo-button .title {
 				font-size: clamp(12px, 1.6vw, 16px);
 				line-height: 1.15;
 				font-weight: 900;
+				text-transform: uppercase;
 				text-shadow: 0 6px 14px rgba(0,0,0,0.18);
 			}
 
-			.bingo-button .alt{
+			.bingo-button .alt {
 				font-size: 11px;
 				line-height: 1.2;
 				font-weight: 700;
 				opacity: 0.92;
-				text-transform: uppercase;
 				letter-spacing: 0.6px;
 				color: var(--text-1);
 			}
 
-			@media (max-width: 680px){
+			@media (max-width: 680px) {
 				.bingo-row{
 					grid-template-columns: repeat(3, 1fr);
 				}
