@@ -1,11 +1,14 @@
 pub mod auto_serde;
 pub mod bingo;
 
+use std::fs::File;
+
+use crate::auto_serde::AutoSerde;
 use crate::bingo::board::commands::*;
-use crate::bingo::item::commands::*;
+use crate::bingo::item::{BingoItem, commands::*};
 use crate::bingo::play::commands::*;
-use crate::bingo::project::commands::*;
-use crate::bingo::{convert_proj_path_to_game_path, get_bingo_games, get_bingo_projects, quick_export};
+use crate::bingo::project::{BingoProject, commands::*};
+use crate::bingo::*;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
@@ -15,15 +18,36 @@ fn greet(name: &str) -> String {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-	// let bingo_proj = BingoProject {
-	// 	title: "TEST".to_string(),
-	// 	city: "Fuckin Linz Man".to_string(),
-	// 	items: BingoItem::vienna_samples().unwrap(),
-	// 	last_board: None,
-	// };
+	{
+		// create vienna bingo project
+		let bingo_proj = BingoProject {
+			title: "Vienna SWE 2026 Bingo 3".to_string(),
+			city: "Wien, Österrich".to_string(),
+			items: BingoItem::vienna_samples().unwrap(),
+			last_board: None,
+		};
 
-	// let mut f = File::create("../examples/projects/TEST.BingoProject").unwrap();
-	// bingo_proj.to_file(&mut f).unwrap();
+		let mut f = File::create(resolve_path("bingus/edit/TEST.BingoProject")).unwrap();
+		bingo_proj.to_file(&mut f).unwrap();
+	}
+
+	{
+		// create prauge bingo game and project
+		let proj = BingoProject {
+			title: "PRAUGE TEST".to_string(),
+			city: "Praha, Česká Republika".to_string(),
+			items: BingoItem::prauge_samples().unwrap(),
+			last_board: None,
+		};
+
+		let mut f = File::create(resolve_path("bingus/edit/PRAUGE TEST.BingoProject")).unwrap();
+		proj.to_file(&mut f).unwrap();
+		drop(f);
+
+		let game = proj.generate_random_board();
+		let mut f = File::create(resolve_path("bingus/edit/PRAUGE TEST.BingoGame")).unwrap();
+		game.to_file(&mut f).unwrap();
+	}
 
 	tauri::Builder::default()
 		.plugin(tauri_plugin_opener::init())

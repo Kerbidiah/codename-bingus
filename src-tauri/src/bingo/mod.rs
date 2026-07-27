@@ -112,7 +112,6 @@ pub fn quick_export(proj_path: String) {
 	let proj = BingoProject::open(proj_path.clone()).unwrap();
 	let game_path = convert_proj_path_to_game_path(proj_path);
 
-	
 	let game = PlayableBingo {
 		board: proj.generate_random_board(),
 	};

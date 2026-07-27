@@ -20,11 +20,11 @@ pub struct BingoItem {
 }
 
 impl BingoItem {
-	fn read_samples<P>(path: P) -> anyhow::Result<Vec<Self>> 
-		where P: AsRef<std::path::Path>
+	fn read_samples<P>(path: P) -> anyhow::Result<Vec<Self>>
+	where
+		P: AsRef<std::path::Path>,
 	{
-		let example_paths: Vec<Result<DirEntry, io::Error>> =
-			fs::read_dir(path)?.collect(); // get list of files in examples/items directory
+		let example_paths: Vec<Result<DirEntry, io::Error>> = fs::read_dir(path)?.collect(); // get list of files in examples/items directory
 		let mut ans = Vec::with_capacity(example_paths.len()); // create vector preallocated with enough space
 
 		for p in example_paths {
@@ -34,7 +34,7 @@ impl BingoItem {
 
 		Ok(ans)
 	}
-	
+
 	pub fn vienna_samples() -> anyhow::Result<Vec<Self>> {
 		Self::read_samples("../examples/items/")
 	}
