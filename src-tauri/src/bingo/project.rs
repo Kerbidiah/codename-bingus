@@ -34,6 +34,7 @@ impl BingoProject {
 		let mut rng = rand::rng();
 
 		BingoBoard {
+			title: self.title.clone(),
 			city: self.city.clone(),
 			items: self.items.sample(&mut rng, 25).cloned().collect(),
 		}

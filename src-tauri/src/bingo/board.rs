@@ -9,6 +9,7 @@ use rand::prelude::*;
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct BingoBoard {
+	pub title: String,
 	pub city: String,
 	pub items: Vec<BingoItem>,
 }
@@ -26,6 +27,7 @@ impl BingoBoard {
 			.collect();
 
 		Self {
+			title: faker::address::en::CityName().fake(),
 			city: faker::address::de_de::CityName().fake(),
 			items: items,
 		}
@@ -51,7 +53,7 @@ pub mod commands {
 	}
 
 	#[tauri::command]
-	pub fn new_bingo_board(city: String, items: Vec<BingoItem>) -> BingoBoard {
-		BingoBoard { city, items }
+	pub fn new_bingo_board(title: String, city: String, items: Vec<BingoItem>) -> BingoBoard {
+		BingoBoard { title, city, items }
 	}
 }
