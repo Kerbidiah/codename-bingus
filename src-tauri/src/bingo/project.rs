@@ -35,7 +35,7 @@ impl BingoProject {
 
 		let mut title = self.title.clone();
 		title.push_str(" <> DEBUGINFO: game");
-	
+
 		BingoBoard {
 			title: title,
 			city: self.city.clone(),
