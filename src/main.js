@@ -40,7 +40,7 @@ function draw_card(title, city, path, owner) {
 		editAnchor.appendChild(editImage);
 
 		const exportAnchor = document.createElement("a");
-		const exportImage = document.createElemnt("img");
+		const exportImage = document.createElement("img");
 		const EXPORT_ICON_PATH = "/assets/export.svg";
 
 		exportImage.src = EXPORT_ICON_PATH;
