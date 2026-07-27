@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-use crate::bingo::item::BingoItem;
 use crate::auto_serde::AutoSerde;
+use crate::bingo::item::BingoItem;
 
 use fake::{Fake, faker};
 
