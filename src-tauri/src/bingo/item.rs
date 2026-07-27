@@ -43,4 +43,15 @@ pub mod commands {
 	pub fn example_bingo_items() -> Vec<BingoItem> {
 		BingoItem::vienna_samples().unwrap()
 	}
+
+	#[tauri::command]
+	pub fn new_bingo_item(title: String, mut emoji: String) -> BingoItem {
+		BingoItem {
+			title: title,
+			emoji: emoji.pop(),
+			short_description: None,
+			url: None,
+			completion_info: None,
+		}
+	}
 }

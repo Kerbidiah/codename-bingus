@@ -8,7 +8,7 @@ use crate::bingo::board::BingoBoard;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PlayableBingo {
 	pub board: BingoBoard,
-	pub assets_base_path: PathBuf,
+	// pub assets_base_path: PathBuf,
 }
 
 impl PlayableBingo {
