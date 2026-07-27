@@ -82,6 +82,7 @@ if (
 		create_board_button.id = "create-board";
 		create_board_button.textContent = "Get Started";
 		create_board_button.addEventListener("click", () => {
+			sessionStorage.removeItem("path");
 			window.location.href = "editable-board/editable-board.html";
 		});
 		cards.appendChild(create_board_button);
@@ -90,6 +91,7 @@ if (
 		create_board_button.id = "create-board";
 		create_board_button.textContent = "Create Board";
 		create_board_button.addEventListener("click", () => {
+			sessionStorage.removeItem("path");
 			window.location.href = "editable-board/editable-board.html";
 		});
 		cards.appendChild(create_board_button);
