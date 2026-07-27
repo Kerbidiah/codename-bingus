@@ -624,13 +624,8 @@
 			modalTitle.textContent = elem.childNodes[0].textContent + " " + elem.childNodes[1].textContent;
 		});
 
-		save.addEventListener("click", () => {
-			if (desc) {
-				save.disabled = false;
-			}
-			else {
-				save.disabled = true;
-			}
+		desc.addEventListener("input", () => {
+			save.disabled = desc.value.trim() === "";
 		});
 
 		cancel.addEventListener("click", () => {
