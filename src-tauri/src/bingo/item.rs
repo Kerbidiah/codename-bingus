@@ -5,7 +5,7 @@ use anyhow;
 use super::completion::BingoCompletionInfo;
 
 use crate::auto_serde::AutoSerde;
-
+use log::info;
 use std::fs;
 use std::fs::{DirEntry, File};
 use std::io;
@@ -49,11 +49,13 @@ pub mod commands {
 
 	#[tauri::command]
 	pub fn example_bingo_items() -> Vec<BingoItem> {
+		info!("example_bingo_items ran\n");
 		BingoItem::vienna_samples().unwrap()
 	}
 
 	#[tauri::command]
 	pub fn new_bingo_item(title: String, mut emoji: String) -> BingoItem {
+		info!("new_bingo_item ran\n");
 		BingoItem {
 			title: title,
 			emoji: emoji.pop(),

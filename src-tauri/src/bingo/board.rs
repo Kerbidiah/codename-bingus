@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::auto_serde::AutoSerde;
 use crate::bingo::item::BingoItem;
-
+use log::info;
 use fake::{Fake, faker};
 
 use rand::prelude::*;
@@ -39,21 +39,25 @@ pub mod commands {
 
 	#[tauri::command]
 	pub fn generate_dummy_bingo_board() -> BingoBoard {
+		info!("generate_dummy_bingo_board ran\n");
 		BingoBoard::dummy()
 	}
 
 	#[tauri::command]
 	pub fn open_board(path: String) -> BingoBoard {
+		info!("open_board ran\n");
 		BingoBoard::open(path).unwrap()
 	}
 
 	#[tauri::command]
 	pub fn save_board(path: String, obj: BingoBoard) {
+		info!("save_board ran\n");
 		obj.write(path).unwrap();
 	}
 
 	#[tauri::command]
 	pub fn new_bingo_board(title: String, city: String, items: Vec<BingoItem>) -> BingoBoard {
+		info!("new_bingo_board ran\n");
 		BingoBoard { title, city, items }
 	}
 }

@@ -2,6 +2,8 @@ use serde::{Deserialize, Serialize};
 
 use rand::prelude::*;
 
+use log::info;
+
 use crate::auto_serde::AutoSerde;
 use crate::bingo::board::BingoBoard;
 use crate::bingo::item::BingoItem;
@@ -46,16 +48,19 @@ pub mod commands {
 
 	#[tauri::command]
 	pub fn generate_random_board(project: BingoProject) -> BingoBoard {
+		info!("generate_random_board ran\n");
 		project.generate_random_board()
 	}
 
 	#[tauri::command]
 	pub fn open_project(path: String) -> BingoProject {
+		info!("open_project ran\n");
 		BingoProject::open(path).unwrap()
 	}
 
 	#[tauri::command]
 	pub fn save_project(path: String, obj: BingoProject) {
+		info!("save_project ran\n");
 		obj.write(path).unwrap();
 	}
 }
