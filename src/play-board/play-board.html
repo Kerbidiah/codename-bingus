@@ -656,6 +656,7 @@
 				}
 			}
 
+			invoke("save_play", {path: sessionStorage.getItem("path"), obj: boardObj} );
 			lastItem.disabled = true;
 			hideModal();
 		});
