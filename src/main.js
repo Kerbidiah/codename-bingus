@@ -30,6 +30,7 @@ function draw_card(title, city, path, owner) {
 	button_wrapper.id = path;
 	if (owner === true) {
 		const editAnchor = document.createElement("button");
+		editAnchor.className = "edit";
 		const editImage = document.createElement("img");
 		const EDIT_ICON_PATH =
 			sessionStorage.getItem("theme") === "light"
@@ -40,6 +41,7 @@ function draw_card(title, city, path, owner) {
 		editAnchor.appendChild(editImage);
 
 		const exportAnchor = document.createElement("button");
+		exportAnchor.className = "export";
 		const exportImage = document.createElement("img");
 		const EXPORT_ICON_PATH = "/assets/export.svg";
 
@@ -51,6 +53,7 @@ function draw_card(title, city, path, owner) {
 		button_wrapper.appendChild(exportAnchor);
 	} else {
 		const playAnchor = document.createElement("button");
+		playAnchor.className = "play";
 		const playImage = document.createElement("img");
 		const PLAY_ICON_PATH = "/assets/play-board.svg";
 		playImage.src = PLAY_ICON_PATH;
@@ -131,13 +134,13 @@ if (
 		if (!button_wrapper) return;
 		else {
 			sessionStorage.setItem("path", button_wrapper.id);
-			if (button.className === "edit-button") {
+			if (button.className === "edit-button" || button.className === "edit") {
 				window.location.href = "./editable-board/editable-board.html";
-			} else if (button.className === "export-button") {
+			} else if (button.className === "export-button" || button.className === "export") {
 				// TODO: Create alert notification to alert the user that the .BingoGame file was created.
 				invoke("quick_export", { projPath: sessionStorage.getItem("path") });
 				window.location.reload();
-			} else if (button.className === "play-button") {
+			} else if (button.className === "play-button" || button.className === "play") {
 				window.location.href = "./play-board/play-board.html";
 			}
 		}
