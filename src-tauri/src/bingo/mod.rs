@@ -1,15 +1,15 @@
 pub mod board;
 pub mod completion;
+pub mod game;
 pub mod item;
-pub mod play;
 pub mod project;
 
-use serde::{Deserialize, Serialize};
-use log::info;
 use dirs;
+use log::info;
+use serde::{Deserialize, Serialize};
 
 use crate::auto_serde::AutoSerde;
-use crate::bingo::play::BingoGame;
+use crate::bingo::game::BingoGame;
 use crate::bingo::project::BingoProject;
 
 use std::fs;
@@ -115,7 +115,7 @@ pub fn quick_export(proj_path: String) {
 	info!("quick_export ran");
 	info!("quick_export proj_path: {proj_path}");
 	let proj = BingoProject::open(proj_path.clone()).unwrap();
-	
+
 	let game_path = convert_proj_path_to_game_path(proj_path);
 	info!("quick_export game_path: {game_path}");
 

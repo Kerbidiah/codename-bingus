@@ -5,11 +5,10 @@ use std::fs::File;
 
 use crate::auto_serde::AutoSerde;
 use crate::bingo::board::commands::*;
+use crate::bingo::game::{BingoGame, commands::*};
 use crate::bingo::item::{BingoItem, commands::*};
-use crate::bingo::play::commands::*;
 use crate::bingo::project::{BingoProject, commands::*};
 use crate::bingo::*;
-
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -39,7 +38,9 @@ pub fn run() {
 		proj.to_file(&mut f).unwrap();
 		drop(f);
 
-		let game = proj.generate_random_board();
+		let game = BingoGame {
+			board: proj.generate_random_board(),
+		};
 		let mut f = File::create(resolve_path("bingus/edit/PRAUGE TEST.BingoGame")).unwrap();
 		game.to_file(&mut f).unwrap();
 	}

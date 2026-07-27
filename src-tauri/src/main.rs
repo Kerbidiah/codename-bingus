@@ -6,8 +6,8 @@ fn main() {
 		.filter_level(log::LevelFilter::Info)
 		.format_timestamp_millis()
 		.init();
-	
+
 	log::info!("Starting up");
-	
+
 	bingus_lib::run()
 }
