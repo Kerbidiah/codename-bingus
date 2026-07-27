@@ -108,7 +108,8 @@ if (
 			if (button.className === "edit-button") {
 				window.location.href = "./editable-board/editable-board.html";
 			} else if (button.className === "export-button") {
-				// invoke("quick_export", { path: localStorage.getItem("path") });
+				// TODO: Create alert notification to alert the user that the .BingoGame file was created.
+				invoke("quick_export", { projPath: localStorage.getItem("path") });
 			} else {
 				window.location.href = "./play-board/play-board.html";
 			}
