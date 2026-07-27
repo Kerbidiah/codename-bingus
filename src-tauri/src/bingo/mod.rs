@@ -9,7 +9,7 @@ use log::info;
 use dirs;
 
 use crate::auto_serde::AutoSerde;
-use crate::bingo::play::PlayableBingo;
+use crate::bingo::play::BingoGame;
 use crate::bingo::project::BingoProject;
 
 use std::fs;
@@ -19,7 +19,7 @@ use std::path::PathBuf;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum BingoType {
 	Editable(BingoProject),
-	Playable(PlayableBingo),
+	Playable(BingoGame),
 }
 
 const BINGO_EDIT_PATH: &str = "bingus/edit/";
@@ -66,7 +66,7 @@ pub fn get_bingo_projects() -> Vec<(BingoProject, String)> {
 }
 
 #[tauri::command]
-pub fn get_bingo_games() -> Vec<(PlayableBingo, String)> {
+pub fn get_bingo_games() -> Vec<(BingoGame, String)> {
 	info!("get_bingo_games ran");
 	let path_play = resolve_path(BINGO_PLAY_PATH);
 
@@ -85,7 +85,7 @@ pub fn get_bingo_games() -> Vec<(PlayableBingo, String)> {
 				None
 			}
 		}) // filter out Errors and extract the value out of Oks
-		.map(|mut f| (PlayableBingo::from_file(&mut f.0), f.1))
+		.map(|mut f| (BingoGame::from_file(&mut f.0), f.1))
 		.filter_map(|f| {
 			if f.0.is_ok() {
 				Some((f.0.unwrap(), f.1))
@@ -119,7 +119,7 @@ pub fn quick_export(proj_path: String) {
 	let game_path = convert_proj_path_to_game_path(proj_path);
 	info!("quick_export game_path: {game_path}");
 
-	let game = PlayableBingo {
+	let game = BingoGame {
 		board: proj.generate_random_board(),
 	};
 
