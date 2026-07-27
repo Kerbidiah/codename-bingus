@@ -125,13 +125,17 @@ pub fn quick_export(proj_path: String) {
 	let game_path = convert_proj_path_to_game_path(proj_path);
 	info!("quick_export game_path: {game_path}");
 
-	let game = if proj.last_board.is_some() {
+	let game: BingoGame = if proj.last_board.is_some() {
 		let mut g = proj.last_board.unwrap();
 		g.title.push_str(" <IS GAME>");
 
-		g
+		BingoGame {
+			board: g
+		}
 	} else {
-		proj.generate_random_board()
+		BingoGame {
+			board: proj.generate_random_board(),
+		}
 	};
 
 	game.write(game_path).unwrap();
