@@ -13,7 +13,7 @@
 			img {
 				-webkit-user-drag: none;
 				user-drag: none;
-				draggable = false;
+				draggable: false;
 				pointer-events: auto;
 			}
 
@@ -124,10 +124,24 @@
 			  text-align: center;
 			}
 
+			#title-container {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+				gap: 16px;
+			}
+
 			.title{
 			  font-size: clamp(2rem, 5vw, 3.25rem);
 			  margin: 0 0 18px;
 			  line-height: 1.05;
+			}
+
+			#edit-button {
+				height: clamp(2rem, 5vw, 3.25rem);
+				width: auto;
+				cursor: pointer;
 			}
 
 			.button-box{
@@ -138,8 +152,22 @@
 				padding: 10px;
 			}
 
+			.modal-buttons {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-direction: row;
+				gap: 16px;
+				padding: 10px;
+			}
+			
 			/* Item modals container */
 			.item-modals{
+				width: min(900px, 100%);
+				display: grid;
+				grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+				align-items: stretch;
+				gap: 24px;
 				width: min(900px, 100%);
 				display: grid;
 				grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
@@ -167,6 +195,7 @@
 			.value-list {
 				min-height: 340px;
 				max-height: 430px;
+				height: 100%;
 				margin: 0;
 				padding: 8px;
 				list-style: none;
@@ -193,6 +222,9 @@
 			.value-item:last-child {
 				margin-bottom: 0;
 			}
+			.value-item:last-child {
+				margin-bottom: 0;
+			}
 
 			.value-item:hover {
 				background: var(--nav-border);
@@ -204,16 +236,26 @@
 				background: var(--nav-border);
 			}
 
-			.button-box button {
+			.glass-button {
+				--btn-g1: #4de3ff;
+				--btn-g2: #3b82f6;
+
 				position: relative;
 
+				padding: 14px 22px;
+				margin: 8px 0;
 				padding: 14px 22px;
 				margin: 8px 0;
 
 				display: flex;
 				align-items: center;
 				justify-content: center;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 
+				border: none;
+				border-radius: 14px;
 				border: none;
 				border-radius: 14px;
 
@@ -227,7 +269,7 @@
 			}
 
 			/* Gradient border */
-			.button-box button::before {
+			.glass-button::before {
 				content: "";
 				position: absolute;
 				inset: 0;
@@ -235,13 +277,17 @@
 
 				padding: 1px;
 				background: linear-gradient(135deg, var(--btn-g1), var(--btn-g2));
+				padding: 1px;
+				background: linear-gradient(135deg, var(--btn-g1), var(--btn-g2));
 
 				-webkit-mask:
-				linear-gradient(#000 0 0) content-box,
-				linear-gradient(#000 0 0);
+					linear-gradient(#000 0 0) content-box,
+					linear-gradient(#000 0 0);
 				-webkit-mask-composite: xor;
 				mask-composite: exclude;
 
+				pointer-events: none;
+				z-index: 0;
 				pointer-events: none;
 				z-index: 0;
 
@@ -250,42 +296,207 @@
 			}
 
 			/* Hover/focus */
-			.button-box button {
+			.glass-button {
 				transition:
-				background 160ms ease,
-				transform 160ms ease;
+					background 160ms ease,
+					transform 160ms ease;
 			}
 
-			.button-box button:hover {
+			.glass-button:hover {
 				background: var(--nav-border);
 				transform: translateY(-1px);
 			}
 
-			.button-box button:hover::before {
+			.glass-button:hover::before {
 				opacity: 1;
 				filter: brightness(1.15);
 			}
 
-			.button-box button:focus-visible {
+			.glass-button:focus-visible {
 				background: var(--nav-border);
 			}
 
-			.button-box button:focus-visible::before {
+			.glass-button:focus-visible::before {
 				opacity: 1;
 				filter: brightness(1.2);
 			}
 
-			.button-box button:active {
+			.glass-button:active {
 				transform: translateY(1px);
 			}
-		</style>
-	</head>
 
-	<body>
+			.modal-backdrop {
+				position: fixed;
+				inset: 0;
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				background: rgba(0,0,0,0.55);
+				backdrop-filter: blur(5px);
+
+				z-index: 1000;
+			}
+
+			.hidden {
+				display: none;
+			}
+
+			.modal {
+				width: min(500px, 90vw);
+
+				padding: 28px;
+
+				border-radius: 24px;
+
+				background: #172033;
+				color: #e8eefc;
+
+				border: 1px solid rgba(255,255,255,.1);
+
+				box-shadow:
+					0 20px 60px rgba(0,0,0,.45);
+			}
+
+			.modal h2 {
+				margin-top: 0;
+			}
+
+			#add-custom {
+				display: block;
+				margin-top: 12px;
+				text-align: left;
+
+				color: #3b82f6;
+				text-decoration: none;
+				font-weight: 600;
+
+				transition: opacity 150ms ease, transform 150ms ease;
+			}
+
+			#add-custom:visited,
+			#add-custom:active,
+			#add-custom:focus {
+				color: #3b82f6;
+			}
+
+			#add-custom:hover {
+				color: #3b82f6;
+				opacity: 0.85;
+				transform: translateX(5px);
+			}
+
+			.top-buttons {
+				width: min(900px, 100%);
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				flex-direction: row;
+
+				padding: 0;
+				margin: 0 0 24px 0;
+				box-sizing: border-box;
+			}
+
+			.cancel {
+				--btn-g1: #ef4444;
+				--btn-g2: #b91c1c;
+			}
+
+			.save {
+				--btn-g1: #22c55e;
+				--btn-g2: #15803d;
+			}
+
+			.save:disabled {
+				--btn-g1: #666;
+				--btn-g2: #555;
+
+				color: #888;
+				cursor: not-allowed;
+				opacity: 0.6;
+			}
+
+			.save:disabled:hover {
+				background: rgba(255,255,255,0.03);
+				transform: none;
+			}
+
+			.save:disabled:hover::before {
+				filter: none;
+				opacity: 0.9;
+			}
+
+			.custom-item-form {
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+				margin: 20px 0;
+				text-align: left;
+			}
+
+			.custom-item-form label {
+				margin-top: 8px;
+				font-weight: 600;
+			}
+
+			.custom-item-form input,
+			.custom-item-form textarea,
+			.custom-item-form select {
+				width: 100%;
+				box-sizing: border-box;
+				padding: 12px 14px;
+
+				border: 1px solid rgba(255, 255, 255, 0.14);
+				border-radius: 12px;
+
+				background: rgba(255, 255, 255, 0.06);
+				color: #e8eefc;
+
+				font: inherit;
+			}
+
+			.custom-item-form input:focus,
+			.custom-item-form textarea:focus,
+			.custom-item-form select:focus {
+				outline: 2px solid #4de3ff;
+				outline-offset: 2px;
+			}
+
+			.custom-item-form select option {
+				background: #172033;
+				color: #e8eefc;
+			}
+
+			.input-box {
+				width: 100%;
+				box-sizing: border-box;
+				padding: 12px 14px;
+
+				border: 1px solid rgba(255, 255, 255, 0.14);
+				border-radius: 12px;
+
+				background: rgba(255, 255, 255, 0.06);
+				color: #e8eefc;
+
+				font: inherit;
+			}
+
+			.input-box:focus {
+				outline: 2px solid #4de3ff;
+				outline-offset: 2px;
+			}
+
+
+		</style>
+  	</head>
+
+   	<body>
 		<!-- Top navigation bar -->
 		<div class="navigation">
 			<nav class="navigation">
-				<a href="../index.html" id="home">Home</a>
+		 		<a href="../index.html" id="home">Home</a>
 				<a href="../about/about.html" id="about">About</a>
 				<a id="dark-mode">
 					<img
@@ -294,48 +505,64 @@
 						id="theme-img"
 					/>
 				</a>
-			</nav>
+		 	</nav>
 		</div>
-
+		
 		<!-- Main screen -->
 		<div class="body">
-			<!-- Title of the specific bingo board/city will fill in here -->
-			<h1 id="title" class="title">Bingus</h1>
 
+			<div class="button-box top-buttons">
+				<button id="cancel-button" class="glass-button cancel">Cancel</button>
+				<button id="save-button" class = "glass-button save" disabled="true">Save</button>
+			</div>
+			
+			<div id="title-container">
+				<h1 id="title" class="title"></h1>
+				<div id="edit-button-container" style="
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+				">
+					<img src="../assets/editable-board-dark.svg"
+						alt="Edit Title"
+						id="edit-button">
+				</div>
+			</div>
 			<!-- The actual stuff on the screen -->
 			<div id="main-view" class="item-modals">
+
 				<!-- Options to select from -->
 				<div id="bank-values" class="value-modal">
 					<h2>Bank Values</h2>
 					<ul id="bank-values-list" class="value-list">
 						<!-- The bank of values will be here -->
 					</ul>
+					<a href="#" id="add-custom">+ Custom</a>
 				</div>
 
 				<!-- Button controls -->
 				<div id="buttons" class="button-box">
-					<button id="move-one-right">&rarr;</button>
-					<button id="move-one-left">&larr;</button>
+					<button id="move-one-right" class="glass-button">&gt;</button>
+					<button id="move-one-left" class="glass-button">&lt;</button>
 				</div>
 
 				<!-- Selected values -->
 				<div id="selected-values" class="value-modal">
-					<div
-						id="selected-values-header"
-						style="
-							position: relative;
-							display: flex;
-							justify-content: center;
-							align-items: center;
-						"
-					>
+					
+					<div id="selected-values-header" style="
+						position: relative;
+						display: flex;
+						justify-content: center;
+						align-items: center;">
+						
 						<h2>Selected Values</h2>
-
-						<h2 style="position: absolute; right: 0; color: red">
-							0/25
-						</h2>
+						
+						<h2 style="
+							position: absolute;
+							right: 0;
+							color: red">0/25</h2>
 					</div>
-
+					
 					<ul id="selected-values-list" class="value-list">
 						<!-- The selected values will be here -->
 					</ul>
@@ -343,33 +570,214 @@
 			</div>
 
 			<div id="randomize" class="button-box">
-				<button id="randomize-button">Randomize</button>
+				<button id="randomize-button" class="glass-button">Randomize</button>
 			</div>
 		</div>
 
-		<script src="./../themes.js" type="module"></script>
+		<div id="modal-backdrop" class="modal-backdrop hidden">
+			<div class="modal">
+				<h2>Create Custom Bingo Item</h2>
+
+				<p>
+					Enter a title and emoji for your custom bingo item.
+				</p>
+
+				<div class="custom-item-form">
+
+					<label for="custom-title">Title</label>
+					<textarea
+						id="custom-title"
+						rows="1"
+						maxlength="50"
+						placeholder="Enter a short title"
+					></textarea>
+
+					<label for="custom-emoji">Emoji</label>
+					<select id="custom-emoji">
+						<option value="">Select an emoji</option>
+						<option value="🎯">🎯 Target</option>
+						<option value="🎉">🎉 Celebration</option>
+						<option value="🍕">🍕 Food</option>
+						<option value="🏛️">🏛️ Landmark</option>
+						<option value="🎭">🎭 Entertainment</option>
+						<option value="🚆">🚆 Travel</option>
+						<option value="📸">📸 Photo</option>
+					</select>
+
+					
+				</div>
+
+				<div class="button-box modal-buttons">
+					<button id="cancel-custom" class="glass-button cancel">Cancel</button>
+					<button id="save-custom" class="glass-button save" disabled="true">Save</button>
+				</div>
+			</div>
+		</div>
+
 		<script type="module">
 			const { invoke } = window.__TAURI__.core;
 
-			const bank_values_list =
-				document.getElementById("bank-values-list");
-			const selected_values_list = document.getElementById(
-				"selected-values-list",
-			);
+			const bank_values_list = document.getElementById("bank-values-list");
+			const selected_values_list = document.getElementById("selected-values-list");
 
 			const move_one_right = document.getElementById("move-one-right");
 			const move_one_left = document.getElementById("move-one-left");
-			const randomize_button =
-				document.getElementById("randomize-button");
+			const randomize_button = document.getElementById("randomize-button");
+			const edit_button = document.getElementById("edit-button");
 
-			const selected_count_display = document.querySelector(
-				"#selected-values-header h2:last-child",
-			);
+			const title = document.getElementById("title");
+			const input = document.createElement("input");
 
-			//const project_id = localStorage.getItem("path");
+			const selected_count_display = document.querySelector("#selected-values-header h2:last-child");
 
+			const project_id = localStorage.getItem("path");
+
+			const cancel_button = document.getElementById("cancel-button");
+			const save_button = document.getElementById("save-button");
+
+			const backdrop = document.getElementById("modal-backdrop");
+			const custom_button = document.getElementById("add-custom");
+			const save_custom_button = document.getElementById("save-custom");
+			const cancel_custom_button = document.getElementById("cancel-custom");
+			const custom_emoji = document.getElementById("custom-emoji");
+			const custom_title = document.getElementById("custom-title");
+
+			let board;
+			let city;
+			let selected;
+			let old_title;
 			let items = [];
 			let selected_count = 0;
+			let changed_items = false;
+			let changed_selections = false;
+			let changed_title = false;
+
+			edit_button.addEventListener("click", new_title);
+
+			cancel_button.addEventListener("click", () => {
+				window.location.href = "../index.html";
+			});
+
+			save_button.addEventListener("click", save_board);
+
+			custom_emoji.addEventListener("change", new_custom_item);
+			custom_title.addEventListener("input", new_custom_item);
+
+			backdrop.addEventListener("click", (event) => {
+				if (event.target === backdrop) {
+					hide_modal();
+				}
+			});
+			custom_button.addEventListener("click", show_modal);
+			save_custom_button.addEventListener("click", () => {
+				const emoji = custom_emoji.value.trim();
+				const title = custom_title.value.trim();
+
+				const new_item = {title: title, emoji:emoji, description:""};
+				items.push(new_item);
+				add_item(new_item, bank_values_list);
+				changed_items = true;
+				check_change();
+
+				hide_modal();
+			});
+			cancel_custom_button.addEventListener("click", hide_modal);
+
+			function getValues(str)
+			{
+				const spaceIdx = str.indexOf(" ");
+
+				if (spaceIdx === -1) {
+					return {
+						first: str,
+						second: ""
+					};
+				}
+
+				return {
+					first: str.substring(0, spaceIdx),
+					second: str.substring(spaceIdx + 1)
+				};
+			}
+			
+			async function save_board() {
+				const selected_items_HTML = Array.from(selected_values_list.querySelectorAll(".value-item"));
+				const sel_items = [];
+				for(const item of selected_items_HTML)
+				{
+					const { first: emojiVal, second: titleVal } = getValues(item.textContent);
+					try
+					{
+						const bing_item = await invoke("new_bingo_item", {title: titleVal, emoji: emojiVal});
+						sel_items.push(bing_item);
+					}
+					catch (err)
+					{
+						alert("Error creating bingo item: " + err);
+					}
+				}
+
+				try
+				{
+					selected = await invoke("new_bingo_board", {title: title.textContent, city: city, items: sel_items});
+				}
+				catch (err)
+				{
+					alert("Error creating bingo board: " + err);
+				}			
+
+				const new_project = {title: title.textContent, city: city, items: items, last_board: selected};
+
+				try
+				{
+					await invoke("save_project", {path: project_id, obj: new_project});
+				}
+				catch (err)
+				{
+					alert("Failed to save project: " + err);
+				}
+
+				window.location.href = "../index.html";
+			}
+
+			function new_title() {
+				input.type = "text";
+				input.value = title.textContent;
+				input.id = "title";
+				input.classList.add("input-box");
+
+				title.replaceWith(input);
+				edit_button.src = "../assets/checkmark-light.svg";
+				edit_button.alt = "Save Title";
+				edit_button.removeEventListener("click", new_title);
+				edit_button.addEventListener("click", save_title);
+
+				save_button.disabled = true; // cannot save while currently editing the title
+
+				input.focus();
+				input.select();
+			}
+
+			function save_title() {
+				const new_title_value = input.value.trim();
+				input.replaceWith(title);
+				title.textContent = new_title_value;
+				edit_button.src = "../assets/editable-board-dark.svg";
+				edit_button.alt = "Edit Title";
+				edit_button.removeEventListener("click", save_title);
+				edit_button.addEventListener("click", new_title);
+
+				if(new_title_value == old_title)
+				{
+					changed_title = false;
+				}
+				else
+				{
+					changed_title = true;
+				}
+
+				check_change();
+			}
 
 			// adds an item to the list based on parameters
 			function add_item(item, list) {
@@ -380,20 +788,25 @@
 
 				// adds a listener to select the item when clicked
 				list_item.addEventListener("click", () => {
-					if (list_item.parentElement === bank_values_list) {
-						if (list_item.classList.contains("selected")) {
+					if(list_item.parentElement === bank_values_list) {
+						if(list_item.classList.contains("selected")) {
 							selected_count--;
 							list_item.classList.remove("selected");
-						} else {
-							if (selected_count >= 25) {
+						}
+						else {
+
+							if(selected_count >= 25) {
 								return; // Do not allow more than 25 selected items
-							} else {
+							}
+							else {
 								selected_count++;
-								list_item.classList.add("selected");
+								list_item.classList.add("selected");   
 							}
 						}
 						update_selected_count();
-					} else {
+					}
+					else
+					{
 						list_item.classList.toggle("selected");
 					}
 				});
@@ -401,22 +814,18 @@
 				list.appendChild(list_item);
 			}
 
-			function randomize() {
+			function randomize()
+			{
 				// clear the selected values
-				const selected_items =
-					selected_values_list.querySelectorAll(".value-item");
+				const selected_items = selected_values_list.querySelectorAll(".value-item");
 				for (const item of selected_items) {
 					item.classList.remove("selected");
 					bank_values_list.appendChild(item);
 				}
 
 				// shuffle the bank items and pick 25 random items
-				const bank_items = Array.from(
-					bank_values_list.querySelectorAll(".value-item"),
-				);
-				const shuffled_items = bank_items.sort(
-					() => Math.random() - 0.5,
-				);
+				const bank_items = Array.from(bank_values_list.querySelectorAll(".value-item"));
+				const shuffled_items = bank_items.sort(() => Math.random() - 0.5);
 				const random_selection = shuffled_items.slice(0, 25);
 
 				for (const item of random_selection) {
@@ -424,23 +833,48 @@
 				}
 
 				selected_count = random_selection.length;
+				selected_count = random_selection.length;
 
 				update_selected_count();
+				check_change();
 			}
 
-			// adds all items to the bank values list
+			// adds items to the appropriate list
 			function load_items() {
 				bank_values_list.innerHTML = "";
+				selected_values_list.innerHTML = "";
 
-				for (const item of items) {
-					add_item(item, bank_values_list);
+				if(selected != null)
+				{
+					for(const item of selected.items)
+					{
+						add_item(item, selected_values_list);
+						selected_count++;
+					}
+					update_selected_count();
+					for (const item of items) 
+					{
+						if(!selected.items.some(selectedItem => selectedItem.title === item.title))
+						{
+							add_item(item, bank_values_list);
+						}
+					}
 				}
+				else
+				{
+					for (const item of items) 
+					{
+						add_item(item, bank_values_list);
+					}
+				}
+				
 			}
 
 			function update_selected_count() {
 				selected_count_display.textContent = `${selected_count}/25`;
-				if (selected_count == 25) {
+				if(selected_count == 25) {
 					selected_count_display.style.color = "green";
+					changed_selections = true;	// FIXME: TODO: Check to see if selections have actually changed
 				} else {
 					selected_count_display.style.color = "red";
 				}
@@ -448,21 +882,18 @@
 
 			// moves the selected items from the bank to the right
 			function move_selected_right() {
-				const selected_items = bank_values_list.querySelectorAll(
-					".value-item.selected",
-				);
+				const selected_items = bank_values_list.querySelectorAll(".value-item.selected");
 
 				for (const item of selected_items) {
 					item.classList.remove("selected");
 					selected_values_list.appendChild(item);
 				}
+				check_change();
 			}
 
 			// moves the selected items from the selected list to the left
 			function move_selected_left() {
-				const selected_items = selected_values_list.querySelectorAll(
-					".value-item.selected",
-				);
+				const selected_items = selected_values_list.querySelectorAll(".value-item.selected");
 
 				for (const item of selected_items) {
 					item.classList.remove("selected");
@@ -471,11 +902,50 @@
 				}
 
 				update_selected_count();
+				check_change();
+			}
+
+			function new_custom_item() {
+				const emoji = custom_emoji.value.trim();
+				const title = custom_title.value.trim();
+
+				if (emoji && title) {
+					save_custom_button.disabled = false;
+				} else {
+					save_custom_button.disabled = true;
+				}
+			}
+
+			function show_modal() {
+				backdrop.classList.remove("hidden");
+			}
+
+			function hide_modal() {
+				backdrop.classList.add("hidden");
+				custom_emoji.value = "";
+				custom_title.value = "";
+				save_custom_button.disabled = true;
+			}
+
+			function check_change()
+			{
+				if((changed_items || changed_selections || changed_title) && selected_count == 25)
+				{
+					save_button.disabled = false;
+				}
+				else
+				{
+					save_button.disabled = true;
+				}
 			}
 
 			try {
-				items = await invoke("example_bingo_items");
-				console.log("Loaded items from Rust:", items);
+				board = await invoke("open_project", {path: project_id});
+				items = board.items;
+				city = board.city;
+				selected = board.last_board;
+				old_title = board.title;
+				title.textContent = old_title;
 				load_items();
 			} catch (error) {
 				console.error("Failed to load example bingo items:", error);
@@ -486,5 +956,6 @@
 			move_one_left.addEventListener("click", move_selected_left);
 			randomize_button.addEventListener("click", randomize);
 		</script>
+
 	</body>
 </html>
