@@ -21,6 +21,7 @@ pub mod commands {
 	#[tauri::command]
 	pub fn open_play(path: String) -> PlayableBingo {
 		info!("open_play ran");
+		info!("open_play path: {path}");
 		PlayableBingo::open(path).unwrap()
 	}
 
