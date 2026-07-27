@@ -4,8 +4,8 @@
 import re
 from pathlib import Path
 
-input_file = "prauge.txt"
-output_dir = Path("prauge_items")
+input_file = "budapest.txt"
+output_dir = Path("budapest_items")
 output_dir.mkdir(exist_ok=True)
 
 # Characters not allowed in filenames on Windows
