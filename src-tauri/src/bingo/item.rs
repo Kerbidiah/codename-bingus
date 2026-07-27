@@ -20,11 +20,11 @@ pub struct BingoItem {
 }
 
 impl BingoItem {
-	pub fn vienna_samples() -> anyhow::Result<Vec<Self>> {
-		// TODO: rewrite to pure iterator for SPEED
-
+	fn read_samples<P>(path: P) -> anyhow::Result<Vec<Self>> 
+		where P: AsRef<std::path::Path>
+	{
 		let example_paths: Vec<Result<DirEntry, io::Error>> =
-			fs::read_dir("../examples/items/")?.collect(); // get list of files in examples/items directory
+			fs::read_dir(path)?.collect(); // get list of files in examples/items directory
 		let mut ans = Vec::with_capacity(example_paths.len()); // create vector preallocated with enough space
 
 		for p in example_paths {
@@ -34,6 +34,14 @@ impl BingoItem {
 
 		Ok(ans)
 	}
+	
+	pub fn vienna_samples() -> anyhow::Result<Vec<Self>> {
+		Self::read_samples("../examples/items/")
+	}
+
+	pub fn prauge_samples() -> anyhow::Result<Vec<Self>> {
+		Self::read_samples("../examples/prauge_items/")
+	}
 }
 
 pub mod commands {
@@ -42,5 +50,16 @@ pub mod commands {
 	#[tauri::command]
 	pub fn example_bingo_items() -> Vec<BingoItem> {
 		BingoItem::vienna_samples().unwrap()
+	}
+
+	#[tauri::command]
+	pub fn new_bingo_item(title: String, mut emoji: String) -> BingoItem {
+		BingoItem {
+			title: title,
+			emoji: emoji.pop(),
+			short_description: None,
+			url: None,
+			completion_info: None,
+		}
 	}
 }

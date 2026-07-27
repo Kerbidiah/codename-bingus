@@ -1,18 +1,11 @@
 pub mod auto_serde;
 pub mod bingo;
 
-use crate::bingo::{get_bingo_projects, get_bingo_games};
 use crate::bingo::board::commands::*;
 use crate::bingo::item::commands::*;
-use crate::bingo::project::commands::*;
 use crate::bingo::play::commands::*;
-
-use crate::bingo::item::BingoItem;
-use crate::bingo::project::BingoProject;
-
-use auto_serde::AutoSerde;
-
-use std::fs::File;
+use crate::bingo::project::commands::*;
+use crate::bingo::{convert_proj_path_to_game_path, get_bingo_games, get_bingo_projects, quick_export};
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
@@ -46,7 +39,11 @@ pub fn run() {
 			open_board,
 			save_board,
 			open_play,
-			save_play
+			save_play,
+			new_bingo_board,
+			convert_proj_path_to_game_path,
+			new_bingo_item,
+			quick_export,
 		])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");

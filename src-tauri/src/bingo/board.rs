@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-use crate::bingo::item::BingoItem;
 use crate::auto_serde::AutoSerde;
+use crate::bingo::item::BingoItem;
 
 use fake::{Fake, faker};
 
@@ -48,5 +48,10 @@ pub mod commands {
 	#[tauri::command]
 	pub fn save_board(path: String, obj: BingoBoard) {
 		obj.write(path).unwrap();
+	}
+
+	#[tauri::command]
+	pub fn new_bingo_board(city: String, items: Vec<BingoItem>) -> BingoBoard {
+		BingoBoard { city, items }
 	}
 }

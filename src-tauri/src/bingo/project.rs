@@ -2,9 +2,9 @@ use serde::{Deserialize, Serialize};
 
 use rand::prelude::*;
 
+use crate::auto_serde::AutoSerde;
 use crate::bingo::board::BingoBoard;
 use crate::bingo::item::BingoItem;
-use crate::auto_serde::AutoSerde;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BingoProject {
