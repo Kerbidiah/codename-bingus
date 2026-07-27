@@ -514,7 +514,7 @@
 		</div>
 		<div id="modal-backdrop" class="modal-backdrop hidden">
 			<div class="modal">
-				<h2>Complete Bingo Item</h2>
+				<h2 id="title-custom"></h2>
 
 				<div class="custom-item-form">
 					<label for="custom-description">Enter a description</label>
@@ -599,9 +599,38 @@
 			window.location.href = "./../index.html";
 		});
 
-		
+		const backdrop = document.getElementById("modal-backdrop");
+		const cancel = document.getElementById("cancel-custom");
+		const save = document.getElementById("save-custom");
+		let hidden = true;
+
+		function showModal() {
+			backdrop.classList.remove("hidden");
+		}
+
+		function hideModal() {
+			backdrop.classList.add("hidden");
+			custom_emoji.value = "";
+			custom_title.value = "";
+			save_custom_button.disabled = true;
+		}
+
 		bingoContainer.addEventListener("click", (e) => {
 			const elem = e.target.closest(".bingo-button");
+			showModal();
+			hidden = false;
+
+			const title = document.getElementById("title-custom");
+			const desc = document.getElementById("custom-description");
+			const save = document.getElementById("save-custom");
+
+			title.textContent = elem.childNodes[0].textContent + " " + elem.childNodes[1].textContent;
+			
+		});
+
+		cancel.addEventListener("click", () => {
+			hideModal();
+			hidden = true;
 		});
 	</script>
 </html>
