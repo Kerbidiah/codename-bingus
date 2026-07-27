@@ -467,6 +467,13 @@
 				filter: none;
 			}
 
+			.bingo-box .bingo-button:disabled {
+				cursor: not-allowed;
+				opacity: 0.55;
+				transform: none;
+				filer: none;
+			}
+
 
 			@media (max-width: 680px) {
 				.bingo-row{
@@ -517,7 +524,9 @@
 				<h2 id="title-custom"></h2>
 
 				<div class="custom-item-form">
-					<label for="custom-description">Enter a description</label>
+					<label for="custom-description">Enter a description
+						<i>(your description is <u>final</u>)</i></label
+					>
 					<textarea
 						id="custom-description"
 						placeholder="Enter a description here..."
@@ -604,6 +613,7 @@
 		const save = document.getElementById("save-custom");
 		const modalTitle = document.getElementById("title-custom");
 		const desc = document.getElementById("custom-description");
+		let lastItem;
 		let hidden = true;
 
 		function showModal() {
@@ -617,11 +627,15 @@
 		}
 
 		bingoContainer.addEventListener("click", (e) => {
-			const elem = e.target.closest(".bingo-button");
+			lastItem = e.target.closest(".bingo-button");
+			console.log(lastItem);
 			showModal();
 			hidden = false;
 
-			modalTitle.textContent = elem.childNodes[0].textContent + " " + elem.childNodes[1].textContent;
+			modalTitle.textContent =
+				lastItem.childNodes[0].textContent +
+				" " +
+				lastItem.childNodes[1].textContent;
 		});
 
 		desc.addEventListener("input", () => {
@@ -631,6 +645,19 @@
 		cancel.addEventListener("click", () => {
 			hideModal();
 			hidden = true;
+		});
+
+		save.addEventListener("click", () => {
+			const itemTitle = lastItem.childNodes[1].textContent.trim();
+			for (let i = 0; i < 25; i++) {
+				if (items[i].title == itemTitle) {
+					items[i].completion_info = true;
+					break;
+				}
+			}
+
+			lastItem.disabled = true;
+			hideModal();
 		});
 	</script>
 </html>
