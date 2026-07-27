@@ -681,17 +681,33 @@
 				hide_modal();
 			});
 			cancel_custom_button.addEventListener("click", hide_modal);
+
+			function getValues(str)
+			{
+				const spaceIdx = str.indexOf(" ");
+
+				if (spaceIdx === -1) {
+					return {
+						first: str,
+						second: ""
+					};
+				}
+
+				return {
+					first: str.substring(0, spaceIdx),
+					second: str.substring(spaceIdx + 1)
+				};
+			}
 			
 			async function save_board() {
 				const selected_items_HTML = Array.from(selected_values_list.querySelectorAll(".value-item"));
 				const sel_items = [];
 				for(const item of selected_items_HTML)
 				{
-					const emoji = item.textContent.substring(0, 1);
-					const title = item.textContent.substring(2);
+					const { first: emojiVal, second: titleVal } = getValues(item.textContent);
 					try
 					{
-						const bing_item = await invoke("new_bingo_item", {title: title, emoji: emoji});
+						const bing_item = await invoke("new_bingo_item", {title: titleVal, emoji: emojiVal});
 						sel_items.push(bing_item);
 					}
 					catch (err)
@@ -708,7 +724,7 @@
 				{
 					alert("Error creating bingo board: " + err);
 				}			
-				
+
 				const new_project = {title: title.textContent, city: "", items: items, last_board: selected};
 
 				try
@@ -832,10 +848,12 @@
 					for(const item of selected.items)
 					{
 						add_item(item, selected_values_list);
+						selected_count++;
 					}
+					update_selected_count();
 					for (const item of items) 
 					{
-						if(!(item in selected.items))
+						if(!selected.items.some(selectedItem => selectedItem.title === item.title))
 						{
 							add_item(item, bank_values_list);
 						}
