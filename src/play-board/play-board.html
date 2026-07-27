@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8">
+		<meta charset="utf-8" />
 		<title id="title"></title>
 		<style>
 			/* QoL for users to know what elements are clickable */
@@ -292,6 +292,7 @@
 
 			.bingo-button .title {
 				font-size: clamp(12px, 1.6vw, 16px);
+				color: var(--text);
 				line-height: 1.15;
 				font-weight: 900;
 				text-transform: uppercase;
@@ -306,6 +307,34 @@
 				letter-spacing: 0.6px;
 				color: var(--text-1);
 			}
+
+			/* Ensure long titles don't break the board layout */
+			.bingo-button .title{
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;     /* or 1 */
+				overflow: hidden;
+
+				max-width: 100%;
+				white-space: normal;
+				word-break: break-word;     /* wrap long words */
+				overflow-wrap: anywhere;    /* modern wrap */
+				text-align: center;
+			}
+
+			.bingo-button .title{
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				overflow: hidden;
+				overflow-wrap: anywhere;
+			}
+			
+			.bingo-button:hover .title{
+				-webkit-line-clamp: unset;
+				overflow: visible;
+			}
+
 
 			@media (max-width: 680px) {
 				.bingo-row{
@@ -349,41 +378,68 @@
 				<h2 class="subtitle-text" id="subtitle-text"></h2>
 			</div>
 			<!--Bingo Board-->
-			<div class="bingo-box" id="bingo-box">
-				
-			</div>
+			<div class="bingo-box" id="bingo-box"></div>
 		</div>
 	</body>
 	<script type="module" src="../themes.js"></script>
 	<script type="module">
 		const { invoke } = window.__TAURI__.core;
-		const board = await invoke("open_play", { path: localStorage.getItem("path") });
-		const bingoContainer = document.getElementByID("bingo-box");
+
+		// Board Items
+		const boardObj = await invoke("open_play", {
+			path: localStorage.getItem("path"),
+		});
+		const board = boardObj.board;
+		const items = board.items;
+		console.log(board);
+
+		// Elements that need to be updated
+		const bingoContainer = document.getElementById("bingo-box");
+		const title = document.getElementById("title");
+		title.textContent = board.city;
+
+		const titleText = document.getElementById("title-text");
+		titleText.textContent = board.city;
+
+		const subtitleText = document.getElementById("subtitle-text");
+		subtitleText.textContent = new Date().toLocaleDateString();
+
+		let i = 0;
+		let row;
+		for (const elem of items) {
+			if (i++ % 5 === 0) {
+				row = document.createElement("div");
+				row.className = "bingo-row";
+				bingoContainer.appendChild(row);
+			}
+			drawItem(elem.emoji, elem.title, elem.short_description, row);
+		}
 
 		function drawItem(emoji, title, alt, row) {
 			const divRow = row;
 			const bingoItem = document.createElement("div");
 			bingoItem.className = "bingo-item";
-			
+
 			const bingoButton = document.createElement("button");
 			bingoButton.className = "bingo-button";
 
 			const icon = document.createElement("span");
 			const name = document.createElement("span");
 			const shortDescription = document.createElement("span");
-			
+
 			icon.className = "emoji";
 			name.className = "title";
 			shortDescription.className = "alt";
 
 			icon.textContent = emoji;
 			name.textContent = title;
-			shortDescription.textContent = alt;
+			shortDescription.textContent = alt === null ? " " : alt;
 
 			bingoButton.appendChild(icon);
 			bingoButton.appendChild(name);
 			bingoButton.appendChild(shortDescription);
 			bingoItem.appendChild(bingoButton);
+			row.appendChild(bingoItem);
 		}
 	</script>
 </html>
