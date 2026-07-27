@@ -49,4 +49,9 @@ pub mod commands {
 	pub fn save_board(path: String, obj: BingoBoard) {
 		obj.write(path).unwrap();
 	}
+
+	#[tauri::command]
+	pub fn new_bingo_board(city: String, items: Vec<BingoItem>) -> BingoBoard {
+		BingoBoard { city, items }
+	}
 }

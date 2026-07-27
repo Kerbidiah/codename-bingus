@@ -47,6 +47,7 @@ pub fn run() {
 			save_board,
 			open_play,
 			save_play
+			new_bingo_board,
 		])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");
