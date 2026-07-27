@@ -1,3 +1,6 @@
+# AI GENERATED:
+# https://chatgpt.com/c/6a67633c-c214-83ea-992d-5fba926662d4
+
 import re
 from pathlib import Path
 
