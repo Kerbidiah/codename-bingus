@@ -33,8 +33,11 @@ impl BingoProject {
 	pub fn generate_random_board(&self) -> BingoBoard {
 		let mut rng = rand::rng();
 
+		let mut title = self.title.clone();
+		title.push_str(" <> DEBUGINFO: game");
+	
 		BingoBoard {
-			title: self.title.clone(),
+			title: title,
 			city: self.city.clone(),
 			items: self.items.sample(&mut rng, 25).cloned().collect(),
 		}
