@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use anyhow;
 
-use super::completion::BingoCompletionInfo;
+// use super::completion::BingoCompletionInfo;
 
 use crate::auto_serde::AutoSerde;
 use log::info;
@@ -16,7 +16,7 @@ pub struct BingoItem {
 	pub emoji: Option<char>,
 	pub short_description: Option<String>,
 	pub url: Option<String>,
-	pub completion_info: Option<BingoCompletionInfo>,
+	pub completion_info: bool,
 }
 
 impl BingoItem {
@@ -61,7 +61,7 @@ pub mod commands {
 			emoji: emoji.pop(),
 			short_description: None,
 			url: None,
-			completion_info: None,
+			completion_info: false,
 		}
 	}
 }
