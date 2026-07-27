@@ -113,8 +113,11 @@ pub fn convert_proj_path_to_game_path(input: String) -> String {
 #[tauri::command]
 pub fn quick_export(proj_path: String) {
 	info!("quick_export ran");
+	info!("quick_export proj_path: {proj_path}");
 	let proj = BingoProject::open(proj_path.clone()).unwrap();
+	
 	let game_path = convert_proj_path_to_game_path(proj_path);
+	info!("quick_export game_path: {game_path}");
 
 	let game = PlayableBingo {
 		board: proj.generate_random_board(),

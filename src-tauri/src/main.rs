@@ -4,6 +4,7 @@
 fn main() {
 	env_logger::Builder::new()
 		.filter_level(log::LevelFilter::Info)
+		.format_timestamp_millis()
 		.init();
 	
 	log::info!("Starting up");
