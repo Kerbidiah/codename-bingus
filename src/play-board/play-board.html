@@ -329,10 +329,142 @@
 				overflow: hidden;
 				overflow-wrap: anywhere;
 			}
-			
+
 			.bingo-button:hover .title{
 				-webkit-line-clamp: unset;
 				overflow: visible;
+			}
+			/* Hidden utility */
+			.hidden{ /* display: none !important; */ }
+
+			/* Backdrop sits above the whole page/board */
+			.modal-backdrop{
+				position: fixed;
+				inset: 0;
+				z-index: 9999;
+
+				/* dim the page while keeping the board visible */
+				background: rgba(0, 0, 0, 0.45);
+				backdrop-filter: blur(8px);
+
+				display: grid;
+				place-items: center;
+				padding: 18px;
+			}
+
+			/* Modal card styling to match your theme */
+			.modal{
+				width: min(640px, 100%);
+				border-radius: 18px;
+				padding: 18px;
+
+				background: rgba(255, 255, 255, 0.04);
+				border: 1px solid var(--nav-border);
+				color: var(--text);
+
+				box-shadow:
+				0 30px 90px rgba(0,0,0,0.35),
+				inset 0 1px 0 rgba(255,255,255,0.08);
+
+				text-align: center;
+			}
+
+			/* Title */
+			.modal h2{
+				margin: 6px 0 14px;
+				font-size: 18px;
+				letter-spacing: 0.2px;
+			}
+
+			/* Form */
+			.custom-item-form{
+				text-align: left;
+				width: 96%;
+				margin: 10px 0 16px;
+			}
+
+			.custom-item-form label{
+				display: block;
+				font-weight: 700;
+				margin: 0 0 8px;
+				color: var(--text);
+			}
+
+			.custom-item-form textarea{
+				width: 100%;
+				min-height: 120px;
+				resize: vertical;
+
+				border-radius: 14px;
+				padding: 12px 12px;
+				border: 1px solid rgba(255,255,255,0.14);
+				background: rgba(255,255,255,0.03);
+				color: var(--text);
+
+				outline: none;
+				box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+			}
+
+			body.light .custom-item-form textarea{
+				border: 1px solid rgba(15, 23, 42, 0.10);
+				background: rgba(15, 23, 42, 0.03);
+			}
+
+			/* Focus */
+			.custom-item-form textarea:focus{
+				border-color: rgba(125, 255, 91, 0.45);
+				box-shadow:
+				0 0 0 4px rgba(125, 255, 91, 0.15),
+				inset 0 1px 0 rgba(255,255,255,0.06);
+			}
+
+			/* Buttons row */
+			.modal-buttons{
+				display: flex;
+				gap: 12px;
+				justify-content: center;
+			}
+
+			/* Shared button style (gradient border + bg fill) */
+			.modal .cancel,
+			.modal .save{
+				flex: 1 1 0;
+				max-width: 240px;
+
+				border-radius: 14px;
+				padding: 10px 12px;
+				font-weight: 900;
+				letter-spacing: 0.2px;
+				cursor: pointer;
+
+				background: var(--bg);
+				color: var(--text);
+
+				border: 0;
+				outline: none;
+
+				/* gradient border via background-clip technique */
+				background-image:
+				linear-gradient(var(--bg), var(--bg)),
+				linear-gradient(135deg, var(--btn-g1), var(--btn-g2));
+				background-origin: border-box;
+				background-clip: padding-box, border-box;
+				border: 1px solid transparent;
+
+				transition: transform 140ms ease, filter 160ms ease;
+			}
+
+			.modal .cancel:hover,
+			.modal .save:hover{
+				transform: translateY(-1px);
+				filter: saturate(1.06);
+			}
+
+			.modal .save:disabled{
+				cursor: not-allowed;
+				opacity: 0.55;
+				transform: none;
+				filter: none;
 			}
 
 
@@ -379,6 +511,26 @@
 			</div>
 			<!--Bingo Board-->
 			<div class="bingo-box" id="bingo-box"></div>
+		</div>
+		<div id="modal-backdrop" class="modal-backdrop hidden">
+			<div class="modal">
+				<h2>Complete Bingo Item</h2>
+
+				<div class="custom-item-form">
+					<label for="custom-description">Enter a description</label>
+					<textarea
+						id="custom-description"
+						placeholder="Enter a description here..."
+					></textarea>
+				</div>
+
+				<div class="button-box modal-buttons">
+					<button id="cancel-custom" class="cancel">Cancel</button>
+					<button id="save-custom" class="save" disabled="true">
+						Save
+					</button>
+				</div>
+			</div>
 		</div>
 	</body>
 	<script type="module" src="../themes.js"></script>
