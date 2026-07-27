@@ -7,13 +7,6 @@ use crate::bingo::play::commands::*;
 use crate::bingo::project::commands::*;
 use crate::bingo::{get_bingo_games, get_bingo_projects};
 
-use crate::bingo::item::BingoItem;
-use crate::bingo::project::BingoProject;
-
-use auto_serde::AutoSerde;
-
-use std::fs::File;
-
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
 fn greet(name: &str) -> String {

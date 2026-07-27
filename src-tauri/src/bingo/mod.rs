@@ -90,3 +90,5 @@ pub fn get_bingo_games() -> Vec<(PlayableBingo, String)> {
 		}) // filter out Errors and extract the value out of Oks
 		.collect()
 }
+
+pub fn 
