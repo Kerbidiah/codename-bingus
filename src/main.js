@@ -117,7 +117,7 @@ if (
 				window.location.href = "./editable-board/editable-board.html";
 			} else if (button.className === "export-button") {
 				// TODO: Create alert notification to alert the user that the .BingoGame file was created.
-				invoke("quick_export", { projPath: localStorage.getItem("path") });
+				invoke("quick_export", { projPath: sessionStorage.getItem("path") });
 				const relPosition = window.scrollY / window.innerHeight;
 				window.location.reload();
 				window.scrollTo(0, window.innerHeight * relPosition);
