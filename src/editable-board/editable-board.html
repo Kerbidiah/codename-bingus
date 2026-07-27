@@ -563,6 +563,7 @@
             const project_id = localStorage.getItem("path");
             
 
+            let board;
             let items = [];
             let selected_count = 0;
             let changed = false;
@@ -587,8 +588,7 @@
 
             function new_title() {
                 input.type = "text";
-                //input.value = title.textContent;
-                input.value = project_id;
+                input.value = title.textContent;
                 input.id = "title";
                 input.classList.add("input-box")
 
@@ -772,7 +772,10 @@
             cancel_custom_button.addEventListener("click", hide_modal);
 
             try {
-                items = await invoke("example_bingo_items");
+                board = await invoke("open_board", {path: project_id});
+                items = board.items;
+                alert("Title: " + board.city + "\nPath: " + project_id);
+                title.textContent = board.title;
                 load_items();
             } catch (error) {
                 console.error("Failed to load example bingo items:", error);
