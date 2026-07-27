@@ -91,4 +91,7 @@ pub fn get_bingo_games() -> Vec<(PlayableBingo, String)> {
 		.collect()
 }
 
-pub fn 
+#[tauri::command]
+pub fn convert_proj_path_to_game_path(input: String) -> String {
+	todo!()
+}

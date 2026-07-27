@@ -5,7 +5,7 @@ use crate::bingo::board::commands::*;
 use crate::bingo::item::commands::*;
 use crate::bingo::play::commands::*;
 use crate::bingo::project::commands::*;
-use crate::bingo::{get_bingo_games, get_bingo_projects};
+use crate::bingo::{get_bingo_games, get_bingo_projects, convert_proj_path_to_game_path};
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
@@ -41,6 +41,7 @@ pub fn run() {
 			open_play,
 			save_play,
 			new_bingo_board,
+			convert_proj_path_to_game_path,
 		])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");
