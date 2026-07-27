@@ -335,7 +335,7 @@
 				overflow: visible;
 			}
 			/* Hidden utility */
-			.hidden{ /* display: none !important; */ }
+			.hidden{ display: none !important; }
 
 			/* Backdrop sits above the whole page/board */
 			.modal-backdrop{
@@ -593,5 +593,13 @@
 			bingoItem.appendChild(bingoButton);
 			row.appendChild(bingoItem);
 		}
+
+		// Return to Home Screen
+		const returnBtn = document.getElementById("return");
+		returnBtn.addEventListener("click", () => {
+			window.location.href = "./../index.html";
+		});
+
+		
 	</script>
 </html>
