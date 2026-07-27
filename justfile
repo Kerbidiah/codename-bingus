@@ -20,3 +20,4 @@ dir_setup:
 	mkdir ~/bingus/edit
 	mkdir ~/bingus/play
 	cp examples/projects/TEST.BingoProject ~/bingus/edit/TEST.BingoProject
+	cp -r examples/items ~/bingus

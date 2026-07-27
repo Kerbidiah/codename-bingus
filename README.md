@@ -1,4 +1,4 @@
-# bingus
+# Bingus
 
 ![Bingus](/src-tauri/icons/128x128@2x.png)
 
@@ -43,7 +43,7 @@ _If your package manager is not listed, follow the instructions on the [reposito
 
 ### Compilation
 
-Compile the program using:
+Compile the program in dev mode using:
 
 ```bash
 just run

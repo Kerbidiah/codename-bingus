@@ -4,6 +4,7 @@ use rand::prelude::*;
 
 use crate::bingo::board::BingoBoard;
 use crate::bingo::item::BingoItem;
+use crate::auto_serde::AutoSerde;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BingoProject {
@@ -40,8 +41,6 @@ impl BingoProject {
 }
 
 pub mod commands {
-	use crate::auto_serde::AutoSerde;
-
 	use super::*;
 
 	#[tauri::command]

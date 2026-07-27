@@ -3,6 +3,7 @@ use std::path::PathBuf;
 use serde::{Deserialize, Serialize};
 
 use crate::bingo::board::BingoBoard;
+use crate::auto_serde::AutoSerde;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PlayableBingo {
@@ -13,5 +14,19 @@ pub struct PlayableBingo {
 impl PlayableBingo {
 	pub fn base_path_as_string(&self) -> String {
 		self.assets_base_path.to_str().unwrap().to_string()
+	}
+}
+
+pub mod commands {
+	use super::*;
+	
+	#[tauri::command]
+	pub fn open_play(path: String) -> PlayableBingo {
+		PlayableBingo::open(path).unwrap()
+	}
+
+	#[tauri::command]
+	pub fn save_play(path: String, obj: PlayableBingo) {
+		obj.write(path).unwrap();
 	}
 }

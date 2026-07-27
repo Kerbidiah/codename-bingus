@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::bingo::item::BingoItem;
+use crate::auto_serde::AutoSerde;
 
 use fake::{Fake, faker};
 
@@ -37,5 +38,15 @@ pub mod commands {
 	#[tauri::command]
 	pub fn generate_dummy_bingo_board() -> BingoBoard {
 		BingoBoard::dummy()
+	}
+
+	#[tauri::command]
+	pub fn open_board(path: String) -> BingoBoard {
+		BingoBoard::open(path).unwrap()
+	}
+
+	#[tauri::command]
+	pub fn save_board(path: String, obj: BingoBoard) {
+		obj.write(path).unwrap();
 	}
 }
