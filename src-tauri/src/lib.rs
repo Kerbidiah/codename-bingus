@@ -64,6 +64,11 @@ pub fn run() {
 			new_bingo_item,
 			quick_export,
 			new_proj,
+			get_vienna_samples,
+			get_prauge_samples,
+			get_london_samples,
+			get_luzern_samples,
+			get_budapest_samples,
 		])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");

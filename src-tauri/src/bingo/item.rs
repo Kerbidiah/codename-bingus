@@ -42,6 +42,18 @@ impl BingoItem {
 	pub fn prauge_samples() -> anyhow::Result<Vec<Self>> {
 		Self::read_samples("../examples/prauge_items/")
 	}
+
+	pub fn london_samples() -> anyhow::Result<Vec<Self>> {
+		Self::read_samples("../examples/london_items/")
+	}
+
+	pub fn luzern_samples() -> anyhow::Result<Vec<Self>> {
+		Self::read_samples("../examples/luzern_items/")
+	}
+
+	pub fn budapest_samples() -> anyhow::Result<Vec<Self>> {
+		Self::read_samples("../examples/budapest_items/")
+	}
 }
 
 pub mod commands {
@@ -63,5 +75,30 @@ pub mod commands {
 			url: None,
 			completion_info: false,
 		}
+	}
+
+	#[tauri::command]
+	pub fn get_vienna_samples() -> Vec<BingoItem> {
+		BingoItem::vienna_samples().unwrap()
+	}
+
+	#[tauri::command]
+	pub fn get_prauge_samples() -> Vec<BingoItem> {
+		BingoItem::prauge_samples().unwrap()
+	}
+
+	#[tauri::command]
+	pub fn get_london_samples() -> Vec<BingoItem> {
+		BingoItem::london_samples().unwrap()
+	}
+
+	#[tauri::command]
+	pub fn get_luzern_samples() -> Vec<BingoItem> {
+		BingoItem::luzern_samples().unwrap()
+	}
+
+	#[tauri::command]
+	pub fn get_budapest_samples() -> Vec<BingoItem> {
+		BingoItem::budapest_samples().unwrap()
 	}
 }
