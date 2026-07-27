@@ -93,12 +93,30 @@ if (
 			window.location.href = "editable-board/editable-board.html";
 		});
 		cards.appendChild(create_board_button);
+		
+		// add header for Projects
+		const project_header = document.createElement("h2");
+		project_header.textContent = "Projects";
+		project_header.className = "name-wrapper";
+		const pLine = document.createElement("hr");
+		cards.appendChild(project_header);
+		cards.appendChild(pLine);
+		
 		if (editable_boards != undefined) {
 			for (const elem of editable_boards) {
 				const [items, path] = elem;
 				draw_card(items.title, items.city, path, true);
 			}
 		}
+
+		// add header for Games
+		const game_header = document.createElement("h2");
+		game_header.textContent = "Games";
+		game_header.className = "name-wrapper";
+		const gLine = document.createElement("hr");
+		cards.appendChild(game_header);
+		cards.appendChild(gLine);
+		
 		if (playable_boards != undefined) {
 			for (const elem of playable_boards) {
 				const [items, path] = elem;
