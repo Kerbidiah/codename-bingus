@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title id="title"></title>
+		<style>
+			/* QoL for users to know what elements are clickable */
+			a { cursor: pointer; }
+
+			/* Prevents images from being draggable */
+			img {
+				-webkit-user-drag: none;
+				user-drag: none;
+				draggable = false;
+				pointer-events: auto;
+			}
+
+			/* DARK THEME (default) */
+			body {
+				--bg: #0b1220;
+				--text: #e8eefc;
+				--text-1: rgba(255,255,255,0.55);
+
+				--nav-bg: rgba(11, 18, 32, 0.85);
+				--nav-border: rgba(255, 255, 255, 0.08);
+
+				--link: #e8eefc;
+				--link-hover-bg: rgba(255, 255, 255, 0.08);
+
+				--btn-text: #0b1220;
+				--btn-g1: #1dd3ff;
+				--btn-g2: #7cff5c;
+				--btn-shadow: rgba(92, 124, 255, 0.22);
+				--btn-shadow-2: rgba(92, 124, 255, 0.30);
+			}
+
+			/* LIGHT THEME */
+			body.light {
+				--bg: #f6f7fb;
+				--text: #0f172a;
+				--text-1: rgba(0, 0, 0, 0.35);
+
+				--nav-bg: rgba(246, 247, 251, 0.9);
+				--nav-border: rgba(15, 23, 42, 0.08);
+
+				--link: #0f172a;
+				--link-hover-bg: rgba(15, 23, 42, 0.06);
+
+				--btn-text: #0b1220;
+				--btn-g1: #56f6ff;
+				--btn-g2: #6fff5b;
+				--btn-shadow: rgba(91, 111, 255, 0.18);
+				--btn-shadow-2: rgba(91, 111, 255, 0.26);
+			}
+
+			body {
+				margin: 0;
+				font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+				background: var(--bg);
+				color: var(--text);
+			}
+
+			.navigation {
+				position: sticky;
+				top: 0;
+				z-index: 10;
+				background: var(--nav-bg);
+				backdrop-filter: blur(10px);
+				border-bottom: 1px solid var(--nav-border);
+			}
+
+			nav.navigation a {
+				color: var(--link);
+				text-decoration: none;
+				font-weight: 600;
+				letter-spacing: 0.2px;
+				padding: 10px 12px;
+				border-radius: 10px;
+				transition: background-color 160ms ease, transform 160ms ease;
+			}
+
+			nav.navigation a:hover {
+				background: var(--link-hover-bg);
+				transform: translateY(-1px);
+			}
+
+			nav.navigation {
+				max-width: 1100px;
+				margin: 0 auto;
+				padding: 14px 18px;
+				display: flex;
+				align-items: center;
+				gap: 18px;
+				justify-content: center;
+			}
+
+			nav.navigation a#dark-mode {
+				margin-left: auto;
+				padding: 8px;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			nav.navigation a#dark-mode img {
+				width: 22px;
+				height: 22px;
+				display: block;
+			}
+
+			.body {
+				min-height: calc(100vh - 60px);
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				padding: 48px 18px;
+				text-align: center;
+
+				/* needed for top-left positioning of #return */
+				position: relative;
+			}
+
+			/* =========================
+			   Top-left #return styling
+			   ========================= */
+
+			.top-buttons {
+				position: absolute;
+				top: 18px;
+				left: 18px;
+				z-index: 5;
+			}
+
+			/* The border gradient is applied to the wrapper via padding+background */
+			.top-buttons {
+				--b1: var(--btn-g1);
+				--b2: var(--btn-g2);
+				--bdr: 2px;
+				--radius: 14px;
+
+				background: linear-gradient(135deg, var(--b1), var(--b2));
+				padding: var(--bdr);
+				border-radius: var(--radius);
+			}
+
+			/* The button itself uses the page background as the inner fill */
+			.top-buttons button#return {
+				width: 36px;
+				height: 36px;
+				border-radius: calc(var(--radius) - var(--bdr));
+				border: 0;
+				outline: none;
+				cursor: pointer;
+
+				background: var(--bg); /* inner fill */
+				color: var(--text);
+
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 20px;
+				font-weight: 900;
+				line-height: 1;
+
+				transition: transform 140ms ease, filter 160ms ease, box-shadow 160ms ease;
+				box-shadow:
+					0 10px 28px rgba(0,0,0,0.18),
+					inset 0 1px 0 rgba(255,255,255,0.08);
+			}
+
+			.top-buttons button#return:hover {
+				transform: translateY(-2px);
+				filter: saturate(1.08);
+				box-shadow:
+					0 16px 40px rgba(92, 124, 255, 0.22),
+					inset 0 1px 0 rgba(255,255,255,0.10);
+			}
+
+			/* =========================
+				Bingo: border gradient + inner fill = --bg
+				========================= */
+
+			.bingo-item {
+				/* per-element border gradient endpoints */
+				--b1: var(--btn-g1);
+				--b2: var(--btn-g2);
+
+				--bdr: 2px;
+				--radius: 18px;
+
+				width: 100%;
+
+				/* Gradient border layer */
+				background: linear-gradient(135deg, var(--b1), var(--b2));
+				border-radius: var(--radius);
+				padding: var(--bdr);
+			}
+
+			/* Inner fill is the background color; no gradient fill */
+			.bingo-button {
+				width: 100%;
+				aspect-ratio: 1 / 1;
+				border-radius: calc(var(--radius) - var(--bdr));
+
+				padding: 14px 12px;
+				display: inline-flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 8px;
+
+				text-align: center;
+				font-weight: 800;
+				letter-spacing: 0.2px;
+
+				cursor: pointer;
+				user-select: none;
+				transition: transform 140ms ease, box-shadow 160ms ease, filter 160ms ease;
+
+				background: var(--bg); /* inner fill */
+				border: none;
+				outline: none;
+				-webkit-tap-highlight-color: transparent;
+			}
+
+			.bingo-button:hover {
+				transform: translateY(-0.5px) scale(1.01);
+				filter: saturate(1.05);
+				box-shadow:
+					0 16px 40px rgba(92, 124, 255, 0.22),
+					0 4px 14px rgba(0,0,0,0.18);
+			}
+
+			.bingo-button:active {
+				transform: translateY(0px) scale(0.99);
+				filter: saturate(1.02);
+			}
+
+			/* Optional: focus ring via shadow (border already gradient) */
+			.bingo-button:focus-visible {
+				box-shadow:
+					0 16px 40px rgba(92, 124, 255, 0.30),
+					0 4px 14px rgba(0,0,0,0.18),
+					0 0 0 4px rgba(255,255,255,0.18);
+			}
+
+			.title-box {
+				margin: 18px 0 28px;
+				padding: 16px 18px;
+				border-radius: 18px;
+				width: min(980px, 100%);
+				background: rgba(255,255,255,0.04);
+				border: 1px solid var(--nav-border);
+				backdrop-filter: blur(10px);
+			}
+
+			.title-text {
+				margin: 0;
+				font-size: clamp(22px, 3vw, 34px);
+				letter-spacing: 0.3px;
+			}
+			.subtitle-text {
+				margin: 8px 0 0;
+				font-size: clamp(14px, 2vw, 18px);
+				font-weight: 600;
+				color: var(--text-1);
+			}
+
+			.bingo-box {
+				width: min(980px, 100%);
+				display: flex;
+				flex-direction: column;
+				gap: 12px;
+			}
+
+			.bingo-row {
+				display: grid;
+				grid-template-columns: repeat(5, 1fr);
+				gap: 12px;
+			}
+
+			.bingo-button .emoji {
+				font-size: clamp(22px, 2.4vw, 30px);
+				line-height: 1;
+				height: 1em;
+				display: grid;
+				place-items: center;
+				opacity: 0.95;
+				filter: drop-shadow(0 6px 10px rgba(0,0,0,0.18));
+			}
+
+			.bingo-button .title {
+				font-size: clamp(12px, 1.6vw, 16px);
+				color: var(--text);
+				line-height: 1.15;
+				font-weight: 900;
+				text-transform: uppercase;
+				text-shadow: 0 6px 14px rgba(0,0,0,0.18);
+			}
+
+			.bingo-button .alt {
+				font-size: 11px;
+				line-height: 1.2;
+				font-weight: 700;
+				opacity: 0.92;
+				letter-spacing: 0.6px;
+				color: var(--text-1);
+			}
+
+			/* Ensure long titles don't break the board layout */
+			.bingo-button .title{
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;     /* or 1 */
+				overflow: hidden;
+
+				max-width: 100%;
+				white-space: normal;
+				word-break: break-word;     /* wrap long words */
+				overflow-wrap: anywhere;    /* modern wrap */
+				text-align: center;
+			}
+
+			.bingo-button .title{
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				overflow: hidden;
+				overflow-wrap: anywhere;
+			}
+			
+			.bingo-button:hover .title{
+				-webkit-line-clamp: unset;
+				overflow: visible;
+			}
+
+
+			@media (max-width: 680px) {
+				.bingo-row{
+					grid-template-columns: repeat(3, 1fr);
+				}
+				.bingo-box{ gap: 10px; }
+				.bingo-row{ gap: 10px; }
+			}
+			@media (max-width: 420px){
+				.bingo-row{
+					grid-template-columns: repeat(2, 1fr);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="navigation">
+			<nav class="navigation">
+				<a href="./../index.html" id="home">Home</a>
+				<a href="./../about/about.html" id="about">About</a>
+				<a id="dark-mode">
+					<img
+						src="/assets/enable-light-mode.svg"
+						alt="Light Mode Selector"
+						id="theme-img"
+					/>
+				</a>
+			</nav>
+		</div>
+		<div class="body">
+			<!--Navigation Buttons-->
+			<div class="top-buttons">
+				<button id="return">&larr;</button>
+			</div>
+			<!--Title Box-->
+			<div class="title-box">
+				<!--The Title of the Bingo Board-->
+				<h1 class="title-text" id="title-text"></h1>
+
+				<!--The City Name-->
+				<h2 class="subtitle-text" id="subtitle-text"></h2>
+			</div>
+			<!--Bingo Board-->
+			<div class="bingo-box" id="bingo-box"></div>
+		</div>
+	</body>
+	<script type="module" src="../themes.js"></script>
+	<script type="module">
+		const { invoke } = window.__TAURI__.core;
+
+		// Board Items
+		const boardObj = await invoke("open_play", {
+			path: localStorage.getItem("path"),
+		});
+		const board = boardObj.board;
+		const items = board.items;
+		console.log(board);
+
+		// Elements that need to be updated
+		const bingoContainer = document.getElementById("bingo-box");
+		const title = document.getElementById("title");
+		title.textContent = board.city;
+
+		const titleText = document.getElementById("title-text");
+		titleText.textContent = board.city;
+
+		const subtitleText = document.getElementById("subtitle-text");
+		subtitleText.textContent = new Date().toLocaleDateString();
+
+		let i = 0;
+		let row;
+		for (const elem of items) {
+			if (i++ % 5 === 0) {
+				row = document.createElement("div");
+				row.className = "bingo-row";
+				bingoContainer.appendChild(row);
+			}
+			drawItem(elem.emoji, elem.title, elem.short_description, row);
+		}
+
+		function drawItem(emoji, title, alt, row) {
+			const divRow = row;
+			const bingoItem = document.createElement("div");
+			bingoItem.className = "bingo-item";
+
+			const bingoButton = document.createElement("button");
+			bingoButton.className = "bingo-button";
+
+			const icon = document.createElement("span");
+			const name = document.createElement("span");
+			const shortDescription = document.createElement("span");
+
+			icon.className = "emoji";
+			name.className = "title";
+			shortDescription.className = "alt";
+
+			icon.textContent = emoji;
+			name.textContent = title;
+			shortDescription.textContent = alt === null ? " " : alt;
+
+			bingoButton.appendChild(icon);
+			bingoButton.appendChild(name);
+			bingoButton.appendChild(shortDescription);
+			bingoItem.appendChild(bingoButton);
+			row.appendChild(bingoItem);
+		}
+	</script>
+</html>

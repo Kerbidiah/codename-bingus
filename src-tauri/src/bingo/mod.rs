@@ -5,7 +5,7 @@ pub mod play;
 pub mod project;
 
 use serde::{Deserialize, Serialize};
-
+use log::info;
 use dirs;
 
 use crate::auto_serde::AutoSerde;
@@ -23,9 +23,12 @@ pub enum BingoType {
 }
 
 const BINGO_EDIT_PATH: &str = "bingus/edit/";
-const BINGO_PLAY_PATH: &str = "bingus/play/";
+const BINGO_PLAY_PATH: &str = "bingus/edit/"; // look... this is kinda cursed, but it works because get_bingo_projects
+// and get_bingo_play are different types and they ignore any files they don't understand
 
-fn resolve_path(relative: &str) -> PathBuf {
+// please forgive me for my sins o Rust gods.
+
+pub fn resolve_path(relative: &str) -> PathBuf {
 	let mut path = dirs::home_dir().expect("could not determine home directory");
 	path.push(relative);
 	path
@@ -33,6 +36,7 @@ fn resolve_path(relative: &str) -> PathBuf {
 
 #[tauri::command]
 pub fn get_bingo_projects() -> Vec<(BingoProject, String)> {
+	info!("get_bingo_projects ran");
 	let path_edit = resolve_path(BINGO_EDIT_PATH);
 
 	fs::read_dir(path_edit)
@@ -63,6 +67,7 @@ pub fn get_bingo_projects() -> Vec<(BingoProject, String)> {
 
 #[tauri::command]
 pub fn get_bingo_games() -> Vec<(PlayableBingo, String)> {
+	info!("get_bingo_games ran");
 	let path_play = resolve_path(BINGO_PLAY_PATH);
 
 	fs::read_dir(path_play)
@@ -93,5 +98,30 @@ pub fn get_bingo_games() -> Vec<(PlayableBingo, String)> {
 
 #[tauri::command]
 pub fn convert_proj_path_to_game_path(input: String) -> String {
-	todo!()
+	info!("convert_proj_path_to_game_path ran");
+	let mut p: PathBuf = input.into();
+
+	let c = p.clone();
+	let name = c.file_prefix().unwrap();
+	p.pop();
+	p.push(name);
+	p.set_extension("BingoGame");
+
+	p.to_str().unwrap().to_string()
+}
+
+#[tauri::command]
+pub fn quick_export(proj_path: String) {
+	info!("quick_export ran");
+	info!("quick_export proj_path: {proj_path}");
+	let proj = BingoProject::open(proj_path.clone()).unwrap();
+	
+	let game_path = convert_proj_path_to_game_path(proj_path);
+	info!("quick_export game_path: {game_path}");
+
+	let game = PlayableBingo {
+		board: proj.generate_random_board(),
+	};
+
+	game.write(game_path).unwrap();
 }

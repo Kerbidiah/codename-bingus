@@ -1,43 +1,6 @@
 const { invoke } = window.__TAURI__.core;
 
-const toggle = document.getElementById("dark-mode");
-const theme_img = document.getElementById("theme-img");
-let editable_img;
 const cards = document.getElementById("bingo-cards");
-
-const ICON_LIGHT = "/assets/enable-light-mode.svg";
-const ICON_DARK = "/assets/enable-dark-mode.svg";
-
-// Changes the theme depending on the theme the user has
-function setTheme(theme) {
-	editable_img = Array.from(document.getElementsByClassName("edit-button"));
-	document.body.classList.toggle("light", theme === "light");
-	theme_img.src = theme === "light" ? ICON_DARK : ICON_LIGHT;
-	if (editable_img != undefined) {
-		editable_img.forEach((img) => {
-			const dark_icon = "/assets/editable-board-dark.svg";
-			const light_icon = "/assets/editable-board-light.svg";
-			img.src = theme === "light" ? light_icon : dark_icon;
-		});
-	}
-	localStorage.setItem("theme", theme);
-}
-// Caches the user's theme preference
-const saved = localStorage.getItem("theme");
-if (saved === "light" || saved === "dark") {
-	setTheme(saved);
-} else {
-	const prefersLight = window.matchMedia(
-		"(prefers-color-scheme: light)",
-	).matches;
-	setTheme(prefersLight ? "light" : "dark");
-}
-
-toggle.addEventListener("click", (e) => {
-	e.preventDefault(); // prevents jumping due to href
-	const next = document.body.classList.contains("light") ? "dark" : "light";
-	setTheme(next);
-});
 
 // Creates the card in the DOM
 function draw_card(title, city, path, owner) {
@@ -66,26 +29,37 @@ function draw_card(title, city, path, owner) {
 	button_wrapper.className = "button-wrapper";
 	button_wrapper.id = path;
 	if (owner === true) {
-		const edit_anchor = document.createElement("a");
-		const edit_img = document.createElement("img");
+		const editAnchor = document.createElement("a");
+		const editImage = document.createElement("img");
 		const EDIT_ICON_PATH =
-			saved === "light"
+			localStorage.getItem("theme") === "light"
 				? "/assets/editable-board-light.svg"
 				: "/assets/editable-board-dark.svg";
-		edit_img.src = EDIT_ICON_PATH;
-		edit_img.className = "edit-button";
-		edit_anchor.appendChild(edit_img);
+		editImage.src = EDIT_ICON_PATH;
+		editImage.className = "edit-button";
+		editAnchor.appendChild(editImage);
 
-		button_wrapper.appendChild(edit_anchor);
+		const exportAnchor = document.createElement("a");
+		const exportImage = document.createElement("img");
+		const EXPORT_ICON_PATH = "/assets/export.svg";
+
+		exportImage.src = EXPORT_ICON_PATH;
+		exportImage.className = "export-button";
+		exportAnchor.appendChild(exportImage);
+
+		button_wrapper.appendChild(editAnchor);
+		button_wrapper.appendChild(exportAnchor);
+	} else {
+		const playAnchor = document.createElement("a");
+		const playImage = document.createElement("img");
+		const PLAY_ICON_PATH = "/assets/play-board.svg";
+		playImage.src = PLAY_ICON_PATH;
+		playImage.className = "play-button";
+		playAnchor.appendChild(playImage);
+
+		button_wrapper.appendChild(playAnchor);
 	}
-	const play_anchor = document.createElement("a");
-	const play_img = document.createElement("img");
-	const PLAY_ICON_PATH = "/assets/play-board.svg";
-	play_img.src = PLAY_ICON_PATH;
-	play_img.className = "play-button";
-	play_anchor.appendChild(play_img);
 
-	button_wrapper.appendChild(play_anchor);
 	card_wrapper.appendChild(name_wrapper);
 	card_wrapper.appendChild(button_wrapper);
 	cards.appendChild(card_wrapper);
@@ -95,7 +69,7 @@ if (
 	window.location.pathname === "/index.html"
 ) {
 	let editable_boards; // All metadata for boards that are editable/playable
-	let playable_boards; // All metadat for boards that are only playable
+	let playable_boards; // All metadata for boards that are only playable
 	try {
 		editable_boards = await invoke("get_bingo_projects");
 		playable_boards = await invoke("get_bingo_games");
@@ -103,10 +77,7 @@ if (
 		editable_boards = [];
 		playable_boards = [];
 	}
-	if (
-		editable_boards.length === 0 &&
-		playable_boards.length === 0
-	) {
+	if (editable_boards.length === 0 && playable_boards.length === 0) {
 		const create_board_button = document.createElement("button");
 		create_board_button.id = "create-board";
 		create_board_button.textContent = "Get Started";
@@ -115,6 +86,13 @@ if (
 		});
 		cards.appendChild(create_board_button);
 	} else {
+		const create_board_button = document.createElement("button");
+		create_board_button.id = "create-board";
+		create_board_button.textContent = "Create Board";
+		create_board_button.addEventListener("click", () => {
+			window.location.href = "editable-board/editable-board.html";
+		});
+		cards.appendChild(create_board_button);
 		if (editable_boards != undefined) {
 			for (const elem of editable_boards) {
 				const [items, path] = elem;
@@ -129,15 +107,18 @@ if (
 		}
 	}
 	document.addEventListener("click", (e) => {
-		const button = e.target; // Gets either the edit/play buttons
+		const button = e.target; // Gets either the edit/export buttons
 		const button_wrapper = e.target.closest(".button-wrapper");
 		if (!button_wrapper) return;
 		else {
 			localStorage.setItem("path", button_wrapper.id);
 			if (button.className === "edit-button") {
 				window.location.href = "./editable-board/editable-board.html";
+			} else if (button.className === "export-button") {
+				// TODO: Create alert notification to alert the user that the .BingoGame file was created.
+				invoke("quick_export", { projPath: localStorage.getItem("path") });
 			} else {
-				window.location.href = "./generate-board/generate-board.html";
+				window.location.href = "./play-board/play-board.html";
 			}
 		}
 	});

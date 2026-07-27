@@ -1,28 +1,77 @@
 <!doctype html>
 <html lang="en">
 	<head>
-		<meta charset="UTF-8"/>
-	 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	  	<title>Bingus</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Bingus</title>
 		<style>
+			/* QoL for users to know what elements are clickable */
+			a {
+				cursor: pointer;
+			}
+			/* Prevents images from being draggable */
+			img {
+				-webkit-user-drag: none;
+				user-drag: none;
+				draggable: false;
+				pointer-events: auto;
+			}
+
+			/* DARK THEME (default) */
+			body{
+				--bg: #0b1220;
+				--text: #e8eefc;
+				--text-1: rgba(255,255,255,0.55);
+
+				--nav-bg: rgba(11, 18, 32, 0.85);
+				--nav-border: rgba(255, 255, 255, 0.08);
+
+				--link: #e8eefc;
+				--link-hover-bg: rgba(255, 255, 255, 0.08);
+
+				--btn-text: #0b1220;
+				--btn-g1: #1dd3ff;
+				--btn-g2: #7cff5c;
+				--btn-shadow: rgba(92, 124, 255, 0.22);
+					--btn-shadow-2: rgba(92, 124, 255, 0.30);
+			}
+
+			/* LIGHT THEME */
+			body.light{
+				--bg: #f6f7fb;
+				--text: #0f172a;
+				--text-1: rgba(0, 0, 0, 0.35);
+
+				--nav-bg: rgba(246, 247, 251, 0.9);
+				--nav-border: rgba(15, 23, 42, 0.05);
+
+				--link: #0f172a;
+				--link-hover-bg: rgba(15, 23, 42, 0.06);
+
+				--btn-text: #0b1220;
+				--btn-g1: #56f6ff;
+				--btn-g2: #6fff5b;
+				--btn-shadow: rgba(91, 111, 255, 0.18);
+				--btn-shadow-2: rgba(91, 111, 255, 0.26);
+			}
 			/* Page baseline */
 			body{
 			  margin: 0;
 			  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-			  background: #0b1220;
-			  color: #e8eefc;
+			  background: var(--bg);
+			  color: var(--text);
 			}
-			
+
 			/* Top navigation container */
 			.navigation{
 			  position: sticky;
 			  top: 0;
 			  z-index: 10;
-			  background: rgba(11, 18, 32, 0.85);
+			  background: var(--nav-bg);
 			  backdrop-filter: blur(10px);
-			  border-bottom: 1px solid rgba(255,255,255,0.08);
+			  border-bottom: 1px solid var(--nav-border);
 			}
-			
+
 			/* The nav itself */
 			nav.navigation{
 			  max-width: 1100px;
@@ -32,10 +81,10 @@
 			  align-items: center;
 			  gap: 18px;
 			}
-			
+
 			/* Nav links */
 			nav.navigation a{
-			  color: #e8eefc;
+			  color: var(--text);
 			  text-decoration: none;
 			  font-weight: 600;
 			  letter-spacing: 0.2px;
@@ -43,28 +92,28 @@
 			  border-radius: 10px;
 			  transition: background-color 160ms ease, transform 160ms ease;
 			}
-			
+
 			nav.navigation a:hover{
-			  background: rgba(255,255,255,0.08);
+			  background: var(--nav-border);
 			  transform: translateY(-1px);
 			}
-			
+
 			/* Dark mode icon button link */
 			nav.navigation a#dark-mode{
-		  	  margin-left: auto;
+			 	  margin-left: auto;
 			  display: inline-flex;
 			  align-items: center;
 			  justify-content: center;
 			  padding: 8px;
 			}
-			
+
 			nav.navigation a#dark-mode img{
 			  width: 22px;
 			  height: 22px;
 			  display: block;
 			  align-self: right;
 			}
-			
+
 			/* Main content layout */
 			.body{
 			  display: flex;
@@ -119,15 +168,20 @@
 				grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
 				align-items: stretch;
 				gap: 24px;
+				width: min(900px, 100%);
+				display: grid;
+				grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+				align-items: stretch;
+				gap: 24px;
 			}
 
 			/* Bank values container */
 			.value-modal {
 				min-height: 430px;
 				padding: 22px;
-				border: 1px solid rgba(255, 255, 255, 0.12);
+				border: 1px solid var(--nav-border);
 				border-radius: 28px;
-				background: rgba(255, 255, 255, 0.05);
+				background: var(--nav-border);
 				box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
 				overflow: hidden;
 			}
@@ -158,25 +212,28 @@
 				cursor: pointer;
 				user-select: none;
 				text-align: left;
-				background: rgba(255, 255, 255, 0.07);
+				background: var(--nav-border);
 				transition:
-					background-color 150ms ease,
-					border-color 150ms ease,
-					transform 150ms ease;
+				background-color 150ms ease,
+				border-color 150ms ease,
+				transform 150ms ease;
 			}
 
 			.value-item:last-child {
 				margin-bottom: 0;
 			}
+			.value-item:last-child {
+				margin-bottom: 0;
+			}
 
 			.value-item:hover {
-				background: rgba(255, 255, 255, 0.12);
+				background: var(--nav-border);
 				transform: translateY(-1px);
 			}
 
 			.value-item.selected {
-				border-color: #4de3ff;
-				background: rgba(77, 227, 255, 0.17);
+				border-color: var(--btn-g1);
+				background: var(--nav-border);
 			}
 
 			.glass-button {
@@ -187,16 +244,23 @@
 
 				padding: 14px 22px;
 				margin: 8px 0;
+				padding: 14px 22px;
+				margin: 8px 0;
 
+				display: flex;
+				align-items: center;
+				justify-content: center;
 				display: flex;
 				align-items: center;
 				justify-content: center;
 
 				border: none;
 				border-radius: 14px;
+				border: none;
+				border-radius: 14px;
 
-				background: rgba(255,255,255,0.03);
-				color: #e8eefc;
+				background: var(--nav-border);
+				color: var(--text);
 
 				font-size: 1.6rem;
 				font-weight: bold;
@@ -213,6 +277,8 @@
 
 				padding: 1px;
 				background: linear-gradient(135deg, var(--btn-g1), var(--btn-g2));
+				padding: 1px;
+				background: linear-gradient(135deg, var(--btn-g1), var(--btn-g2));
 
 				-webkit-mask:
 					linear-gradient(#000 0 0) content-box,
@@ -220,6 +286,8 @@
 				-webkit-mask-composite: xor;
 				mask-composite: exclude;
 
+				pointer-events: none;
+				z-index: 0;
 				pointer-events: none;
 				z-index: 0;
 
@@ -235,7 +303,7 @@
 			}
 
 			.glass-button:hover {
-				background: rgba(255,255,255,0.06);
+				background: var(--nav-border);
 				transform: translateY(-1px);
 			}
 
@@ -245,7 +313,7 @@
 			}
 
 			.glass-button:focus-visible {
-				background: rgba(255,255,255,0.06);
+				background: var(--nav-border);
 			}
 
 			.glass-button:focus-visible::before {
@@ -430,8 +498,12 @@
 			<nav class="navigation">
 		 		<a href="../index.html" id="home">Home</a>
 				<a href="../about/about.html" id="about">About</a>
-				<a href="#dark-mode" id="dark-mode">
-					<img src="../assets/enable-light-mode.svg" alt="Light Mode Selector"/>
+				<a id="dark-mode">
+					<img
+						src="../assets/enable-light-mode.svg"
+						alt="Light Mode Selector"
+						id="theme-img"
+					/>
 				</a>
 		 	</nav>
 		</div>
@@ -612,26 +684,31 @@
 			
 			async function save_board() {
 				const selected_items_HTML = Array.from(selected_values_list.querySelectorAll(".value-item"));
+				const sel_items = [];
 				for(const item of selected_items_HTML)
 				{
 					const emoji = item.textContent.substring(0, 1);
 					const title = item.textContent.substring(2);
 					try
 					{
-						await invoke(new)
+						const bing_item = await invoke("new_bingo_item", {title: title, emoji: emoji});
+						sel_items.push(bing_item);
 					}
 					catch (err)
 					{
 						alert("Error creating bingo item: " + err);
 					}
-					
 				}
-				//const selected_items = [];
-				//for(const item of selected_items_HTML)
-				//{
 
-				//}
-				selected = {city: "", items: selected_items};				
+				try
+				{
+					selected = await invoke("new_bingo_board", {title: title.textContent, city: "", items: sel_items});
+				}
+				catch (err)
+				{
+					alert("Error creating bingo board: " + err);
+				}			
+				
 				const new_project = {title: title.textContent, city: "", items: items, last_board: selected};
 
 				try
@@ -738,6 +815,7 @@
 					selected_values_list.appendChild(item);
 				}
 
+				selected_count = random_selection.length;
 				selected_count = random_selection.length;
 
 				update_selected_count();
