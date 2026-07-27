@@ -102,7 +102,8 @@ if (
 		if (playable_boards != undefined) {
 			for (const elem of playable_boards) {
 				const [items, path] = elem;
-				draw_card(items.title, items.city, path, false);
+				const internalBoard = items.board;
+				draw_card(internalBoard.city, internalBoard.city, path, false);
 			}
 		}
 	}
@@ -116,9 +117,11 @@ if (
 				window.location.href = "./editable-board/editable-board.html";
 			} else if (button.className === "export-button") {
 				// TODO: Create alert notification to alert the user that the .BingoGame file was created.
-				invoke("quick_export", { projPath: sessionStorage.getItem("path") });
-				location.reload();
-			} else if (button.className === "play-button") {
+				invoke("quick_export", { projPath: localStorage.getItem("path") });
+				const relPosition = window.scrollY / window.innerHeight;
+				window.location.reload();
+				window.scrollTo(0, window.innerHeight * relPosition);
+			} else {
 				window.location.href = "./play-board/play-board.html";
 			}
 		}
