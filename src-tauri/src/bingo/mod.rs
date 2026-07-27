@@ -9,7 +9,6 @@ use serde::{Deserialize, Serialize};
 use dirs;
 
 use crate::auto_serde::AutoSerde;
-use crate::bingo::board::BingoBoard;
 use crate::bingo::play::PlayableBingo;
 use crate::bingo::project::BingoProject;
 
