@@ -86,6 +86,13 @@ if (
 		});
 		cards.appendChild(create_board_button);
 	} else {
+		const create_board_button = document.createElement("button");
+		create_board_button.id = "create-board";
+		create_board_button.textContent = "Create Board";
+		create_board_button.addEventListener("click", () => {
+			window.location.href = "editable-board/editable-board.html";
+		});
+		cards.appendChild(create_board_button);
 		if (editable_boards != undefined) {
 			for (const elem of editable_boards) {
 				const [items, path] = elem;
