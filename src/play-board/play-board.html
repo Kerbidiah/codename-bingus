@@ -572,16 +572,17 @@
 				row.className = "bingo-row";
 				bingoContainer.appendChild(row);
 			}
-			drawItem(elem.emoji, elem.title, elem.short_description, row);
+			drawItem(elem.emoji, elem.title, elem.short_description, elem.completion_info, row);
 		}
 
-		function drawItem(emoji, title, alt, row) {
+		function drawItem(emoji, title, alt, disabled, row) {
 			const divRow = row;
 			const bingoItem = document.createElement("div");
 			bingoItem.className = "bingo-item";
 
 			const bingoButton = document.createElement("button");
 			bingoButton.className = "bingo-button";
+			bingoButton.disabled = disabled;
 
 			const icon = document.createElement("span");
 			const name = document.createElement("span");
@@ -623,6 +624,7 @@
 		function hideModal() {
 			backdrop.classList.add("hidden");
 			modalTitle.value = "";
+			desc.value = "";
 			save.disabled = true;
 		}
 
