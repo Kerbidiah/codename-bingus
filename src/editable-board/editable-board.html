@@ -643,6 +643,7 @@
 			const custom_title = document.getElementById("custom-title");
 
 			let board;
+			let city;
 			let selected;
 			let old_title;
 			let items = [];
@@ -718,14 +719,14 @@
 
 				try
 				{
-					selected = await invoke("new_bingo_board", {title: title.textContent, city: "", items: sel_items});
+					selected = await invoke("new_bingo_board", {title: title.textContent, city: city, items: sel_items});
 				}
 				catch (err)
 				{
 					alert("Error creating bingo board: " + err);
 				}			
 
-				const new_project = {title: title.textContent, city: "", items: items, last_board: selected};
+				const new_project = {title: title.textContent, city: city, items: items, last_board: selected};
 
 				try
 				{
@@ -941,6 +942,7 @@
 			try {
 				board = await invoke("open_project", {path: project_id});
 				items = board.items;
+				city = board.city;
 				selected = board.last_board;
 				old_title = board.title;
 				title.textContent = old_title;
