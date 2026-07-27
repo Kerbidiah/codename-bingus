@@ -616,7 +616,15 @@
 				{
 					const emoji = item.textContent.substring(0, 1);
 					const title = item.textContent.substring(2);
-					const bing_item = {}
+					try
+					{
+						await invoke(new)
+					}
+					catch (err)
+					{
+						alert("Error creating bingo item: " + err);
+					}
+					
 				}
 				//const selected_items = [];
 				//for(const item of selected_items_HTML)
