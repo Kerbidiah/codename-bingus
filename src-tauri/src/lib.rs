@@ -63,6 +63,7 @@ pub fn run() {
 			convert_proj_path_to_game_path,
 			new_bingo_item,
 			quick_export,
+			new_proj,
 		])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");

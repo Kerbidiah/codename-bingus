@@ -8,6 +8,10 @@ use crate::auto_serde::AutoSerde;
 use crate::bingo::board::BingoBoard;
 use crate::bingo::item::BingoItem;
 
+use rand::prelude::*;
+
+use crate::bingo::resolve_path;
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct BingoProject {
 	pub title: String,
@@ -65,5 +69,28 @@ pub mod commands {
 	pub fn save_project(path: String, obj: BingoProject) {
 		info!("save_project ran");
 		obj.write(path).unwrap();
+	}
+
+	#[tauri::command]
+	pub fn new_proj(title: String, city: String) -> String {
+		let n: u32 = rand::random();
+		let s = n.to_string();
+
+		let mut p = resolve_path("bingus/edit");
+		p.push(s);
+		p.set_extension("BingoProject");
+
+		let p = p.to_str().unwrap().to_string();
+
+		let proj = BingoProject {
+			title,
+			city,
+			items: Vec::new(),
+			last_board: None
+		};
+
+		proj.write(p.clone()).unwrap();
+
+		p
 	}
 }
