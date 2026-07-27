@@ -34,14 +34,14 @@ pub fn run() {
 			last_board: None,
 		};
 
-		let mut f = File::create(resolve_path("bingus/edit/PRAUGE TEST.BingoProject")).unwrap();
+		let mut f = File::create(resolve_path("bingus/edit/PRAUGE_TEST.BingoProject")).unwrap();
 		proj.to_file(&mut f).unwrap();
 		drop(f);
 
 		let game = BingoGame {
 			board: proj.generate_random_board(),
 		};
-		let mut f = File::create(resolve_path("bingus/edit/PRAUGE TEST.BingoGame")).unwrap();
+		let mut f = File::create(resolve_path("bingus/edit/PRAUGE_TEST.BingoGame")).unwrap();
 		game.to_file(&mut f).unwrap();
 	}
 
