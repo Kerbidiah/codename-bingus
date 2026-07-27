@@ -543,7 +543,6 @@
 		});
 		const board = boardObj.board;
 		const items = board.items;
-		console.log(board);
 
 		// Elements that need to be updated
 		const bingoContainer = document.getElementById("bingo-box");
@@ -601,5 +600,8 @@
 		});
 
 		
+		bingoContainer.addEventListener("click", (e) => {
+			const elem = e.target.closest(".bingo-button");
+		});
 	</script>
 </html>
