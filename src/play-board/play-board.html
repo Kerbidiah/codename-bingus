@@ -306,6 +306,22 @@
 				opacity: 0.92;
 				letter-spacing: 0.6px;
 				color: var(--text-1);
+
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;     /* or 1 */
+				overflow: hidden;
+				overflow-wrap: anywhere;
+				max-width: 100%;
+				white-space: normal;
+				word-break: break-word;     /* wrap long words */
+				overflow-wrap: anywhere;    /* modern wrap */
+				text-align: center;
+			}
+
+			.bingo-button:hover .alt {
+				-webkit-line-clamp: unset;
+				overflow: visible;
 			}
 
 			/* Ensure long titles don't break the board layout */
@@ -314,20 +330,13 @@
 				-webkit-box-orient: vertical;
 				-webkit-line-clamp: 2;     /* or 1 */
 				overflow: hidden;
+				overflow-wrap: anywhere;
 
 				max-width: 100%;
 				white-space: normal;
 				word-break: break-word;     /* wrap long words */
 				overflow-wrap: anywhere;    /* modern wrap */
 				text-align: center;
-			}
-
-			.bingo-button .title{
-				display: -webkit-box;
-				-webkit-box-orient: vertical;
-				-webkit-line-clamp: 2;
-				overflow: hidden;
-				overflow-wrap: anywhere;
 			}
 
 			.bingo-button:hover .title{
