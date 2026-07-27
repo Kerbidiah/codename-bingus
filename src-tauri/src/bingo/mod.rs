@@ -102,7 +102,7 @@ pub fn convert_proj_path_to_game_path(input: String) -> String {
 	let name = c.file_prefix().unwrap();
 	p.pop();
 	p.push(name);
-	p.set_extension(".BingoGame");
+	p.set_extension("BingoGame");
 
 	p.to_str().unwrap().to_string()
 }
