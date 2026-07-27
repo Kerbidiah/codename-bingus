@@ -57,7 +57,10 @@ pub fn get_bingo_projects() -> Vec<(BingoProject, String)> {
 		.map(|mut f| (BingoProject::from_file(&mut f.0), f.1))
 		.filter_map(|f| {
 			if f.0.is_ok() {
-				Some((f.0.unwrap(), f.1))
+				let g = f.0.unwrap();
+				let t = g.title.clone();
+				info!("get_bingo_projects t: {t}");
+				Some((g, f.1))
 			} else {
 				None
 			}
@@ -88,7 +91,10 @@ pub fn get_bingo_games() -> Vec<(BingoGame, String)> {
 		.map(|mut f| (BingoGame::from_file(&mut f.0), f.1))
 		.filter_map(|f| {
 			if f.0.is_ok() {
-				Some((f.0.unwrap(), f.1))
+				let g = f.0.unwrap();
+				let t = g.board.title.clone();
+				info!("get_bingo_games t: {t}");
+				Some((g, f.1))
 			} else {
 				None
 			}
@@ -119,8 +125,18 @@ pub fn quick_export(proj_path: String) {
 	let game_path = convert_proj_path_to_game_path(proj_path);
 	info!("quick_export game_path: {game_path}");
 
-	let game = BingoGame {
-		board: proj.generate_random_board(),
+	// let game = proj
+	// 	.clone()
+	// 	.last_board
+	// 	.unwrap_or_else(|| proj.generate_random_board());
+
+	let game = if proj.last_board.is_some() {
+		let mut g = proj.last_board.unwrap();
+		g.title.push_str(" <IS GAME>");
+		
+		g
+	} else {
+		proj.generate_random_board()
 	};
 
 	game.write(game_path).unwrap();

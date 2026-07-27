@@ -24,10 +24,10 @@ function setTheme(theme) {
 	}
 	document.body.classList.toggle("light", theme === "light");
 	theme_img.src = theme === "light" ? ICON_DARK : ICON_LIGHT;
-	localStorage.setItem("theme", theme);
+	sessionStorage.setItem("theme", theme);
 }
 // Caches the user's theme preference
-const saved = localStorage.getItem("theme");
+const saved = sessionStorage.getItem("theme");
 if (saved === "light" || saved === "dark") {
 	setTheme(saved);
 } else {

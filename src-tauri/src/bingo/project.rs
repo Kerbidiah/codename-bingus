@@ -36,7 +36,7 @@ impl BingoProject {
 		let mut rng = rand::rng();
 
 		let mut title = self.title.clone();
-		title.push_str(" <> DEBUGINFO: game");
+		title.push_str(" <IS GAME>");
 
 		BingoBoard {
 			title: title,

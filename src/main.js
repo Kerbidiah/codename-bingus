@@ -32,7 +32,7 @@ function draw_card(title, city, path, owner) {
 		const editAnchor = document.createElement("a");
 		const editImage = document.createElement("img");
 		const EDIT_ICON_PATH =
-			localStorage.getItem("theme") === "light"
+			sessionStorage.getItem("theme") === "light"
 				? "/assets/editable-board-light.svg"
 				: "/assets/editable-board-dark.svg";
 		editImage.src = EDIT_ICON_PATH;
