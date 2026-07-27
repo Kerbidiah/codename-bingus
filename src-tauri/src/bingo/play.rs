@@ -17,14 +17,16 @@ impl PlayableBingo {
 
 pub mod commands {
 	use super::*;
-
+	use log::info;
 	#[tauri::command]
 	pub fn open_play(path: String) -> PlayableBingo {
+		info!("open_play ran\n");
 		PlayableBingo::open(path).unwrap()
 	}
 
 	#[tauri::command]
 	pub fn save_play(path: String, obj: PlayableBingo) {
+		info!("save_play ran\n");
 		obj.write(path).unwrap();
 	}
 }
