@@ -104,12 +104,12 @@ if (
 		const button_wrapper = e.target.closest(".button-wrapper");
 		if (!button_wrapper) return;
 		else {
-			localStorage.setItem("path", button_wrapper.id);
+			sessionStorage.setItem("path", button_wrapper.id);
 			if (button.className === "edit-button") {
 				window.location.href = "./editable-board/editable-board.html";
 			} else if (button.className === "export-button") {
 				// TODO: Create alert notification to alert the user that the .BingoGame file was created.
-				invoke("quick_export", { projPath: localStorage.getItem("path") });
+				invoke("quick_export", { projPath: sessionStorage.getItem("path") });
 			} else {
 				window.location.href = "./play-board/play-board.html";
 			}
