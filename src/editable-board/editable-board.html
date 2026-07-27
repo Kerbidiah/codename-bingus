@@ -237,8 +237,8 @@
 			}
 
 			.glass-button {
-				--btn-g1: #4de3ff;
-				--btn-g2: #3b82f6;
+				--btn-g1: var(--btn-g1);
+				--btn-g2: var(--btn-g2);
 
 				position: relative;
 
@@ -614,6 +614,7 @@
 			</div>
 		</div>
 
+		<script src="./../themes.js" type="module"></script>
 		<script type="module">
 			const { invoke } = window.__TAURI__.core;
 
