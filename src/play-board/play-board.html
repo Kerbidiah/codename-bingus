@@ -357,11 +357,11 @@
 	<script type="module" src="../themes.js"></script>
 	<script type="module">
 		const { invoke } = window.__TAURI__.core;
-		// const board = await invoke("open_game");
+		const board = await invoke("open_play", { path: localStorage.getItem("path") });
 		const bingoContainer = document.getElementByID("bingo-box");
 
 		function drawItem(emoji, title, alt, row) {
-			const row = row;
+			const divRow = row;
 			const bingoItem = document.createElement("div");
 			bingoItem.className = "bingo-item";
 			

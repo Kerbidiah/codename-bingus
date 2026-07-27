@@ -29,26 +29,38 @@ function draw_card(title, city, path, owner) {
 	button_wrapper.className = "button-wrapper";
 	button_wrapper.id = path;
 	if (owner === true) {
-		const edit_anchor = document.createElement("a");
-		const edit_img = document.createElement("img");
+		const editAnchor = document.createElement("a");
+		const editImage = document.createElement("img");
 		const EDIT_ICON_PATH =
 			localStorage.getItem('theme') === "light"
 				? "/assets/editable-board-light.svg"
 				: "/assets/editable-board-dark.svg";
-		edit_img.src = EDIT_ICON_PATH;
-		edit_img.className = "edit-button";
-		edit_anchor.appendChild(edit_img);
+		editImage.src = EDIT_ICON_PATH;
+		editImage.className = "edit-button";
+		editAnchor.appendChild(editImage);
 
-		button_wrapper.appendChild(edit_anchor);
+		const exportAnchor = document.createElement("a");
+		const exportImage = document.createElemnt("img");
+		const EXPORT_ICON_PATH = "/assets/export.svg";
+
+		exportImage.src = EXPORT_ICON_PATH;
+		exportImage.className = "export-button";
+		exportAnchor.appendChild(exportImage);
+
+		button_wrapper.appendChild(editAnchor);
+		button_wrapper.appendChild(exportAnchor);
 	}
-	const play_anchor = document.createElement("a");
-	const play_img = document.createElement("img");
-	const PLAY_ICON_PATH = "/assets/play-board.svg";
-	play_img.src = PLAY_ICON_PATH;
-	play_img.className = "play-button";
-	play_anchor.appendChild(play_img);
+	else {
+		const playAnchor = document.createElement("a");
+		const playImage = document.createElement("img");
+		const PLAY_ICON_PATH = "/assets/play-board.svg";
+		playImage.src = PLAY_ICON_PATH;
+		playImage.className = "play-button";
+		playAnchor.appendChild(playImage);
 
-	button_wrapper.appendChild(play_anchor);
+		button_wrapper.appendChild(playAnchor);
+	}
+
 	card_wrapper.appendChild(name_wrapper);
 	card_wrapper.appendChild(button_wrapper);
 	cards.appendChild(card_wrapper);
