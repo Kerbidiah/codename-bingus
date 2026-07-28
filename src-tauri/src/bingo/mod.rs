@@ -135,3 +135,13 @@ pub fn quick_export(proj_path: String) {
 
 	game.write(game_path).unwrap();
 }
+
+#[tauri::command]
+pub fn delete(path: String) {
+	info!("delete ran");
+
+	if path.contains("bingus") {
+		fs::remove_file(&path).unwrap();
+		info!("delete p: {path}");
+	}
+}
