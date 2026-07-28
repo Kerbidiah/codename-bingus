@@ -515,20 +515,22 @@
 
 		// Changes the title based on the city name
 		const city = document.getElementById("city");
-		let board;
+		let boardObj;
 
 		// Gets the generated bingo board from the backend
 		try {
-			board = await invoke(
-				"open_project", { path: sessionStorage.getItem('path') }
+			boardObj = await invoke(
+				"open_play", { path: sessionStorage.getItem('path') }
 			);
 		} catch (error) {
 			// ERR: Function doesn't exist or board has less than 25 items
-			window.location.href = "../error/error.html";
+			alert("Error loading the board");
+			window.location.href = "./../index.html";
 		}
+		const board = boardObj.board;
 		const items = board.items;
 		const rows = document.getElementById("rows");
-		city.textContent = board.city;
+		city.textContent = board.city.split(',')[0];
 
 		let tr = null;
 		// Creates the rows of the Bingo Board
@@ -564,5 +566,13 @@
 			tr.appendChild(td);
 			rows.appendChild(tr);
 		}
+
+		const scriptTags = document.querySelectorAll("script");
+
+		scriptTags.forEach(script => {
+			script.remove();
+		});
+		const fileContents = document.documentElement.innerHTML;
+		// invoke("write_path", { fileContents: fileContents });
 		</script>
 </html>
