@@ -32,6 +32,10 @@ impl BingoBoard {
 			items: items,
 		}
 	}
+
+	pub fn len(&self) -> usize {
+		self.len()
+	}
 }
 
 pub mod commands {

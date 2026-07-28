@@ -129,6 +129,10 @@ pub fn quick_export(proj_path: String) {
 		BingoGame {
 			board: proj.generate_random_board(),
 		}
+	} else if proj.last_board.clone().unwrap().len() == 0 {
+		BingoGame {
+			board: proj.generate_random_board(),
+		}
 	} else {
 		let mut g = proj.last_board.unwrap();
 		g.title.push_str(" <IS GAME>");
