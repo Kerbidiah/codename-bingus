@@ -126,7 +126,7 @@ if (
 			for (const elem of playable_boards) {
 				const [items, path] = elem;
 				const internalBoard = items.board;
-				draw_card(internalBoard.city, internalBoard.city, path, false);
+				draw_card(internalBoard.title, internalBoard.city, path, false);
 			}
 		}
 	}
