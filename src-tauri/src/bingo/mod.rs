@@ -14,6 +14,7 @@ use crate::bingo::project::BingoProject;
 use std::fs;
 use std::fs::File;
 use std::path::PathBuf;
+use std::io::Write;
 
 const BINGO_EDIT_PATH: &str = "bingus/edit/";
 const BINGO_PLAY_PATH: &str = "bingus/edit/"; // look... this is kinda cursed, but it works because get_bingo_projects
@@ -138,7 +139,17 @@ pub fn delete(path: String) {
 	info!("delete ran");
 
 	if path.contains("bingus") {
-		fs::remove_file(&path).unwrap();
 		info!("delete p: {path}");
+		fs::remove_file(&path).unwrap();
 	}
+}
+
+#[tauri::command]
+pub fn export_html(path: String, html: String){
+	info!("export_html ran");
+	info!("path: {path}");
+	
+	let mut f = File::create(path).unwrap();
+	let buf = html.into_bytes();
+	f.write_all(&buf).unwrap();
 }
