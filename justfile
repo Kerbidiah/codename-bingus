@@ -8,6 +8,9 @@ run_clean: wipe run
 release:
 	cargo tauri build
 
+release_windows:
+	cargo tauri build -t x86_64-pc-windows-gnu
+
 release_signed:
 	#!/usr/bin/env bash
 	set -euo pipefail
