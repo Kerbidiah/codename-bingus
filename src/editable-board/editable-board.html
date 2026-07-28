@@ -750,7 +750,7 @@
 				const emoji = custom_emoji.value.trim();
 				const title = custom_title.value.trim();
 
-				const new_item = {title: title, emoji:emoji, description:""};
+				const new_item = {title: title, emoji:emoji, description:"", completion_info: false};
 				items.push(new_item);
 				add_item(new_item, bank_values_list);
 				changed_items = true;
