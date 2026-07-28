@@ -241,8 +241,8 @@
 			}
 
 			.glass-button {
-				--btn-g1: var(--btn-g1);
-				--btn-g2: var(--btn-g2);
+				--btn-g1: #1dd3ff;
+				--btn-g2: #7cff5c;
 
 				position: relative;
 
@@ -516,7 +516,7 @@
 		<div class="body">
 
 			<div class="button-box top-buttons">
-				<button id="cancel-button" class="glass-button cancel">&larr;</button>
+				<button id="cancel-button" class="glass-button cancel">Cancel</button>
 				<button id="save-button" class = "glass-button save" disabled="true">Save</button>
 			</div>
 
@@ -1098,6 +1098,27 @@
 					selected = board.last_board;
 					old_title = board.title;
 					title.textContent = old_title;
+					
+					switch(city)
+					{
+						case "Vienna, Austria":
+							items = await invoke("get_vienna_samples");
+							break;
+						case "Praha, Česká Republika":
+							items = await invoke("get_prauge_samples");
+							break;
+						case "Luzern, Switzerland":
+							items = await invoke("get_luzern_samples");
+							break;
+						case "Budapest, Hungary":
+							items = await invoke("get_budapest_samples");
+							break;
+						case "London, England":
+							items = await invoke("get_london_samples");
+							break;
+						default:
+					}
+
 					load_items();
 				}
 				else
