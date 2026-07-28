@@ -18,6 +18,44 @@
 				pointer-events: auto;
 			}
 
+			/* DARK THEME (default) */
+			body {
+				--bg: #0b1220;
+				--text: #e8eefc;
+				--text-1: rgba(255,255,255,0.55);
+
+				--nav-bg: rgba(11, 18, 32, 0.85);
+				--nav-border: rgba(255, 255, 255, 0.08);
+
+				--link: #e8eefc;
+				--link-hover-bg: rgba(255, 255, 255, 0.08);
+
+				--btn-text: #0b1220;
+				--btn-g1: #1dd3ff;
+				--btn-g2: #7cff5c;
+				--btn-shadow: rgba(92, 124, 255, 0.22);
+				--btn-shadow-2: rgba(92, 124, 255, 0.30);
+			}
+
+			/* LIGHT THEME */
+			body.light {
+				--bg: #f6f7fb;
+				--text: #0f172a;
+				--text-1: rgba(0, 0, 0, 0.35);
+
+				--nav-bg: rgba(246, 247, 251, 0.9);
+				--nav-border: rgba(15, 23, 42, 0.08);
+
+				--link: #0f172a;
+				--link-hover-bg: rgba(15, 23, 42, 0.06);
+
+				--btn-text: #0b1220;
+				--btn-g1: #56f6ff;
+				--btn-g2: #6fff5b;
+				--btn-shadow: rgba(91, 111, 255, 0.18);
+				--btn-shadow-2: rgba(91, 111, 255, 0.26);
+			}
+
 			.navigation {
 				position: sticky;
 				top: 0;
@@ -30,6 +68,7 @@
 			nav.navigation a {
 				color: var(--link);
 				text-decoration: none;
+				font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 				font-weight: 600;
 				letter-spacing: 0.2px;
 				padding: 10px 12px;
@@ -77,361 +116,179 @@
 				padding: 48px 18px;
 				text-align: center;
 			}
+			</style>
+			<style>
 			* {
 				box-sizing: border-box;
 			}
-
-			/* Theme (DARK default) */
 			body {
 				margin: 0;
 				padding: 12px;
-				background: var(--bg, #0b1220);
-				color: var(--text, #e8eefc);
+				background: #f0f4f0;
 				font-family: Arial, Helvetica, sans-serif;
-
-				--nav-bg: rgba(11, 18, 32, 0.85);
-				--nav-border: rgba(255, 255, 255, 0.08);
-
-				/* Board-specific tokens mapped to your scheme */
-				--header-bg: rgba(255, 255, 255, 0.06);
-				--header-bg-soft: var(--nav-bg, rgba(11, 18, 32, 0.85));
-				--card-border: var(--nav-border, rgba(255, 255, 255, 0.08));
-
-				--cell-odd: rgba(255, 255, 255, 0.04);
-				--cell-even: rgba(255, 255, 255, 0.06);
-				--grid-line: rgba(255, 255, 255, 0.12);
-
-				--label-main: var(--text, #e8eefc);
-				--label-sub: rgba(232, 238, 252, 0.65);
-
-				--accent-1: var(--btn-g1, #1dd3ff); /* cyan */
-				--accent-2: var(--btn-g2, #7cff5c); /* green */
-				--gold: var(
-					--btn-g2,
-					#7cff5c
-				); /* replace “gold” usage with scheme */
-				--gold-soft: rgba(124, 255, 92, 0.35);
-
-				--radius-lg: 14px;
-				--radius-md: 12px;
 			}
-
-			body.light {
-				--bg: #f6f7fb;
-				--text: #0f172a;
-				--text-1: rgba(0, 0, 0, 0.35);
-
-				--nav-bg: rgba(246, 247, 251, 0.9);
-				--nav-border: rgba(15, 23, 42, 0.08);
-
-				--link: #0f172a;
-				--link-hover-bg: rgba(15, 23, 42, 0.06);
-
-				--btn-text: #0b1220;
-				--btn-g1: #56f6ff;
-				--btn-g2: #6fff5b;
-				--btn-shadow: rgba(91, 111, 255, 0.18);
-				--btn-shadow-2: rgba(91, 111, 255, 0.26);
-
-				--header-bg-soft: var(--nav-bg, rgba(246, 247, 251, 0.9));
-				--card-border: rgba(15, 23, 42, 0.1);
-
-				--cell-odd: #ffffff;
-				--cell-even: rgba(15, 23, 42, 0.04);
-				--grid-line: rgba(15, 23, 42, 0.1);
-
-				--label-main: #0f172a;
-				--label-sub: rgba(15, 23, 42, 0.55);
-
-				--gold: var(--btn-g2, #6fff5b);
-				--gold-soft: rgba(111, 255, 91, 0.3);
-			}
-
 			.card {
 				max-width: 720px;
 				margin: 0 auto;
+				border-collapse: collapse;
+				border: 3px solid #1a4a2e;
 				width: 100%;
-				border: 0;
-				border-radius: var(--radius-lg);
-				overflow: hidden;
-				border-spacing: 0;
-				background: rgba(255, 255, 255, 0.02);
 			}
-
 			/* Header */
 			.card-header {
-				background-color: var(--header-bg-soft);
+				background-color: #1a4a2e;
 				padding: 24px 20px 18px;
 				text-align: center;
-				border-bottom: 1px solid var(--card-border);
-				position: relative;
 			}
-			/* subtle accent bar */
-			.card-header::after {
-				content: "";
-				position: absolute;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				height: 3px;
-				background: linear-gradient(
-					90deg,
-					var(--accent-1),
-					var(--gold)
-				);
-				opacity: 0.9;
-			}
-
-			.card-header .subtitle,
-			.card-header .tagline {
+			.card-header .subtitle {
 				font-size: 10px;
-				color: var(--gold);
+				color: #e8c97a;
 				margin: 0 0 4px 0;
-				letter-spacing: 0.2px;
 			}
-
 			.card-header h1 {
-				font-family: Georgia, "Times New Roman", serif;
+				font-family: Georgia, 'Times New Roman', serif;
 				font-size: clamp(32px, 8vw, 48px);
 				color: #ffffff;
 				line-height: 1;
 				margin: 0;
 			}
-			body.light .card-header h1 {
-				color: #0b1220;
+			.card-header h1 span { color: #c9a84c; }
+			.card-header .tagline {
+				font-size: 10px;
+				color: #e8c97a;
+				margin: 6px 0 0 0;
 			}
-
-			.card-header h1 span {
-				color: var(--gold);
-			}
-
 			.card-header .rule {
 				margin: 8px auto 0;
 				width: 50px;
 				height: 2px;
-				background-color: var(--gold);
+				background-color: #c9a84c;
 			}
-
-			.card-header .rule #generate {
-				margin: 0 auto 0;
-				width: 60px;
-				height: 3px;
-				background-color: var(--gold);
-			}
-
 			/* BINGO column headers */
 			.bingo-header {
-				background-color: var(--header-bg-soft);
-				border-bottom: 1px solid var(--card-border);
+				background-color: #2d6e47;
 			}
-
 			.bingo-header table {
 				width: 100%;
-				border-collapse: separate;
-				border-spacing: 0;
+				border-collapse: collapse;
 			}
-
 			.bingo-header td {
 				width: 20%;
 				padding: 10px 4px;
 				text-align: center;
-				font-family: Georgia, "Times New Roman", serif;
+				font-family: Georgia, 'Times New Roman', serif;
 				font-size: clamp(18px, 5vw, 26px);
-				color: var(--gold); /* was green/gold; now scheme green */
-				border-right: 1px solid rgba(255, 255, 255, 0.15);
+				color: #c9a84c;
 			}
-
-			body.light .bingo-header td {
-				border-right: 1px solid rgba(15, 23, 42, 0.12);
+			.bingo-header td:not(:last-child) {
+				border-right: 1px solid rgba(255,255,255,0.15);
 			}
-
-			.bingo-header td:last-child {
-				border-right: none;
-			}
-
 			/* Grid */
-			.grid-wrapper {
-				padding: 0;
-			}
-
+			.grid-wrapper { padding: 0; }
 			.grid {
 				width: 100%;
-				border-collapse: separate;
-				border-spacing: 0;
+				border-collapse: collapse;
 			}
-
 			.grid td {
 				width: 20%;
-				border-right: 1px solid var(--grid-line);
-				border-bottom: 1px solid var(--grid-line);
+				border-right: 1px solid #c8d8c8;
+				border-bottom: 1px solid #c8d8c8;
 				padding: 8px 5px;
 				text-align: center;
 				vertical-align: middle;
 				height: 90px;
-				background: transparent;
 			}
-
-			.grid td:last-child {
-				border-right: none;
-			}
-
-			.grid tr:nth-child(odd) td {
-				background-color: var(--cell-odd);
-			}
-			.grid tr:nth-child(even) td {
-				background-color: var(--cell-even);
-			}
-
-			/* rounded outer cells feel */
-			.grid tr:first-child td:first-child {
-				border-top-left-radius: var(--radius-md);
-			}
-			.grid tr:first-child td:last-child {
-				border-top-right-radius: var(--radius-md);
-			}
-			.grid tr:last-child td:first-child {
-				border-bottom-left-radius: var(--radius-md);
-			}
-			.grid tr:last-child td:last-child {
-				border-bottom-right-radius: var(--radius-md);
-			}
-
+			.grid td:last-child { border-right: none; }
+			.grid tr:nth-child(odd) td { background-color: #ffffff; }
+			.grid tr:nth-child(even) td { background-color: #f7fbf8; }
 			.grid td a {
 				text-decoration: none;
 				display: block;
-				color: inherit;
-				border-radius: var(--radius-md);
 			}
-
 			.grid td a .icon {
 				font-size: 18px;
 				display: block;
 				margin-bottom: 4px;
-				color: var(--accent-1); /* cyan accent for icons */
 			}
-
 			.grid td a .label {
 				font-family: Arial, Helvetica, sans-serif;
 				font-size: clamp(9px, 1.8vw, 10.5px);
-				color: var(--gold);
+				color: #1a4a2e;
 				line-height: 1.3;
 				display: block;
-				text-decoration: underline;
 			}
-
 			.grid td a .alt {
 				font-family: Arial, Helvetica, sans-serif;
 				font-size: clamp(8px, 1.6vw, 9px);
-				color: var(--label-sub);
+				color: #6a6a6a;
 				font-style: italic;
 				margin-top: 3px;
 				display: block;
 			}
-
 			/* Footer */
 			.card-footer {
-				background-color: var(--header-bg-soft);
+				background-color: #1a4a2e;
 				padding: 14px 20px;
 				text-align: center;
-				border-top: 1px solid var(--card-border);
-				position: relative;
 			}
-
 			.card-footer .badge {
 				display: inline-block;
-				background: linear-gradient(
-					90deg,
-					var(--accent-1),
-					rgba(124, 255, 92, 0.95)
-				);
-				color: var(--btn-text, #0b1220);
-				font-family: Georgia, "Times New Roman", serif;
+				background-color: #c9a84c;
+				color: #1a4a2e;
+				font-family: Georgia, 'Times New Roman', serif;
 				font-size: 13px;
 				padding: 5px 16px;
-				border-radius: 999px;
-				box-shadow: 0 10px 25px
-					var(--btn-shadow, rgba(92, 124, 255, 0.2));
 			}
-
 			.card-footer .note {
 				font-size: 11px;
-				color: var(--gold);
+				color: #e8c97a;
 				margin: 6px 0 0 0;
 			}
-
 			/* Instructions box */
 			.instructions {
 				max-width: 720px;
 				margin: 24px auto 0;
+				border-collapse: collapse;
+				border: 1px solid #d4e4d4;
 				width: 100%;
-
-				border-collapse: separate;
-				border-spacing: 0;
-
-				border: 1px solid var(--card-border);
-				border-radius: var(--radius-lg);
-				overflow: hidden;
-
-				background: var(--nav-bg, rgba(255, 255, 255, 0.04));
 			}
-
 			.instructions td.accent {
 				width: 4px;
-				background: linear-gradient(
-					180deg,
-					var(--accent-1),
-					var(--gold)
-				);
+				background-color: #2d6e47;
 				padding: 0;
 			}
-
 			.instructions td.body {
 				padding: 18px 20px;
-				background-color: transparent;
+				background-color: #ffffff;
 			}
-
 			.instructions h2 {
-				font-family: Georgia, "Times New Roman", serif;
+				font-family: Georgia, 'Times New Roman', serif;
 				font-size: 17px;
-				color: var(--gold);
+				color: #1a4a2e;
 				margin: 0 0 10px 0;
 				font-weight: normal;
 			}
-
 			.instructions p {
 				font-size: 13px;
-				color: var(--text, #e8eefc);
+				color: #2c2c2c;
 				line-height: 1.7;
 				margin: 0 0 8px 0;
-				opacity: 0.9;
 			}
-
+			.instructions p:last-child { margin-bottom: 0; }
 			.instructions .tip {
 				font-size: 11px;
-				color: var(--text-1, rgba(0, 0, 0, 0.35));
+				color: #666;
 				font-style: italic;
 				margin: 10px 0 0 0;
 				padding-top: 10px;
-				border-top: 1px solid var(--card-border);
+				border-top: 1px solid #e8e8e8;
 			}
-
 			/* Mobile tweaks */
 			@media (max-width: 480px) {
-				body {
-					padding: 8px;
-				}
-
-				.grid td {
-					height: 70px;
-					padding: 5px 3px;
-				}
-
-				.card-header {
-					padding: 16px 12px 12px;
-				}
-				.instructions td.body {
-					padding: 14px;
-				}
+				body { padding: 8px; }
+				.grid td { height: 70px; padding: 5px 3px; }
+				.card-header { padding: 16px 12px 12px; }
+				.instructions td.body { padding: 14px; }
 			}
 		</style>
 	</head>
@@ -456,16 +313,13 @@
 				<tbody>
 					<tr>
 						<td class="card-header">
-							<p class="subtitle">
+							<p class="subtitle" id="subtitle">
 								<!--Date-->
 							</p>
 							<h1>
-								<div id="city">
-									<!--Title-->
-								</div>
-								<span>Bingo</span>
+								<div id="city"><!--Title--></div><span>Bingo</span>
 							</h1>
-							<p class="tagline">
+							<p class="tagline" id="tagline">
 								<!--City Name-->
 							</p>
 							<div class="rule"></div>
@@ -516,6 +370,7 @@
 
 		// Changes the title based on the city name
 		const city = document.getElementById("city");
+		const subtitle = document.getElementById("subtitle");
 		let boardObj;
 
 		// Gets the generated bingo board from the backend
@@ -532,6 +387,7 @@
 		const items = board.items;
 		const rows = document.getElementById("rows");
 		city.textContent = board.city.split(',')[0];
+		subtitle.textContent = board.title;
 
 		let tr = null;
 		// Creates the rows of the Bingo Board
@@ -567,22 +423,32 @@
 			tr.appendChild(td);
 			rows.appendChild(tr);
 		}
-		// Removes the JS from the file (must excute last)
-		const scriptTags = document.querySelectorAll("script");
-
-		scriptTags.forEach(script => {
-			script.remove();
-		});
-		const fileContents = document.documentElement.innerHTML;
-		const path = await save({
-			defaultPath: board.city.split(',')[0].toLowerCase() + "_bingo.html";
-			filters: [
-				{
-					name: "HTML files",
-					extensions: ['html'],
-				},
-			],
-		});
-		invoke("export_html", {path: path, html: fileContents} );
+		const date = new Date();
+		let path = null;
+		do {
+			path = await save({
+				defaultPath: board.city.split(',')[0].toLowerCase() + "_bingo_" + (date.getFullYear()) + ".html",
+				filters: [
+					{
+						name: "HTML files",
+						extensions: ['html'],
+					},
+				],
+			});
+		} while (path === null);
+		if (path != null) {
+			// Removes the JS from the file (must excute last)
+			const scriptTags = document.querySelectorAll("script");
+	
+			scriptTags.forEach(script => {
+				script.remove();
+			});
+			document.querySelector("style").remove();
+			document.querySelector("nav").remove();
+			const fileContents = document.documentElement.innerHTML;
+			invoke("export_html", {path: path, html: fileContents} );
+			alert("Board created in " + path);
+			window.location.href = "./../play-board/play-board.html";
+		}
 		</script>
 </html>
