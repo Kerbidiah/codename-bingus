@@ -35,23 +35,23 @@ impl BingoItem {
 		Ok(ans)
 	}
 
-	pub fn vienna_samples() -> anyhow::Result<Vec<Self>> {
+	pub fn vienna_samples() -> Vec<Self> {
 		Self::read_samples("../examples/items/")
 	}
 
-	pub fn prauge_samples() -> anyhow::Result<Vec<Self>> {
+	pub fn prauge_samples() -> Vec<Self> {
 		Self::read_samples("../examples/prauge_items/")
 	}
 
-	pub fn london_samples() -> anyhow::Result<Vec<Self>> {
+	pub fn london_samples() -> Vec<Self> {
 		Self::read_samples("../examples/london_items/")
 	}
 
-	pub fn luzern_samples() -> anyhow::Result<Vec<Self>> {
+	pub fn luzern_samples() -> Vec<Self> {
 		Self::read_samples("../examples/luzern_items/")
 	}
 
-	pub fn budapest_samples() -> anyhow::Result<Vec<Self>> {
+	pub fn budapest_samples() -> Vec<Self> {
 		Self::read_samples("../examples/budapest_items/")
 	}
 }
