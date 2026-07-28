@@ -407,9 +407,11 @@
 			short_description.className = "alt";
 
 			let elem = items[i];
-			url.href = elem.url;
-			url.target = "_blank";
-			url.rel = "noopener";
+			if (elem.url != null) {
+				url.href = elem.url;
+				url.target = "_blank";
+				url.rel = "noopener";
+			}
 
 			emoji.textContent = elem.emoji;
 			title.textContent = elem.title;
@@ -424,18 +426,15 @@
 			rows.appendChild(tr);
 		}
 		const date = new Date();
-		let path = null;
-		do {
-			path = await save({
-				defaultPath: board.city.split(',')[0].toLowerCase() + "_bingo_" + (date.getFullYear()) + ".html",
-				filters: [
-					{
-						name: "HTML files",
-						extensions: ['html'],
-					},
-				],
-			});
-		} while (path === null);
+		let path = await save({
+			defaultPath: board.city.split(',')[0].toLowerCase() + "_bingo_" + (date.getFullYear()) + ".html",
+			filters: [
+				{
+					name: "HTML files",
+					extensions: ['html'],
+				},
+			],
+		});
 		if (path != null) {
 			// Removes the JS from the file (must excute last)
 			const scriptTags = document.querySelectorAll("script");
