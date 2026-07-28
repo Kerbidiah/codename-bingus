@@ -128,7 +128,9 @@ pub fn quick_export(proj_path: String) {
 			board: proj.generate_random_board(),
 		}
 	} else {
-		BingoGame { board: proj.last_board.unwrap() }
+		BingoGame {
+			board: proj.last_board.unwrap(),
+		}
 	};
 
 	game.write(game_path).unwrap();

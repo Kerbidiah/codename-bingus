@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-
 // use super::completion::BingoCompletionInfo;
 
 use crate::auto_serde::AutoSerde;
