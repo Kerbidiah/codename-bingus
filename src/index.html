@@ -29,6 +29,11 @@
 				--link: #e8eefc;
 				--link-hover-bg: rgba(255, 255, 255, 0.08);
 
+				--delete-g1: rgba(255, 0, 0, 0.80);
+				--delete-g2: rgba(255, 0, 0, 1);
+				--delete-shadow: rgba(255, 0, 0, 1);
+
+				--btn-radius: 1px solid transparent;
 				--btn-text: #0b1220;
 				--btn-g1: #1dd3ff;
 				--btn-g2: #7cff5c;
@@ -38,19 +43,24 @@
 
 			/* LIGHT THEME */
 			body.light{
-				--bg: #f6f7fb;
+				--bg: #f0f0f2;
 				--text: #0f172a;
 				--text-1: rgba(0, 0, 0, 0.35);
 
-				--nav-bg: rgba(246, 247, 251, 0.9);
+				--nav-bg: rgba(240, 241, 247, 0.9);
 				--nav-border: rgba(15, 23, 42, 0.08);
 
 				--link: #0f172a;
 				--link-hover-bg: rgba(15, 23, 42, 0.06);
 
+				--delete-g1: rgba(255, 0, 0, 0.30);
+				--delete-g2: rgba(255, 0, 0, 0.40);
+				--delete-shadow: rgba(255, 0, 0, 0.60);
+
+				--btn-radius: 2px solid transparent;
 				--btn-text: #0b1220;
-				--btn-g1: #56f6ff;
-				--btn-g2: #6fff5b;
+				--btn-g1: #26d6ff;
+				--btn-g2: #4fff4b;
 				--btn-shadow: rgba(91, 111, 255, 0.18);
 				--btn-shadow-2: rgba(91, 111, 255, 0.26);
 			}
@@ -161,7 +171,7 @@
 			}
 			/* Make ONLY the card border show (gradient) */
 			.card-wrapper{
-				border: 1px solid transparent;
+				border: var(--btn-radius);
 				border-radius: 18px;
 				padding: 18px;
 				display: flex;
@@ -262,7 +272,9 @@
 			.delete-wrapper button {
 				background:
 					linear-gradient(var(--bg), var(--bg)) padding-box,
-					linear-gradient(135deg, red, red) border-box !important;
+					linear-gradient(135deg, var(--delete-g1), var(--delete-g2)) border-box !important;
+				box-shadow: 0 2px 12px var(--delete-shadow) !important;
+				transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease; 
 			}
 			
 			.edit-button,
