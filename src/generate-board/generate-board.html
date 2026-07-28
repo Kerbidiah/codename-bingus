@@ -575,14 +575,14 @@
 		});
 		const fileContents = document.documentElement.innerHTML;
 		const path = await save({
+			defaultPath: board.city.split(',')[0].toLowerCase() + "_bingo.html";
 			filters: [
 				{
-					name: board.title,
+					name: "HTML files",
 					extensions: ['html'],
 				},
 			],
 		});
-		console.log(path);
-		// invoke("export_html", {fileContents: fileContents, path: path} );
+		invoke("export_html", {path: path, html: fileContents} );
 		</script>
 </html>

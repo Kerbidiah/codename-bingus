@@ -71,6 +71,7 @@ pub fn run() {
 			get_luzern_samples,
 			get_budapest_samples,
 			delete,
+			export_html,
 		])
 		.run(tauri::generate_context!())
 		.expect("error while running tauri application");
