@@ -6,6 +6,7 @@ pub mod project;
 
 use dirs;
 use log::info;
+use open;
 
 use crate::auto_serde::AutoSerde;
 use crate::bingo::game::BingoGame;
@@ -151,7 +152,9 @@ pub fn export_html(path: String, html: String){
 	info!("export_html ran");
 	info!("path: {path}");
 	
-	let mut f = File::create(path).unwrap();
+	let mut f = File::create(&path).unwrap();
 	let buf = html.into_bytes();
 	f.write_all(&buf).unwrap();
+
+	open::that_detached(path).unwrap();
 }

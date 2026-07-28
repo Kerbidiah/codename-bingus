@@ -1,6 +1,6 @@
 [package]
 name = "bingus"
-version = "0.2.0"
+version = "0.3.0"
 description = "A Travel Bingo App"
 authors = ["Alex Janninck", "Devin Bell", "Nate Farrell", "Zayaan Salem"]
 edition = "2024"
@@ -32,6 +32,7 @@ log = "0.4"
 env_logger = "0.11"
 include_dir = "0.7.4"
 tauri-plugin-dialog = "2"
+open = "5"
 
 # Read the optimization guideline for more details: https://tauri.app/concept/size/#cargo-configuration
 [profile.release]
