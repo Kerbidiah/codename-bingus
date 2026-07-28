@@ -21,7 +21,6 @@ impl BingoBoard {
 
 		let mut rng = rand::rng();
 		let items: Vec<BingoItem> = BingoItem::vienna_samples()
-			.unwrap()
 			.sample(&mut rng, 25)
 			.cloned()
 			.collect();

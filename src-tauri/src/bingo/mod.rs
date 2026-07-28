@@ -6,7 +6,6 @@ pub mod project;
 
 use dirs;
 use log::info;
-use serde::{Deserialize, Serialize};
 
 use crate::auto_serde::AutoSerde;
 use crate::bingo::game::BingoGame;
@@ -15,12 +14,6 @@ use crate::bingo::project::BingoProject;
 use std::fs;
 use std::fs::File;
 use std::path::PathBuf;
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum BingoType {
-	Editable(BingoProject),
-	Playable(BingoGame),
-}
 
 const BINGO_EDIT_PATH: &str = "bingus/edit/";
 const BINGO_PLAY_PATH: &str = "bingus/edit/"; // look... this is kinda cursed, but it works because get_bingo_projects
