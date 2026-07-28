@@ -512,6 +512,7 @@
 		<script src="../themes.js" type="module"></script>
 		<script type="module">
 		const { invoke } = window.__TAURI__.core;
+		const { save } = window.__TAURI__.dialog;
 
 		// Changes the title based on the city name
 		const city = document.getElementById("city");
@@ -566,13 +567,22 @@
 			tr.appendChild(td);
 			rows.appendChild(tr);
 		}
-
+		// Removes the JS from the file (must excute last)
 		const scriptTags = document.querySelectorAll("script");
 
 		scriptTags.forEach(script => {
 			script.remove();
 		});
 		const fileContents = document.documentElement.innerHTML;
-		// invoke("write_path", { fileContents: fileContents });
+		const path = await save({
+			filters: [
+				{
+					name: board.title,
+					extensions: ['html'],
+				},
+			],
+		});
+		console.log(path);
+		// invoke("export_html", {fileContents: fileContents, path: path} );
 		</script>
 </html>
