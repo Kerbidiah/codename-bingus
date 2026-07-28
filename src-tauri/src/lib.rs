@@ -17,7 +17,7 @@ pub fn run() {
 		let bingo_proj = BingoProject {
 			title: "Vienna SWE 2026 Bingo 3".to_string(),
 			city: "Wien, Österrich".to_string(),
-			items: BingoItem::vienna_samples().unwrap(),
+			items: BingoItem::vienna_samples(),
 			last_board: None,
 		};
 
@@ -30,7 +30,7 @@ pub fn run() {
 		let proj = BingoProject {
 			title: "PRAUGE TEST".to_string(),
 			city: "Praha, Česká Republika".to_string(),
-			items: BingoItem::prauge_samples().unwrap(),
+			items: BingoItem::prauge_samples(),
 			last_board: None,
 		};
 
