@@ -447,7 +447,6 @@
 			document.querySelector("nav").remove();
 			const fileContents = document.documentElement.innerHTML;
 			invoke("export_html", {path: path, html: fileContents} );
-			alert("Board created in " + path);
 			window.location.href = "./../play-board/play-board.html";
 		}
 		</script>
