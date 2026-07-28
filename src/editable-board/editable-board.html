@@ -700,7 +700,7 @@
 			const custom_title = document.getElementById("custom-title");
 
 			const new_proj_title = document.getElementById("project-title");
-			const new_proj_city = document.getElementById("project-city")
+			const city_list = document.getElementById("project-city");
 
 			const cancel_proj = document.getElementById("cancel-project");
 			const save_proj = document.getElementById("save-project");
@@ -728,7 +728,17 @@
 			custom_title.addEventListener("input", new_custom_item);
 
 			new_proj_title.addEventListener("input", new_proj_field);
-			new_proj_city.addEventListener("input", new_proj_field);
+			city_list.addEventListener("click", (e) => {
+				const item = e.target.closest(".value-item");
+				if (!item) return;
+
+				city_list.querySelectorAll(".value-item.selected").forEach(li => {
+					li.classList.remove("selected");
+				});
+
+				item.classList.add("selected");
+				new_proj_field();
+			});
 
 			backdrop.addEventListener("click", (event) => {
 				if (event.target === backdrop) {
@@ -752,7 +762,7 @@
 
 			cancel_proj.addEventListener("click", () => {
 				new_proj_title.textContent = "";
-				new_proj_city.textContent = "";
+				city_list.querySelector(".value-item.selected")?.classList.remove("selected");
 				window.location.href = "../index.html";
 			})
 
@@ -761,7 +771,7 @@
 			async function new_project()
 			{
 				const proj_title = new_proj_title.value.trim();
-				const proj_city = new_proj_city.value.trim();
+				const { second: proj_city} = getValues(city_list.querySelector(".value-item.selected").textContent.trim());
 
 				city = proj_city;
 				title.textContent = proj_title;
@@ -770,6 +780,27 @@
 				try
 				{
 					project_id = await invoke("new_proj", {title: proj_title, city: proj_city});
+
+					switch(proj_city)
+					{
+						case "Vienna, Austria":
+							items = await invoke("get_vienna_samples");
+							break;
+						case "Praha, Česká Republika":
+							items = await invoke("get_prauge_samples");
+							break;
+						case "Luzern, Switzerland":
+							items = await invoke("get_luzern_samples");
+							break;
+						case "Budapest, Hungary":
+							items = await invoke("get_budapest_samples");
+							break;
+						case "London, England":
+							items = await invoke("get_london_samples");
+							break;
+						default:
+					}
+					load_items();
 				}
 				catch (err)
 				{
@@ -777,7 +808,7 @@
 				}
 
 				new_proj_title.textContent = "";
-				new_proj_city.textContent = "";
+				city_list.querySelector(".value-item.selected")?.classList.remove("selected");
 
 				document.getElementById("new-modal").classList.add("hidden");
 				save_proj.disabled = true;
@@ -974,7 +1005,7 @@
 				selected_count_display.textContent = `${selected_count}/25`;
 				if(selected_count == 25) {
 					selected_count_display.style.color = "green";
-					changed_selections = true;	// FIXME: TODO: Check to see if selections have actually changed
+					changed_selections = true;
 				} else {
 					selected_count_display.style.color = "red";
 				}
@@ -1018,7 +1049,8 @@
 
 			function new_proj_field() {
 				const title = new_proj_title.value.trim();
-				const city = new_proj_city.value.trim();
+				const city = city_list.querySelector(".value-item.selected").textContent.trim()
+
 
 				if (title && city) {
 					save_proj.disabled = false;
