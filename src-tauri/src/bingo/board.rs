@@ -34,7 +34,7 @@ impl BingoBoard {
 	}
 
 	pub fn len(&self) -> usize {
-		self.len()
+		self.items.len()
 	}
 }
 
