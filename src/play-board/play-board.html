@@ -116,9 +116,6 @@
 				align-items: center;
 				padding: 48px 18px;
 				text-align: center;
-
-				/* needed for top-left positioning of #return */
-				position: relative;
 			}
 
 			/* =========================
@@ -126,57 +123,63 @@
 			   ========================= */
 
 			.top-buttons {
-				position: absolute;
-				top: 18px;
-				left: 18px;
-				z-index: 5;
+				width: min(1020px, 100%);
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				flex-direction: row;
+
+				padding: 0;
+				/*margin: 0 0 24px 0;*/
+				box-sizing: border-box;
 			}
 
-			/* The border gradient is applied to the wrapper via padding+background */
-			.top-buttons {
-				--b1: var(--btn-g1);
-				--b2: var(--btn-g2);
-				--bdr: 2px;
-				--radius: 14px;
-
-				background: linear-gradient(135deg, var(--b1), var(--b2));
-				padding: var(--bdr);
-				border-radius: var(--radius);
+			.return {
+				--btn-g1: #ef4444;
+				--btn-g2: #b91c1c;
 			}
 
-			/* The button itself uses the page background as the inner fill */
-			.top-buttons button#return {
-				width: 36px;
-				height: 36px;
-				border-radius: calc(var(--radius) - var(--bdr));
-				border: 0;
-				outline: none;
-				cursor: pointer;
+			.export {
+				--btn-g1: #22c55e;
+				--btn-g2: #15803d;
+			}
 
-				background: var(--bg); /* inner fill */
-				color: var(--text);
-
-				display: inline-flex;
+			.glass-button {
+				position: relative;
+				padding: 14px 22px;
+				margin: 8px 0;
+				display: flex;
 				align-items: center;
 				justify-content: center;
-				font-size: 20px;
-				font-weight: 900;
-				line-height: 1;
-
-				transition: transform 140ms ease, filter 160ms ease, box-shadow 160ms ease;
-				box-shadow:
-					0 10px 28px rgba(0,0,0,0.18),
-					inset 0 1px 0 rgba(255,255,255,0.08);
+			
+				border: 1px solid transparent;
+				border-radius: 14px;
+			
+				background:
+					linear-gradient(var(--nav-border), var(--nav-border)) padding-box,
+					linear-gradient(135deg, var(--btn-g1), var(--btn-g2)) border-box;
+			
+				color: var(--text);
+				font-size: 1.6rem;
+				font-weight: bold;
+				cursor: pointer;
 			}
 
-			.top-buttons button#return:hover {
-				transform: translateY(-2px);
-				filter: saturate(1.08);
-				box-shadow:
-					0 16px 40px rgba(92, 124, 255, 0.22),
-					inset 0 1px 0 rgba(255,255,255,0.10);
+
+			.glass-button {
+				transition:
+					background 160ms ease,
+					transform 160ms ease;
 			}
 
+			.glass-button:hover {
+				transform: translateY(-1px);
+				filter: brightness(1.30);
+			}
+
+			.glass-button:active {
+				transform: translateY(1px);
+			}
 			/* =========================
 				Bingo: border gradient + inner fill = --bg
 				========================= */
@@ -287,7 +290,7 @@
 				display: grid;
 				place-items: center;
 				opacity: 0.95;
-				filter: drop-shadow(0 6px 10px rgba(0,0,0,0.18));
+				filter: drop-shadow(0 8px 16px rgba(255,255,255,0.40));
 			}
 
 			.bingo-button .title {
@@ -328,7 +331,7 @@
 			.bingo-button .title{
 				display: -webkit-box;
 				-webkit-box-orient: vertical;
-				-webkit-line-clamp: 2;     /* or 1 */
+				-webkit-line-clamp: 3;     /* or 1 */
 				overflow: hidden;
 				overflow-wrap: anywhere;
 
@@ -514,8 +517,9 @@
 		</div>
 		<div class="body">
 			<!--Navigation Buttons-->
-			<div class="top-buttons">
-				<button id="return">&larr;</button>
+			<div class="button-box top-buttons">
+				<button id="return-button" class="glass-button return">&larr;</button>
+				<button id="export-button"class="glass-button export">Export HTML</button>
 			</div>
 			<!--Title Box-->
 			<div class="title-box">
@@ -613,7 +617,7 @@
 		}
 
 		// Return to Home Screen
-		const returnBtn = document.getElementById("return");
+		const returnBtn = document.getElementById("return-button");
 		returnBtn.addEventListener("click", () => {
 			window.location.href = "./../index.html";
 		});
@@ -667,7 +671,10 @@
 				}
 			}
 
-			invoke("save_play", {path: sessionStorage.getItem("path"), obj: boardObj} );
+			invoke("save_play", {
+				path: sessionStorage.getItem("path"),
+				obj: boardObj,
+			});
 			lastItem.disabled = true;
 			hideModal();
 		});
