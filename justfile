@@ -8,6 +8,18 @@ run_clean: wipe run
 release:
 	cargo tauri build
 
+release_signed:
+	#!/usr/bin/env bash
+	set -euo pipefail
+	if [ ! -f .env.release ]; then
+		echo "Missing .env.release — copy .env.release.example and fill in your Apple credentials"
+		exit 1
+	fi
+	set -a
+	source .env.release
+	set +a
+	cargo tauri build
+	
 fmt:
 	cargo fmt --manifest-path {{PATH}}
 
