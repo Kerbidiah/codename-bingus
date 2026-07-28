@@ -6,9 +6,11 @@ use anyhow;
 
 use crate::auto_serde::AutoSerde;
 use log::info;
-use std::fs;
-use std::fs::{DirEntry, File};
-use std::io;
+
+use include_dir::{Dir, include_dir};
+use std::path::Path;
+
+static PROJECT_DIR: Dir<'_> = include_dir!("../examples");
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct BingoItem {
@@ -20,39 +22,36 @@ pub struct BingoItem {
 }
 
 impl BingoItem {
-	fn read_samples<P>(path: P) -> anyhow::Result<Vec<Self>>
+	fn read_samples<P>(path: P) -> Vec<Self>
 	where
 		P: AsRef<std::path::Path>,
 	{
-		let example_paths: Vec<Result<DirEntry, io::Error>> = fs::read_dir(path)?.collect(); // get list of files in examples/items directory
-		let mut ans = Vec::with_capacity(example_paths.len()); // create vector preallocated with enough space
-
-		for p in example_paths {
-			let mut f = File::open(p?.path())?;
-			ans.push(Self::from_file(&mut f)?);
-		}
-
-		Ok(ans)
+		PROJECT_DIR
+			.get_dir(path)
+			.unwrap()
+			.files()
+			.map(|f| BingoItem::from_dir_file(f))
+			.collect()
 	}
 
 	pub fn vienna_samples() -> anyhow::Result<Vec<Self>> {
-		Self::read_samples("../examples/items/")
+		Self::read_samples("items/")
 	}
 
 	pub fn prauge_samples() -> anyhow::Result<Vec<Self>> {
-		Self::read_samples("../examples/prauge_items/")
+		Self::read_samples("prauge_items/")
 	}
 
 	pub fn london_samples() -> anyhow::Result<Vec<Self>> {
-		Self::read_samples("../examples/london_items/")
+		Self::read_samples("london_items/")
 	}
 
 	pub fn luzern_samples() -> anyhow::Result<Vec<Self>> {
-		Self::read_samples("../examples/luzern_items/")
+		Self::read_samples("luzern_items/")
 	}
 
 	pub fn budapest_samples() -> anyhow::Result<Vec<Self>> {
-		Self::read_samples("../examples/budapest_items/")
+		Self::read_samples("budapest_items/")
 	}
 }
 

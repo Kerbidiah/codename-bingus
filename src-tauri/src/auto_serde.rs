@@ -2,6 +2,8 @@ use serde::{Serialize, de::DeserializeOwned};
 use std::fs::File;
 use std::io::{Read, Write};
 
+use include_dir::File as DirFile;
+
 pub trait AutoSerde: Serialize + DeserializeOwned + Sized {
 	/// Serialize to RON format
 	fn to_ron(&self) -> anyhow::Result<String> {
@@ -26,6 +28,12 @@ pub trait AutoSerde: Serialize + DeserializeOwned + Sized {
 	fn from_file(file: &mut File) -> anyhow::Result<Self> {
 		let mut s = String::new();
 		file.read_to_string(&mut s)?;
+		Self::from_ron(&s)
+	}
+
+	/// Deserialize from RON file
+	fn from_dir_file(file: &DirFile) -> anyhow::Result<Self> {
+		let s = file.contents_utf8().unwrap();
 		Self::from_ron(&s)
 	}
 
