@@ -1,7 +1,9 @@
 PATH := "src-tauri/Cargo.toml"
 
-run: wipe
+run:
 	cargo tauri dev
+
+run_clean: wipe run
 
 release:
 	cargo tauri build
