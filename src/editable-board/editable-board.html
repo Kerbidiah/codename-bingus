@@ -848,8 +848,14 @@
 					}
 				}
 
+				let bing_items = [];
 				try
 				{
+					
+					for(const item of items)
+					{
+						bing_items.push(await invoke("new_bingo_item", {title: item.title, emoji: item.emoji}));
+					}
 					selected = await invoke("new_bingo_board", {title: title.textContent, city: city, items: sel_items});
 				}
 				catch (err)
@@ -857,7 +863,7 @@
 					alert("Error creating bingo board: " + err);
 				}
 
-				const new_project = {title: title.textContent, city: city, items: items, last_board: selected};
+				const new_project = {title: title.textContent, city: city, items: bing_items, last_board: selected};
 
 				try
 				{
