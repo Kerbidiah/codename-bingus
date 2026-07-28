@@ -29,8 +29,8 @@ function draw_card(title, city, path, owner) {
 	button_wrapper.className = "button-wrapper";
 	button_wrapper.id = path;
 	if (owner === true) {
-		const editAnchor = document.createElement("button");
-		editAnchor.className = "edit";
+		const editButton = document.createElement("button");
+		editButton.className = "edit";
 		const editImage = document.createElement("img");
 		const EDIT_ICON_PATH =
 			sessionStorage.getItem("theme") === "light"
@@ -38,31 +38,39 @@ function draw_card(title, city, path, owner) {
 				: "/assets/editable-board-dark.svg";
 		editImage.src = EDIT_ICON_PATH;
 		editImage.className = "edit-button";
-		editAnchor.appendChild(editImage);
+		editButton.appendChild(editImage);
 
-		const exportAnchor = document.createElement("button");
-		exportAnchor.className = "export";
+		const exportButton = document.createElement("button");
+		exportButton.className = "export";
 		const exportImage = document.createElement("img");
-		const EXPORT_ICON_PATH = "/assets/export.svg";
 
-		exportImage.src = EXPORT_ICON_PATH;
+		exportImage.src = "/assets/export.svg";
 		exportImage.className = "export-button";
-		exportAnchor.appendChild(exportImage);
+		exportButton.appendChild(exportImage);
 
-		button_wrapper.appendChild(editAnchor);
-		button_wrapper.appendChild(exportAnchor);
+		button_wrapper.appendChild(editButton);
+		button_wrapper.appendChild(exportButton);
 	} else {
-		const playAnchor = document.createElement("button");
-		playAnchor.className = "play";
+		const playButton = document.createElement("button");
+		playButton.className = "play";
 		const playImage = document.createElement("img");
-		const PLAY_ICON_PATH = "/assets/play-board.svg";
-		playImage.src = PLAY_ICON_PATH;
+		playImage.src = "/assets/play-board.svg";
 		playImage.className = "play-button";
-		playAnchor.appendChild(playImage);
+		playButton.appendChild(playImage);
 
-		button_wrapper.appendChild(playAnchor);
+		button_wrapper.appendChild(playButton);
 	}
-
+	const deleteDiv = document.createElement("div");
+	deleteDiv.className = "delete-wrapper";
+	const deleteButton = document.createElement("button");
+	deleteButton.className = "delete";
+	const deleteImage = document.createElement("img");
+	deleteImage.src = "/assets/delete.svg";
+	deleteImage.className = "delete-button";
+	deleteButton.appendChild(deleteImage);
+	deleteDiv.appendChild(deleteButton);
+	
+	button_wrapper.appendChild(deleteDiv);
 	card_wrapper.appendChild(name_wrapper);
 	card_wrapper.appendChild(button_wrapper);
 	cards.appendChild(card_wrapper);
