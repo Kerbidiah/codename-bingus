@@ -127,11 +127,18 @@ pub fn quick_export(proj_path: String) {
 			board: proj.generate_random_board(),
 		}
 	} else {
-		let mut g = proj.last_board.unwrap();
-		g.title.push_str(" <IS GAME>");
-
-		BingoGame { board: g }
+		BingoGame { board: proj.last_board.unwrap() }
 	};
 
 	game.write(game_path).unwrap();
+}
+
+#[tauri::command]
+pub fn delete(path: String) {
+	info!("delete ran");
+
+	if path.contains("bingus") {
+		fs::remove_file(&path).unwrap();
+		info!("delete p: {path}");
+	}
 }
