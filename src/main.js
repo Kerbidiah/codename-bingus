@@ -151,6 +151,9 @@ if (
 				window.location.reload();
 			} else if (button.className === "play-button" || button.className === "play") {
 				window.location.href = "./play-board/play-board.html";
+			} else if (button.className === "delete-button" || button.className === "delete" || button.className === "delete-wrapper") {
+				invoke("delete", { path: sessionStorage.getItem("path") });
+				window.location.reload();
 			}
 		}
 	});
