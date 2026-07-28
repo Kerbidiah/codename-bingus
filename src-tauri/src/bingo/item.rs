@@ -10,7 +10,7 @@ use log::info;
 use include_dir::{Dir, include_dir};
 use std::path::Path;
 
-static PROJECT_DIR: Dir<'_> = include_dir!("../examples");
+static PROJECT_DIR: Dir<'_> = include_dir!("");
 
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct BingoItem {
@@ -34,24 +34,24 @@ impl BingoItem {
 			.collect()
 	}
 
-	pub fn vienna_samples() -> anyhow::Result<Vec<Self>> {
-		Self::read_samples("items/")
+	pub fn vienna_samples() -> Vec<Self> {
+		Self::read_samples("/vienna_items/")
 	}
 
-	pub fn prauge_samples() -> anyhow::Result<Vec<Self>> {
-		Self::read_samples("prauge_items/")
+	pub fn prauge_samples() -> Vec<Self> {
+		Self::read_samples("/prauge_items/")
 	}
 
-	pub fn london_samples() -> anyhow::Result<Vec<Self>> {
-		Self::read_samples("london_items/")
+	pub fn london_samples() -> Vec<Self> {
+		Self::read_samples("/london_items/")
 	}
 
-	pub fn luzern_samples() -> anyhow::Result<Vec<Self>> {
-		Self::read_samples("luzern_items/")
+	pub fn luzern_samples() -> Vec<Self> {
+		Self::read_samples("/luzern_items/")
 	}
 
-	pub fn budapest_samples() -> anyhow::Result<Vec<Self>> {
-		Self::read_samples("budapest_items/")
+	pub fn budapest_samples() -> Vec<Self> {
+		Self::read_samples("/budapest_items/")
 	}
 }
 
