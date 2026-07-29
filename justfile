@@ -10,6 +10,9 @@ release:
 
 release_windows:
 	cargo tauri build -t x86_64-pc-windows-gnu
+	
+release_linux:
+	cargo tauri build -t x86_64-unknown-linux-gnu
 
 release_signed:
 	#!/usr/bin/env bash
